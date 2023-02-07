@@ -22,6 +22,22 @@
 #      sourced from a current working directory within the tree.
 #
 
+# Figure out if we're sourced or executed by executing 'return' in a
+# subshell.
+#
+# The return statement is invalid if we are not sourced, leading to an
+# exit code of 1. If it succeeds and the return code is 0 we know
+# that the script was sourced. The redirection sends stdout and
+# stderr to /dev/null.
+
+$(return >/dev/null 2>&1)
+
+if [ "$?" -eq 0 ]; then
+    sourced=1
+else
+    sourced=0
+fi
+
 # Assuming that the user has complied with the requirement to source
 # this script from a working directory within the tree, attempt to
 # find a directory of the form '.../build/scripts/environment/'.
@@ -55,7 +71,14 @@ unset last
 
 if [ -z "${BuildRoot}" ]; then
     echo "Could not establish a root directory for this project above '${first}'! This script must be sourced from WITHIN the project tree."
-    exit 1
+
+    # If we're sourced, simply return so we don't close the user's session.
+
+    if [ ${sourced} -eq 1 ]; then
+        return 1
+    else
+        exit 1
+    fi
 fi
 
 # Set-up the make flags. We use the following:
