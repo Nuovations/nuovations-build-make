@@ -1,0 +1,65 @@
+#!/bin/sh
+
+#
+#    Copyright (c) 2008-2023 Nuovation System Design, LLC. All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+
+#
+#    Description:
+#      This file prints out the current build environment.
+#
+
+# FilterOut <variable>
+#
+# This routine uses sed to transform the expansion of the specified
+# variable into the name of the variable itself. So, assuming that the
+# variable "HOME" is set to "/home/user" and "PWD" is "/home/user/
+# directory", the following:
+#
+#   echo ${PWD} | FilterOut "HOME"
+#
+# results in:
+#
+#   ${HOME}/directory
+
+FilterOut()
+{
+    sed -e "s,${1},\${${1}},g"
+}
+
+# SetIfPresent <path>
+#
+# This routine is used to check for the presence of the specified path.
+# If the path exists, it is returned; otherwise, "<None>" is returned.
+
+SetIfPresent()
+{
+    if [ -r "${1}" ]; then
+       echo "${1}"
+    else
+       echo "<None>"
+    fi
+}
+
+BuildGlobalEnvironment=`SetIfPresent "${HOME}/.buildrc"`
+BuildLocalEnvironment=`SetIfPresent "${BuildRoot}/build/${USER}/buildrc"`
+
+echo "================================================================================"
+echo "Project build environment set to:"
+echo "  Build Root            = ${BuildRoot}" | FilterOut "HOME"
+echo "  Make Flags            = ${MAKEFLAGS}" | FilterOut "BuildRoot"
+echo "  Global Environment    = ${BuildGlobalEnvironment}" | FilterOut "HOME"
+echo "  Local Environment     = ${BuildLocalEnvironment}" | FilterOut "BuildRoot"
+echo "================================================================================"
