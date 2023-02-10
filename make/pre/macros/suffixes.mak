@@ -24,6 +24,7 @@ BaseDependSuffix                = .d
 PatchedDependSuffix             = .pd
 
 StaticObjectSuffix              = .o
+SharedObjectSuffix              = .so
 
 LibraryPrefix                   = lib
 ArchiveLibrarySuffix            = .a
