@@ -38,10 +38,13 @@ _BuildNumProcessors := $(shell getconf _NPROCESSORS_ONLN)
 # build jobs to 'BuildJobs' up to the value returned by `getconf
 # _NPROCESSORS_ONLN`.
 
+_UseRandomBuildJobsDefault    := No
+UseRandomBuildJobs            ?= $(_UseRandomBuildJobsDefault)
+
 ifeq ($(call IsYes,$(UseRandomBuildJobs)),Y)
-BuildJobs          := $(shell bash -c 'echo $$(((RANDOM % $(_BuildNumProcessors)) + 1))')
+BuildJobs                     := $(shell bash -c 'echo $$(((RANDOM % $(_BuildNumProcessors)) + 1))')
 else
-BuildJobs          := $(_BuildNumProcessors)
+BuildJobs                     := $(_BuildNumProcessors)
 endif # UseRandomBuildJobs
 endif # BuildJobs
 
@@ -50,7 +53,7 @@ endif # BuildJobs
 # The make invocation option used to specify the number of make
 # recipes (jobs) to run simultaneously.
 
-BuildJobsFlag      := --jobs=$(BuildJobs)
+BuildJobsFlag                 := --jobs=$(BuildJobs)
 
 # If the number of build jobs has been defined to be greater than one
 # (1), then ensure that the top-level make process has a build jobs
@@ -61,9 +64,9 @@ BuildJobsFlag      := --jobs=$(BuildJobs)
 
 ifneq (1,$(BuildJobs))
 ifeq (0,${MAKELEVEL})
-MAKEFLAGS          += $(BuildJobsFlag)
+MAKEFLAGS                     += $(BuildJobsFlag)
 else
-MAKEFLAGS          := $(filter-out $(BuildJobsFlag),$(MAKEFLAGS))
+MAKEFLAGS                     := $(filter-out $(BuildJobsFlag),$(MAKEFLAGS))
 endif
 endif
 
