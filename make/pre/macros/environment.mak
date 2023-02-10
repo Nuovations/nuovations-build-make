@@ -21,3 +21,4 @@
 #
 
 BinarySearchPath	= PATH
+LoaderSearchPath	= LD_LIBRARY_PATH
