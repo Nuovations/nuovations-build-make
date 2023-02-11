@@ -134,3 +134,9 @@ IsYes		= $(subst N,,$(subst 0,N,$(call Left,$(call ToUpper,$(1)),1)))
 # otherwise, ''.
 
 IsNo		= $(subst Y,,$(subst 1,Y,$(call Left,$(call ToUpper,$(1)),1)))
+
+# Unique <string>
+#
+# Returns the string deduplicated of repeated substrings.
+
+Unique          = $(if $(1),$(firstword $(1)) $(call Unique,$(filter-out $(firstword $1),$(1))))
