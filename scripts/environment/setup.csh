@@ -110,6 +110,10 @@ endif
 
 unset BuildGlobalEnvironment
 unset BuildLocalEnvironment
+unset last
+unset current
+unset first
+unset maybe_dirname
 
 # Display to the user how we configured the build environment.
 
