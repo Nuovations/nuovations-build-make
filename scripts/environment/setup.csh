@@ -69,20 +69,20 @@ endif
 # --no-print-directory  Do not print 'make[n]: ...' as make traverses
 #                       directories.
 #
-# -r			No built-in rules. We have our own, thank you, and do
+# -r                    No built-in rules. We have our own, thank you, and do
 #                       not want any side effects for what just so happens to
 #                       work for Solaris, Linux, Mac OS X, System V, BSD, etc.
 #
-# -R			No built-in variables. We have our own, thank you, and
+# -R                    No built-in variables. We have our own, thank you, and
 #                       do not want any side effects for what just so happens
 #                       to work for Solaris, Linux, Mac OS X, System V, BSD,
 #                       etc.
 #
-# -I <path>		Location where make can find make include files. We
+# -I <path>             Location where make can find make include files. We
 #                       adopt this approach since one of the goals of this
 #                       build environment is making make files sparse. Doing
-#			otherwise would require '${BuildRoot}/build/make/
-#			<foo>.mak' instead of 'include <foo>.mak', a lot of
+#                       otherwise would require '${BuildRoot}/build/make/
+#                       <foo>.mak' instead of 'include <foo>.mak', a lot of
 #                       extra typing for a project tree's worth of make files.
 #
 
