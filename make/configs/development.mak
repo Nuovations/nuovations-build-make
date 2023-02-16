@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file defines build-specific options for the "development" build
 #      configuration.
 #

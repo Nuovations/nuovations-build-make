@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file defines make macros for manipulating and querying
 #      paths.
 #

@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file is the make header for all common host (i.e. non-
 #      target or -toolchain-specific) tools used in the project.
 #

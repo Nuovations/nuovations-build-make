@@ -16,27 +16,12 @@
 
 ##
 #    @file
-#      This file defines make macros for controlling build verbosity.
+#      This file is the make "footer" or post make header for help-related
+#      targets.
 #
 
-#
-# Build verbosity
-#
-# Commands prefixed with $(Quiet) are never displayed. We macroize '@'
-# in the event, we want some conditional behavior for $(Quiet) in the
-# future.
-#
-# If make is not operating in silent mode and BuildVerbose is
-# asserted, then all commands prefixed with $(Verbose) will be
-# displayed; otherwise, commands are not displayed.
-#
+.PHONY: help-hook
+help-hook: help-local
 
-Quiet               = @
-
-ifneq ($(findstring s,$(MAKEFLAGS)),)
-Echo                = $(Quiet)true
-Verbose             = $(Quiet)
-else
-Echo                = $(Quiet)/bin/echo
-Verbose             = $(if $(call IsYes,$(BuildVerbose)),,@)
-endif
+.PHONY: help
+help: help-local help-hook

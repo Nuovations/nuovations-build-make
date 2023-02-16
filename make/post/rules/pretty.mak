@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file defines make rules and targets for performing coding 
 #      style formatting and checking.
 #

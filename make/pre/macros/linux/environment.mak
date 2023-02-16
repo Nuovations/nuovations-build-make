@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file defines make file environment variables common to
 #      the Linux host build environment.
 #

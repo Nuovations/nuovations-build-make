@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file defines make file suffixes for Darwin that are common
 #      to all other make headers and files.
 #

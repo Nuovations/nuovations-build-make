@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file is a backward-compatibility header that simply
 #      includes host/tools/tools.mak.
 #

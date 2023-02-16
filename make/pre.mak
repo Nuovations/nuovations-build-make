@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file is the generic "head" or pre make header included in
 #      any makefile used in the build tree.
 #

@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file is the generic "tail" or post make header included in
 #      any makefile used in the build tree.
 #

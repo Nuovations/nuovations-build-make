@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file is the make header for all third-party software 
 #      targets used in the project.
 #

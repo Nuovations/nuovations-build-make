@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file defines make file string manipulation macros common to all
 #      other make headers and files.
 #
