@@ -135,4 +135,4 @@ unset BuildLocalEnvironment
 
 # Display to the user how we configured the build environment.
 
-${BuildRoot}/build/scripts/printenv
+${BuildRoot}/third_party/nuovations-build-make/repo/scripts/printenv
