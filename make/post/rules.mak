@@ -628,10 +628,25 @@ recursive: $(SubMakefiles)
 .PHONY: force
 force:
 
+# make-submakefile <makefile>
+#
+# This invokes a recursive make, using job-safe '+' and $(MAKE)
+# semantics, on the specified absolute or relative makefile path,
+# 'makefile', with the current make command goals.
+
+define make-submakefile
+$(Echo) "Processing \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory)/$(1))\""
++$(Verbose)$(MAKE) -C "$(dir $(1))" -f "$(notdir $(1))" $(MAKECMDGOALS)
+endef # make-submakefile
+
+# make-submakefile-target
+#
+# This invokes a recursive make, using job-safe '+' and $(MAKE)
+# semantics, on the specified absolute or relative makefile target
+# path, $(@), with the current make command goals.
+
 define make-submakefile-target
-$(Echo) $(@)
-$(Echo) "Processing \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory)/$(@))\""
-+$(Verbose)$(MAKE) $(BuildJobsFlag) -C "$(@D)" -f "$(@F)" $(MFLAGS) $(MAKECMDGOALS)
+$(call make-submakefile,$(@))
 endef # make-submakefile-target
 
 ifdef SubMakefiles
