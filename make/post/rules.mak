@@ -966,50 +966,8 @@ local-distclean: clean
 	$(call remove-empty-directory-and-ancestors, $(DependDirectory))
 	$(call remove-empty-directory-and-ancestors, $(ResultDirectory))
 
-#
-# Debugging Targets
-#
-
-.PHONY: print-%
-print-%:
-	$(Quiet)echo '$*=$($*)'
-	$(Quiet)echo '....origin = $(origin $*)'
-	$(Quiet)echo '....flavor = $(flavor $*)'
-	$(Quiet)echo '.....value = $(value  $*)'
-	$(Quiet)echo ''
-
-# Specific variables to exclude from the output of "make printvars". These
-# variables may include $(error ...) in their expansion, causing printvars to
-# terminate early, or cause printvars to hang indefinitely.
-#
-# PackageVersion and UpdateBuildHeader cause printvars to hang because they attempt to
-# $(shell cat ...) a variable with an empty expansion.
-#
-printvars-filter := \
-	ErrorIfUndefined \
-	PackageVersion \
-	UpdateBuildHeader \
-
-# Classes of variables, as described by $(origin ...), to exclude from the
-# output of "make printvars".
-#
-printvars-origin-filter := \
-	environment% \
-	default \
-	automatic \
-
-.PHONY: printvars
-printvars:
-	$(Quiet)$(foreach V,$(sort $(.VARIABLES)), \
-		$(if $(filter-out $(printvars-origin-filter),$(origin $V)), \
-			$(info $V=$(if $(filter-out $(printvars-filter),$V),$($V)))\
-			$(info ....origin = $(origin $V)) \
-			$(info ....flavor = $(flavor $V)) \
-			$(info .....value = $(value  $V)) \
-			$(info ) \
-	))
-
 include post/rules/help.mak
+include post/rules/print.mak
 include post/rules/pretty.mak
 include post/rules/tps.mak
 
