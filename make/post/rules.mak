@@ -555,12 +555,6 @@ all: recursive local-all
 .PHONY: prepare recursive local-prepare
 prepare: recursive local-prepare
 
-.PHONY: relinkimage recursive local-relinkimage
-relinkimage: recursive local-relinkimage
-
-.PHONY: cleanimage recursive local-cleanimage
-cleanimage: recursive local-cleanimage
-
 ifeq ($(TargetTuple),$(HostTuple))
 .PHONY: execute recursive local-execute
 execute: recursive local-execute
