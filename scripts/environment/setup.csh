@@ -30,10 +30,9 @@
 
 setenv BuildRoot
 
-set maybe_dirname="`dirname ${0}`"
-set first="`cd ${maybe_dirname} && /bin/pwd -P`"
-set current = "${first}"
-set last = ""
+set first="${PWD}"
+set current="${first}"
+set last=""
 
 # Try to find a valid root match until we are no longer making forward
 # progress and have reached the top of the directory tree.
@@ -118,7 +117,6 @@ unset BuildLocalEnvironment
 unset last
 unset current
 unset first
-unset maybe_dirname
 
 # Display to the user how we configured the build environment.
 
