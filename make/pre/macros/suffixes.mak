@@ -31,6 +31,7 @@ ArchiveLibrarySuffix            = .a
 
 LinkerDescriptorSuffix          = .lkf
 
+SharedLibrarySuffix             = .so
 SharedLibraryMapSuffix          = .map
 
 ProgramPrefix                   =
