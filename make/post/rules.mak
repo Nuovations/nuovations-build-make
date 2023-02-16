@@ -549,14 +549,14 @@ $(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.mm |
 # Explicit targets
 #
 
-.PHONY: all recursive local-all
+.PHONY: all local-all
 all: recursive local-all
 
-.PHONY: prepare recursive local-prepare
+.PHONY: prepare local-prepare
 prepare: recursive local-prepare
 
 ifeq ($(TargetTuple),$(HostTuple))
-.PHONY: execute recursive local-execute
+.PHONY: execute local-execute
 execute: recursive local-execute
 endif
 
@@ -622,6 +622,7 @@ local-prepare: $(BuildDirectory) $(ResultDirectory) $(ResultIncDir) $(PrepareTar
 
 $(foreach target,$(PrepareTargets),$(eval $(call DEPEND_template,$(target))))
 
+.PHONY: recursive
 recursive: $(SubMakefiles)
 
 .PHONY: force
