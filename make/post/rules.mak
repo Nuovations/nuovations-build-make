@@ -902,7 +902,7 @@ Dependencies            = $(PatchedDependPaths)
 #
 
 .PHONY: check check-local check-recursive
-check:: check-local check-recursive
+check: check-local check-recursive
 
 check-local: check-tools
 
