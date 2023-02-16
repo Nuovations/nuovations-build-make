@@ -1,0 +1,8 @@
+Name: automake
+Short Name: automake
+URL: https://ftp.gnu.org/gnu/automake/automake-1.16.5.tar.gz
+Version: 1.16.5
+License: GPL-2.0-only
+
+Description:
+Tool for generating GNU Standards-compliant Makefiles.
