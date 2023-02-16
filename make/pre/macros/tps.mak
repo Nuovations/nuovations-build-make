@@ -41,7 +41,7 @@ PackageURLFile			= $(if $(PackageName),$(PackageName).url,)
 PackageVersionFile		= $(if $(PackageName),$(PackageName).version,)
 
 define _package-extract-third_party-field
-$(shell awk -F ':' '/$(1)/ { sub(/^[ \t]+/, "", $$2); print $$2 }' $(_ThirdPartyFile))
+$(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(_ThirdPartyFile)")
 endef
 
 ifeq ($(call IsYes,$(_PackageHasThirdPartyFile)),Y)
