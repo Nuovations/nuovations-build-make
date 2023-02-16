@@ -28,10 +28,6 @@ SubMakefiles		      = \
     lib/Makefile                \
     $(Null)
 
-SubMakefileDependencies       = \
-    hello/lib/Makefile          \
-    $(Null)
-
 TransformCAsCPlusPlus	     := Yes
 LinkAgainstCPlusPlus	     := Yes
 
@@ -94,5 +90,9 @@ hello_DEPLIBS		      = \
     $(AlphabetDependPath)       \
     $(SalutationsDependPath)    \
     $(Null)
+
+# Let make know that the DEPLIBS have a prerequisite in lib/Makefile.
+
+$(hello_DEPLIBS): lib/Makefile
 
 include post.mak
