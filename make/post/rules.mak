@@ -272,21 +272,21 @@ ResultsPath                     = $(notdir $(1))
 # Transform a set of objects into an archive library file.
 
 define create-archive-library
-$(Echo) "$(ArchiveVerb) ($(ARName)) \"$(call ResultsPath,$@)\""
+$(Echo) "$(ArchiveVerb) ($(ARName)) \"$(call ResultsPath,$(@))\""
 $(tool-create-archive-library)
 endef
 
 # Transform a set of objects into a shared library file.
 
 define link-shared-library
-$(Echo) "$(LinkVerb) ($(LDName)) \"$(call ResultsPath,$@)\""
+$(Echo) "$(LinkVerb) ($(LDName)) \"$(call ResultsPath,$(@))\""
 $(tool-link-shared-library)
 endef
 
 # Transform a set of objects and libraries into an executable program.
 
 define link-program
-$(Echo) "$(LinkVerb) ($(LDName)) \"$(call ResultsPath,$@)\""
+$(Echo) "$(LinkVerb) ($(LDName)) \"$(call ResultsPath,$(@))\""
 $(tool-link-program)
 endef
 
@@ -628,7 +628,7 @@ force:
 
 define make-submakefile-target
 $(Echo) $(@)
-$(Echo) "Processing \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory)/$@)\""
+$(Echo) "Processing \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory)/$(@))\""
 +$(Verbose)$(MAKE) $(BuildJobsFlag) -C "$(@D)" -f "$(@F)" $(MFLAGS) $(MAKECMDGOALS)
 endef # make-submakefile-target
 
