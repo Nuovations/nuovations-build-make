@@ -290,6 +290,13 @@ $(Echo) "$(LinkVerb) ($(LDName)) \"$(call ResultsPath,$(@))\""
 $(tool-link-program)
 endef
 
+# Execute program, providing all required loader search paths.
+
+define execute-program
+$(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$<)\""
+$(Verbose)export $(LoaderSearchPath)=$(subst $(Space),:,$(dir $(LDLIBS) $(RESLIBS)))$(addprefix :,$($(LoaderSearchPath))) && $(<) $($(<F)_ARGUMENTS)
+endef
+
 #
 # For the purposes of using it as a strongly-typed C compiler, the
 # make file author can select on a make file-by-make file basis to
