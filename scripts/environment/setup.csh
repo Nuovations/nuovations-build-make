@@ -85,8 +85,13 @@ endif
 #                       <foo>.mak' instead of 'include <foo>.mak', a lot of
 #                       extra typing for a project tree's worth of make files.
 #
+#                       Two such default paths are established: First,
+#                       the path to the Nuovations Build (Make)
+#                       makefile header directory; second, the path to
+#                       the makefile header directory for the project
+#                       using Nuovations Build (Make).
 
-setenv MAKEFLAGS "--no-print-directory -r -R -I ${BuildRoot}/build/make"
+setenv MAKEFLAGS "--no-print-directory -r -R -I ${BuildRoot}/third_party/nuovations-build-make/repo/make -I ${BuildRoot}/build/make"
 
 # Users can create both build-global and -local
 # additional/overriding environment information.
