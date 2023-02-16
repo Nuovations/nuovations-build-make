@@ -665,8 +665,25 @@ endef # make-submakefile-target
 # ostensibly always exist, they employ the 'force' prerequisite to
 # ensure they are always out-of-date and the submake is dispatched.
 
+# SubMakefileDependencies
+#
+# 'SubMakefileDependencies' is a list of absolute or relative
+# prerequisite makefile paths for which recursive make needs to be
+# invoked with the current make command goals to satisfy the
+# dependency prerequisites of 'SubMakefiles'.
+#
+# Since 'SubMakefileDependencies' are real, existent makefiles that
+# ostensibly always exist, they employ the 'force' prerequisite to
+# ensure they are always out-of-date and the submake is dispatched.
+
 ifdef SubMakefiles
-$(SubMakefiles): force
+# Depulicate 'SubMakefiles' and 'SubMakefileDependencies' to avoid
+# "target '<target>' given more than once in the same rule" warnings
+# from make.
+
+_UniqueRecursiveMakeTargets = $(call Unique,$(SubMakefiles) $(SubMakefileDependencies))
+
+$(_UniqueRecursiveMakeTargets): force
 	$(make-submakefile-target)
 endif # SubMakefiles
 
