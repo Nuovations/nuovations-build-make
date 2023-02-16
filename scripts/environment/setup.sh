@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file establishes the minimum environment, under the Bourne
 #      (sh), Bourne Again (bash) or Korn (ksh) shells, for running a
 #      build of the tree containing this script. This script MUST BE

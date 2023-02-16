@@ -16,8 +16,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file prints out the current build environment.
 #
 

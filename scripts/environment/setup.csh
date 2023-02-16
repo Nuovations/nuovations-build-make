@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file establishes the minimum environment, under the C
 #      (csh) or Tenon C (tcsh) shells, for running a build of the tree
 #      containing this script.
