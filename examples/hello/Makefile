@@ -24,7 +24,13 @@
 
 include pre.mak
 
-SubMakefiles		     := lib/Makefile
+SubMakefiles		      = \
+    lib/Makefile                \
+    $(Null)
+
+SubMakefileDependencies       = \
+    hello/lib/Makefile          \
+    $(Null)
 
 TransformCAsCPlusPlus	     := Yes
 LinkAgainstCPlusPlus	     := Yes
