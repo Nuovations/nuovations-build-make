@@ -649,6 +649,22 @@ define make-submakefile-target
 $(call make-submakefile,$(@))
 endef # make-submakefile-target
 
+# SubMakefiles
+#
+# 'SubMakefiles' is a list of absolute or relative makefile paths for
+# which recursive make will be invoked with the current make command
+# goals.
+#
+# Ordering of 'SubMakefiles' may be achieved by specifying explicit
+# dependencies among these makefiles (or other, "foreign" makefiles)
+# by making make-style normal or order-only prequisite
+# expressions. The target of these prerequisite expressions should
+# then be added to 'SubMakefileDependencies'.
+#
+# Since 'SubMakefiles' are real, existent makefile files that
+# ostensibly always exist, they employ the 'force' prerequisite to
+# ensure they are always out-of-date and the submake is dispatched.
+
 ifdef SubMakefiles
 $(SubMakefiles): force
 	$(make-submakefile-target)
