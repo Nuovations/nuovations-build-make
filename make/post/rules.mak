@@ -1009,6 +1009,7 @@ printvars:
 			$(info ) \
 	))
 
+include post/rules/help.mak
 include post/rules/pretty.mak
 include post/rules/tps.mak
 
