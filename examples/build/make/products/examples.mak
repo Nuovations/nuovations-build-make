@@ -15,9 +15,9 @@
 #
 
 ##
-#  @file
-#    This is the example product-specific makefile for and using the
-#    Nuovations Build (Make) build system.
+#    @file
+#      This is the example product-specific makefile for and using the
+#      Nuovations Build (Make) build system.
 #
 
 #

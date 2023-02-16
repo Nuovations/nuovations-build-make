@@ -15,9 +15,9 @@
 #
 
 ##
-#  @file
-#    This file is the top-level example project makefile using the
-#    Nuovations Build (Make) build system.
+#    @file
+#      This file is the top-level example project makefile using the
+#      Nuovations Build (Make) build system.
 #
 
 include pre.mak

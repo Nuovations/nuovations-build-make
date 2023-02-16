@@ -15,11 +15,11 @@
 #
 
 ##
-#  @file
-#    This file is a make file for a set of simple, toy libraries
-#    that are primarily intended for basic build and target system
-#    sanity checking as well as for demonstrating the basic structure
-#    and capabilities of a build system make file.
+#    @file
+#      This file is a make file for a set of simple, toy libraries
+#      that are primarily intended for basic build and target system
+#      sanity checking as well as for demonstrating the basic structure
+#      and capabilities of a build system make file.
 #
 
 include pre.mak
