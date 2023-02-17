@@ -14,8 +14,8 @@
 #    limitations under the License.
 #
 
-#
-#    Description:
+##
+#    @file
 #      This file is the make header for all common
 #      (i.e. non-toolchain-specific) rules used in the project.
 #
