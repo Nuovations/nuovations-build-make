@@ -1,0 +1,314 @@
+#!/usr/bin/env bash
+
+#
+#    Copyright (c) 2023 Nuovation System Design, LLC. All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+
+##
+#    @file
+#      This file is a convenience script that will create a skeleton
+#      project layout using the nuovations-build-make package.
+#
+
+readonly VERBOSE_DEFAULT=1
+
+declare -a PRODUCTS=()
+PROJECT=""
+VERBOSE=${VERBOSE_DEFAULT}
+
+##
+#  @brief
+#    Display program usage.
+#
+#  @param[in]  status  The exit status to exit the program with.
+#
+function usage()
+{
+    local readonly status=${1}
+    local readonly name="$(basename ${0})"
+
+    echo "Usage: ${name} [ options ] --project <name> --product <name> [ --product <name> ... ]"
+
+    if [ ${status} -ne 0 ]; then
+        echo "Try '${name} -h' for more information." 1>&2
+    fi
+
+    if [ ${status} -ne 1 ]; then
+        echo ""
+        echo "  -h, --help                  Print this help, then exit."
+        echo "  -I DIR                      Specify directory DIR as the root of the "
+        echo "                              nuovations-build-make repository."
+        echo "  --product PRODUCT           Specify name PRODUCT as the name of a product within"
+        echo "                              the project. This may be specified one or more times."
+        echo "  --project PROJECT           Specify name PROJECT as the project name."
+        echo "  -v, --verbose               Verbosely report mkskeleton progress (default: ${VERBOSE_DEFAULT})."
+        echo "  -q, --quiet                 Do not verbosely report mkskeleton progress (default: no)."
+
+        echo ""
+    fi
+
+    exit ${status}
+}
+
+##
+#  @brief
+#    If verbosity is greater than zero, write the provided arguments
+#    to standard output.
+#
+function log_verbose()
+{
+    if [ ! -z ${VERBOSE} ] && [ ${VERBOSE} -gt 0 ]; then
+        echo $*
+    fi
+}
+
+##
+#  @brief
+#    Transform a source file into a destination file.
+#
+#  This uses 'sed' to transform a source file into a destination file
+#  by transforming instances of '@PROJECT@' into the project name and
+#  '@PRODUCT@' into the project product name.
+#
+#  @param[in]  project      The name of the project being instantiated.
+#  @param[in]  product      The name of the product within the project
+#                           being instantiated.
+#  @param[in]  source       The source of the transform.
+#  @param[in]  destination  The destination of the transform.
+#
+function transform() {
+    local readonly project="${1}"
+    local readonly product="${2}"
+    local readonly source="${3}"
+    local readonly destination="${4}"
+
+    sed                                 \
+        -e "s,\@PROJECT\@,${project},g" \
+        -e "s,\@PRODUCT\@,${product},g" \
+        < "${source}" > "${destination}"
+}
+
+##
+#  @brief
+#    Copy a file from the source to the destination.
+#
+#  @param[in]  root         The root of the nuovations-build-make repository.
+#  @param[in]  permissions  The permissions to set for the destination.
+#  @param[in]  source       The source of the copy.
+#  @param[in]  destination  The destination of the copy.
+#
+function copy()
+{
+    local readonly root="${1}"
+    local readonly permissions=${2}
+    local readonly source="${3}"
+    local readonly destination="${4}"
+
+    log_verbose "Copying \"${destination}\"..."
+
+    cp "${source}" "${destination}"
+
+    if [ $? = 0 ]; then
+        chmod ${permissions} "${destination}"
+    fi
+}
+
+##
+#  @brief
+#    Create a symbolic link from the source to destination.
+#
+#  @param[in]  root         The root of the nuovations-build-make repository.
+#  @param[in]  permissions  The permissions to set for the destination.
+#  @param[in]  source       The source of the symbolic link.
+#  @param[in]  destination  The destination of the symbolic link.
+#
+function link()
+{
+    local root="${1}"
+    local permissions=${2}
+    local source="${3}"
+    local destination="${4}"
+
+    log_verbose "Creating \"${destination}\"..."
+
+    ln -sf "${source}" "${destination}"
+}
+
+##
+#  @brief
+#    Create the project directories.
+#
+function create_project_directories()
+{
+    local readonly directories="build build/make build/make/products build/scripts third_party third_party/nuovations-build-make"
+
+    for dir in ${directories}; do
+        log_verbose "Creating \"${dir}\"..."
+
+        mkdir -p "${dir}"
+    done
+}
+
+##
+#  @brief
+#    Create the top-level, project makefile based on the
+#    project name.
+#
+#  @param[in]  project  The name of the project being instantiated
+#                       for which the top-level, project makefile
+#                       is to be named.
+#
+function create_project_makefile()
+{
+    local readonly root="${1}"
+    local readonly project="${2}"
+    local readonly source="${root}/templates/Project.mak"
+    local readonly destination="${project}.mak"
+
+    log_verbose "Creating \"${destination}\"..."
+
+    transform \
+        "${project}" \
+        "" \
+        "${source}" \
+        "${destination}"
+}
+
+##
+#  @brief
+#    Create the project product makefile "headers".
+#
+#  @param[in]  root         The root of the nuovations-build-make repository.
+#  @param[in]  project      The name of the project being instantiated.
+#
+function create_product_makefiles()
+{
+    local root="${1}"
+    local project="${2}"
+    local file
+
+    for product in ${PRODUCTS[@]}; do
+        destination="build/make/products/${product}.mak"
+
+        log_verbose "Creating \"${destination}\"..."
+
+        transform \
+            "${project}" \
+            "${product}" \
+            "${root}/templates/product.mak" \
+            "${destination}"
+    done
+}
+
+# Parse out any command line options
+
+while [ ${#} -gt 0 ]; do
+    if [ ${1} == "-h" ] || [ ${1} == "--help" ]; then
+        usage 0
+
+    elif [ ${1} == "-I" ]; then
+        ROOT="${2}"
+        shift 2
+
+    elif [ ${1} == "--product" ]; then
+        PRODUCTS+=("${2}")
+        shift 2
+
+    elif [ ${1} == "--project" ]; then
+        PROJECT="${2}"
+        shift 2
+
+    elif [ ${1} == "-q" ] || [ ${1} == "--quiet" ]; then
+        VERBOSE=0
+        shift 1
+
+    elif [ ${1} == "-v" ] || [ ${1} == "--verbose" ]; then
+        ((VERBOSE+=1))
+        shift 1
+
+    else
+        usage 1
+
+    fi
+done
+
+# Sanity check the command line arguments
+
+if [ -z "${ROOT}" ]; then
+    echo "${0}: No -I option specified. Please provide the location of the nuovations-build-make directory." 1>&2
+
+    exit 1
+fi
+
+if [ ! -d "${ROOT}" ]; then
+    echo "${0}: The value specified for -I, \"${ROOT}\" is not a directory." 1>&2
+
+    exit 1
+fi
+
+if [ -z "${PROJECT}" ]; then
+    echo "${0}: Please provide a project via --project." 1>&2
+
+    exit 1
+fi
+
+if [ "${#PRODUCTS[@]}" -eq 0 ]; then
+    echo "${0}: Please provide at lease one product via --product." 1>&2
+
+    exit 1
+fi
+
+# Ensure that the path to the nuovations-build-make root directory is
+# absolute.
+
+ROOT="$(cd ${ROOT} && /bin/pwd -P)"
+
+# Create the skeleton directories
+
+create_project_directories
+
+# Populate the skeleton directories with links and files.
+
+link \
+    "${ROOT}" \
+    775 \
+    "${ROOT}" \
+    third_party/nuovations-build-make/repo
+
+link \
+    "${ROOT}" \
+    775 \
+    third_party/nuovations-build-make/repo/make/root.mak \
+    Makefile
+
+link \
+    "${ROOT}" \
+    775 \
+    ../../third_party/nuovations-build-make/repo/scripts/environment \
+    build/scripts/.
+
+copy \
+    "${ROOT}" \
+    664 \
+    third_party/nuovations-build-make/repo/examples/.gitignore \
+    .gitignore
+
+create_project_makefile \
+    "${ROOT}" \
+    "${PROJECT}"
+
+create_product_makefiles \
+    "${ROOT}" \
+    "${PROJECT}"
