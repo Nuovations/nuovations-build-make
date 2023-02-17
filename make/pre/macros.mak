@@ -30,10 +30,6 @@ include pre/macros/pretty.mak
 include pre/macros/verbosity.mak
 include pre/macros/tps.mak
 
-# This has dependencies on strings.mak
-
-include pre/macros/jobs.mak
-
 # Any of the three directories depend, object, and result may be
 # involved in order-only dependencies. In general, it would be OK for
 # them to have trailing slashes; however, make-3.81 has a bug such
