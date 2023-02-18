@@ -28,4 +28,5 @@ include configs/common.mak
 
 OPTIMIZER	= $(OptimizeSize) $(DebugFlag)
 DEFINES		+= NDEBUG=1
+UNDEFINES       += DEBUG
 WARNINGS	+= $(call ToolAssertWarningFlag,$(WarnWarningsAreErrors))

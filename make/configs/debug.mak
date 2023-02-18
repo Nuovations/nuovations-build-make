@@ -28,3 +28,4 @@ include configs/common.mak
 
 OPTIMIZER	= $(OptimizeLeast) $(DebugFlag)
 DEFINES		+= DEBUG=1
+UNDEFINES       += NDEBUG
