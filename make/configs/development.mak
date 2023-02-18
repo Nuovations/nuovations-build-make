@@ -20,9 +20,11 @@
 #      configuration.
 #
 
-# First, include the common build definitions.
+#
+#  First, include the common build definitions.
+#
 
 include configs/common.mak
 
 OPTIMIZER	= $(OptimizeLeast) $(DebugFlag)
-DEFINES		+= DEBUG=1 BUILD_CONFIG_DEVELOPMENT
+DEFINES		+= DEBUG=1
