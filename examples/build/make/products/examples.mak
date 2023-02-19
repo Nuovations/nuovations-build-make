@@ -34,10 +34,19 @@ TargetTuple             = $(HostTuple)
 #
 # The tool vendor, chain and version to use
 #
-# Default to any version of GNU GCC on the host build system.
+# Default to any version of Apple LLVM/clang on Darwin and GNU GCC on
+# any other host build system. Apple has a GCC front end for LLVM/clang;
+# however, it reports versions as clang does, so this still requires
+# some customization for Darwin.
 #
+
+ifeq ($(HostOS),darwin)
+ToolVendor              = apple
+ToolProduct             = clang
+else
 ToolVendor              = gnu
 ToolProduct             = gcc
+endif # HostOS
 ToolVersion             = x.x.x
 
 #
