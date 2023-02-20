@@ -379,13 +379,13 @@ GccSedRegExp            = ^\($(GccSedTool)\)[[:space:]]($(GccSedBuild))[[:space:
 # The sed 's' command that will match, extract, and process the
 # version and build.
 
-GccSedCommand           = "s/$(GccSedRegExp)/\3 \2/gp"
+GccSedCommand           = "s/$(GccSedRegExp)/\3 (\2)/gp"
 GccSedArgs              = $(GccSedCommand)
 
 # The grep regular expression, pattern, and arguments used to match
 # the expected version.
 
-GccGrepRegExp           = ^\($(GccVersRegExp)[[:space:]]*$(GccBuildRegExp)\)$$
+GccGrepRegExp           = ^\($(GccVersRegExp)[[:space:]]*($(GccBuildRegExp))\)$$
 GccGrepPattern          = "$(GccGrepRegExp)"
 GccGrepArgs             = $(GccGrepPattern)
 
