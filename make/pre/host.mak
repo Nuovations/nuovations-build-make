@@ -41,3 +41,9 @@ endif # HostOS
 ifndef HostTuple
 export HostTuple        := $(shell $(BuildRoot)/third_party/nuovations-build-make/repo/third_party/automake/repo/lib/config.guess)
 endif # HostTuple
+
+# Ensure that the value of HostOS is consistent with HostTuple.
+
+ifeq ($(findstring $(HostOS),$(HostTuple)),)
+$(error cannot find HostOS \"$(HostOS)\" in HostTuple \"$(HostTuple)\")
+endif
