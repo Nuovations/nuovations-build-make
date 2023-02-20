@@ -58,6 +58,7 @@ GccNoAssembleFlag               = -S
 GccNoLinkFlag                   = -c
 GccInputFlag                    = 
 GccPICFlag                      = $(call ToolAssertLanguageFlag,PIC)
+GccCoverageFlag                 = --coverage
 
 # Debug variables
 
@@ -187,6 +188,7 @@ CCNoLinkFlag                    = $(GccNoLinkFlag)
 CCInputFlag                     = $(GccInputFlag)
 CCOutputFlag                    = $(GccOutputFlag)
 CCPICFlag                       = $(GccPICFlag)
+CCCoverageFlag                  = $(GccCoverageFlag)
 
 CCFLAGS                         = $(CCOPTFLAGS) $(CCWARNINGS)
 
@@ -199,6 +201,7 @@ CXXNoLinkFlag                   = $(GccNoLinkFlag)
 CXXInputFlag                    = $(GccInputFlag)
 CXXOutputFlag                   = $(GccOutputFlag)
 CXXPICFlag                      = $(GccPICFlag)
+CXXCoverageFlag                 = $(GccCoverageFlag)
 
 CXXFLAGS                        = $(CXXOPTFLAGS) $(CXXWARNINGS)
 
@@ -240,6 +243,7 @@ endif
 LDExportDynamicSymbols          = $(call ToolAssertLinkerFlag,-rdynamic)
 LDSharedNameFlag                = $(call ToolAssertLinkerFlag,-soname=)
 LDResolvePathFlag               = $(call ToolAssertLinkerFlag,-rpath-link)
+LDGCovFlag                      = --coverage -lgcov
 LDStartGroupFlag                = $(call ToolAssertLinkerFlag,--start-group)
 LDEndGroupFlag                  = $(call ToolAssertLinkerFlag,--end-group)
 LDScriptFlag                    = $(call ToolAssertLinkerFlag,--script=)
@@ -571,7 +575,7 @@ endef
 
 define tool-create-archive-library
 $(Verbose)$(AR) $(ARFLAGS) $(AROutputFlag) $@ $(ARInputFlag) $(filter-out $($(patsubst $(LibraryPrefix)%,%,$(notdir $(basename $@)))_GENERATION),$(?))
-$(Quiet)$(RANLIB) $(RANLIBFLAGS) $@
+$(Verbose)$(RANLIB) $(RANLIBFLAGS) $@
 endef
 
 # Transform a set of objects into a shared library file.
@@ -591,6 +595,18 @@ endef
 define tool-link-image
 $(Verbose)$(LD) $(LDFLAGS) $(LDOutputFlag) $@ $(filter-out $(SCATTER) $(DEPLIBS) $($(notdir $(basename $@))_GENERATION),$^) $(LDStartGroupFlag) $(call GenerateLibraryArguments,$(LDLIBS)) $(LDEndGroupFlag) $(LDScriptFlag)$(SCATTER) $(LDMapFlag)$(MAPFILE) $(call GenerateResolveArguments,$(RESLIBS))
 endef
+#
+# Code Coverage
+#
+define tool-enable-code-coverage
+LANGFLAGS  += $(GccCoverageFlag)
+
+LDFLAGS    += $(LDGCovFlag)
+endef # tool-enable-code-coverage
+
+ifneq ($(call IsYes,$(UseCodeCoverage)),)
+$(eval $(tool-enable-code-coverage))
+endif # UseCodeCoverage
 
 #
 # Sanitizers
