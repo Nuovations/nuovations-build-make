@@ -22,6 +22,8 @@
 
 BuildCurrentDirectory      := $(shell /bin/pwd -L)
 
+include pre/host.mak
+
 include pre/macros.mak
 
 $(call ErrorIfUndefined,BuildProduct)

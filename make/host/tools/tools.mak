@@ -161,23 +161,10 @@ $(Verbose)for patch in $(3); do \
 done
 endef
 
-# We have to bootstrap ourselves into the notion of a correct host
-# tuple. We do this by using a known, project-local version of
-# automake's config.guess.
-
-ifndef HostTuple
-export HostTuple        := $(shell $(BuildRoot)/third_party/nuovations-build-make/repo/third_party/automake/repo/lib/config.guess)
-endif
-
-# Fail the build if this did not result in successfully setting HostTuple.
-
-$(call ErrorIfUndefined,HostTuple)
-
-ifndef HostOS
-export HostOS           := $(call ToLower,$(shell uname -s))
-endif
+# Fail the build if either HostOS or HostTuple are not defined.
 
 $(call ErrorIfUndefined,HostOS)
+$(call ErrorIfUndefined,HostTuple)
 
 # Now that we know the host tuple, we can set the location we expect
 # to find known, pre-built, project-local host exectuables, libraries
