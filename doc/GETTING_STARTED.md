@@ -16,7 +16,7 @@ Assuming that you already have a project repository established in
 git, perform the following in your project repository:
 
 ```
-1. % git remote add nlbuild-autotools https://<PATH_TO_REPOSITORY>/nuovations-build-make.git
+1. % git remote add hnuovations-build-make https://<PATH_TO_REPOSITORY>/nuovations-build-make.git
 2. % git fetch nuovations-build-make
 ```
 
@@ -25,7 +25,7 @@ By convention, the nuovations-build-make package should be placed in
 
 ```
 3. % mkdir third_party
-4. % git subtree add --prefix=third_party/nuovations-build-make/repo/repo --squash --message="Add subtree mirror of repository 'https://<PATH_TO_REPOSITORY>/nuovations-build-make.git' branch 'master' at commit 'HEAD'." nuovations-build-make HEAD
+4. % git subtree add --prefix=third_party/nuovations-build-make/repo --squash --message="Add subtree mirror of repository 'https://<PATH_TO_REPOSITORY>/nuovations-build-make.git' branch 'main' at commit 'HEAD'." nuovations-build-make HEAD
 ```
 
 At this point, you now have the nuovations-build-make package integrated
