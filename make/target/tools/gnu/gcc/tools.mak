@@ -23,64 +23,64 @@
 
 # Some common GCC-specific variables and macros
 
-GccAssertFlag			= $(if $(2),$(1)$(2),)
-GccDeassertFlag			= $(if $(2),$(1)no-$(2),)
+GccAssertFlag                   = $(if $(2),$(1)$(2),)
+GccDeassertFlag                 = $(if $(2),$(1)no-$(2),)
 
-GccWarningFlag			= -W
-ToolAssertWarningFlag		= $(call GccAssertFlag,$(GccWarningFlag),$(1))
-ToolDeassertWarningFlag		= $(call GccDeassertFlag,$(GccWarningFlag),$(1))
+GccWarningFlag                  = -W
+ToolAssertWarningFlag           = $(call GccAssertFlag,$(GccWarningFlag),$(1))
+ToolDeassertWarningFlag         = $(call GccDeassertFlag,$(GccWarningFlag),$(1))
 
-GccLanguageFlag			= -f
-ToolAssertLanguageFlag		= $(call GccAssertFlag,$(GccLanguageFlag),$(1))
-ToolDeassertLanguageFlag	= $(call GccDeassertFlag,$(GccLanguageFlag),$(1))
+GccLanguageFlag                 = -f
+ToolAssertLanguageFlag          = $(call GccAssertFlag,$(GccLanguageFlag),$(1))
+ToolDeassertLanguageFlag        = $(call GccDeassertFlag,$(GccLanguageFlag),$(1))
 
 GccLanguageStandardFlag         = -std=
 ToolAssertLanguageStandardFlag  = $(call GccAssertFlag,$(GccLanguageStandardFlag),$(1))
 
-GccMachineFlag			= -m
-ToolAssertMachineFlag		= $(call GccAssertFlag,$(GccMachineFlag),$(1))
-ToolDeassertMachineFlag		= $(call GccDeassertFlag,$(GccMachineFlag),$(1))
+GccMachineFlag                  = -m
+ToolAssertMachineFlag           = $(call GccAssertFlag,$(GccMachineFlag),$(1))
+ToolDeassertMachineFlag         = $(call GccDeassertFlag,$(GccMachineFlag),$(1))
 
 ToolAssertLanguageSanitizerFlag = $(call ToolAssertLanguageFlag,$(LangSanitize)=$(1))
 
 ifeq ($(UseLdAsLinker),1)
-GccLinkerFlag         		=
+GccLinkerFlag                   =
 else
-GccLinkerFlag         		= -Wl,
+GccLinkerFlag                   = -Wl,
 endif
 
 GccAssertLinkerFlag             = $(if $(2),$(1)$(2))
 
-ToolAssertLinkerFlag   		= $(call GccAssertLinkerFlag,$(GccLinkerFlag),$(1))
+ToolAssertLinkerFlag            = $(call GccAssertLinkerFlag,$(GccLinkerFlag),$(1))
 
-GccOutputFlag			= -o
-GccNoAssembleFlag		= -S
-GccNoLinkFlag			= -c
-GccInputFlag			= 
-GccPICFlag			= $(call ToolAssertLanguageFlag,PIC)
+GccOutputFlag                   = -o
+GccNoAssembleFlag               = -S
+GccNoLinkFlag                   = -c
+GccInputFlag                    = 
+GccPICFlag                      = $(call ToolAssertLanguageFlag,PIC)
 
 # Debug variables
 
-DebugFlag			= -g
+DebugFlag                       = -g
 
 # Profile variables
 
-ProfileFlag			= -pg
+ProfileFlag                     = -pg
 
 # Optimizer variables
 
-OptimizeNone			= -O0
-OptimizeLeast			= -O1
-OptimizeLess			= -O1
-OptimizeMore			= -O2
-OptimizeMost			= -O3
-OptimizeSize			= -Os
+OptimizeNone                    = -O0
+OptimizeLeast                   = -O1
+OptimizeLess                    = -O1
+OptimizeMore                    = -O2
+OptimizeMost                    = -O3
+OptimizeSize                    = -Os
 
 # Language variables
 
-LangForwardPropagation	        = forward-propagate
-LangExceptionHandling		= exceptions
-LangRuntimeTypeInformation	= rtti
+LangForwardPropagation          = forward-propagate
+LangExceptionHandling           = exceptions
+LangRuntimeTypeInformation      = rtti
 LangFunctionSections            = function-sections
 LangDataSections                = data-sections
 LangSanitize                    = sanitize
@@ -112,172 +112,172 @@ LangStandardCxxNext             := c++2a
 
 # Warning variables
 
-WarnEnable			=
-WarnDisable			= -w
-WarnAll				= all
-WarnWarningsAreErrors		= error
-WarnCharIndices			= char-subscripts
+WarnEnable                      =
+WarnDisable                     = -w
+WarnAll                         = all
+WarnWarningsAreErrors           = error
+WarnCharIndices                 = char-subscripts
 WarnExtra                       = extra
-WarnFormatStrings		= format
-WarnImplicitDeclarations	= implicit
-WarnShadow			= shadow
-WarnReturnType			= return-type
-WarnMissingProtos		= missing-prototypes
-WarnStrictProtos		= strict-prototypes
-WarnNonVirtualDestructors	= non-virtual-dtor
-WarnParentheses			= parentheses
-WarnPointerMath			= pointer-arith
-WarnReturnType			= return-type
-WarnSequencePoint		= sequence-point
-WarnUninitialized		= uninitialized
-WarnUnused			= unused
-WarnUnusedLabels		= unused-label
-WarnUnusedParams		= unused-parameter
-WarnUnusedValues		= unused-value
-WarnUnusedVars			= unused-variable
-WarnUnusedFunctions		= unused-function
-WarnWritableStrings		= write-strings
-WarnTypeLimits			= type-limits
+WarnFormatStrings               = format
+WarnImplicitDeclarations        = implicit
+WarnShadow                      = shadow
+WarnReturnType                  = return-type
+WarnMissingProtos               = missing-prototypes
+WarnStrictProtos                = strict-prototypes
+WarnNonVirtualDestructors       = non-virtual-dtor
+WarnParentheses                 = parentheses
+WarnPointerMath                 = pointer-arith
+WarnReturnType                  = return-type
+WarnSequencePoint               = sequence-point
+WarnUninitialized               = uninitialized
+WarnUnused                      = unused
+WarnUnusedLabels                = unused-label
+WarnUnusedParams                = unused-parameter
+WarnUnusedValues                = unused-value
+WarnUnusedVars                  = unused-variable
+WarnUnusedFunctions             = unused-function
+WarnWritableStrings             = write-strings
+WarnTypeLimits                  = type-limits
 WarnStackProtection             = stack-protector
 
 # The archiver (librarian)
 
-AR				:= $(ToolBinDir)/$(CROSS_COMPILE)ar
-ARName				= $(call MakeToolName,$(AR))
-ARInputFlag			= 
-AROutputFlag			= 
-ARCreateFlag			= -c
-ARReplaceFlag			= -r
-ARCreateStaticIndexFlag	        = -s
+AR                              := $(ToolBinDir)/$(CROSS_COMPILE)ar
+ARName                          = $(call MakeToolName,$(AR))
+ARInputFlag                     = 
+AROutputFlag                    = 
+ARCreateFlag                    = -c
+ARReplaceFlag                   = -r
+ARCreateStaticIndexFlag         = -s
 
-ARFLAGS				= $(ARCreateFlag) $(ARReplaceFlag) $(ARCreateStaticIndexFlag)
+ARFLAGS                         = $(ARCreateFlag) $(ARReplaceFlag) $(ARCreateStaticIndexFlag)
 
 # The assembler
 
-AS				:= $(ToolBinDir)/$(CROSS_COMPILE)gcc
-ASName				= $(call MakeToolName,$(AS))
+AS                              := $(ToolBinDir)/$(CROSS_COMPILE)gcc
+ASName                          = $(call MakeToolName,$(AS))
 ASInputFlag                     = $(GccInputFlag)
 ASOutputFlag                    = $(GccOutputFlag)
 
-ASFLAGS				+= $(ASOPTFLAGS) $(ASWARNINGS) $(GccNoLinkFlag)
+ASFLAGS                         += $(ASOPTFLAGS) $(ASWARNINGS) $(GccNoLinkFlag)
 
 # The C preprocessor
 
-CPP				:= $(CCACHE) $(ToolBinDir)/$(CROSS_COMPILE)cpp
-CPPName				= $(call MakeToolName,$(CPP))
-CPPDefineFlag			= -D
-CPPUndefineFlag			= -U
-CPPIncludeFlag			= -I
-CPPInputFlag			= $(GccInputFlag)
-CPPOutputFlag			= $(GccOutputFlag)
-CPPDependFlags			= -MT "$@ $(call GenerateDependPaths,$*.d)" -MD -MP -MF "$(call GenerateDependPaths,$*.d)"
+CPP                             := $(CCACHE) $(ToolBinDir)/$(CROSS_COMPILE)cpp
+CPPName                         = $(call MakeToolName,$(CPP))
+CPPDefineFlag                   = -D
+CPPUndefineFlag                 = -U
+CPPIncludeFlag                  = -I
+CPPInputFlag                    = $(GccInputFlag)
+CPPOutputFlag                   = $(GccOutputFlag)
+CPPDependFlags                  = -MT "$@ $(call GenerateDependPaths,$*.d)" -MD -MP -MF "$(call GenerateDependPaths,$*.d)"
 
-CPPFLAGS			= $(CPPOPTFLAGS) \
-				  $(call ToolGenerateDefineArgument,$(DEFINES)) \
-				  $(call ToolGenerateUndefineArgument,$(UNDEFINES)) \
-				  $(call ToolGenerateIncludeArgument,$(INCLUDES)) \
-			  	  $(if $(filter-out %.d,$@),$(CPPDependFlags))
+CPPFLAGS                        = $(CPPOPTFLAGS) \
+                                  $(call ToolGenerateDefineArgument,$(DEFINES)) \
+                                  $(call ToolGenerateUndefineArgument,$(UNDEFINES)) \
+                                  $(call ToolGenerateIncludeArgument,$(INCLUDES)) \
+                                  $(if $(filter-out %.d,$@),$(CPPDependFlags))
 
 # The C compiler
 
-CC				:= $(CCACHE) $(ToolBinDir)/$(CROSS_COMPILE)gcc
-CCName				= $(call MakeToolName,$(CC))
-CCNoAssembleFlag		= $(GccNoAssembleFlag)
-CCNoLinkFlag			= $(GccNoLinkFlag)
-CCInputFlag			= $(GccInputFlag)
-CCOutputFlag			= $(GccOutputFlag)
-CCPICFlag			= $(GccPICFlag)
+CC                              := $(CCACHE) $(ToolBinDir)/$(CROSS_COMPILE)gcc
+CCName                          = $(call MakeToolName,$(CC))
+CCNoAssembleFlag                = $(GccNoAssembleFlag)
+CCNoLinkFlag                    = $(GccNoLinkFlag)
+CCInputFlag                     = $(GccInputFlag)
+CCOutputFlag                    = $(GccOutputFlag)
+CCPICFlag                       = $(GccPICFlag)
 
-CCFLAGS				= $(CCOPTFLAGS) $(CCWARNINGS)
+CCFLAGS                         = $(CCOPTFLAGS) $(CCWARNINGS)
 
 # The C++ compiler
 
-CXX				:= $(CCACHE) $(ToolBinDir)/$(CROSS_COMPILE)g++
-CXXName				= $(call MakeToolName,$(CXX))
-CXXNoAssembleFlag		= $(GccNoAssembleFlag)
-CXXNoLinkFlag			= $(GccNoLinkFlag)
-CXXInputFlag			= $(GccInputFlag)
-CXXOutputFlag			= $(GccOutputFlag)
-CXXPICFlag			= $(GccPICFlag)
+CXX                             := $(CCACHE) $(ToolBinDir)/$(CROSS_COMPILE)g++
+CXXName                         = $(call MakeToolName,$(CXX))
+CXXNoAssembleFlag               = $(GccNoAssembleFlag)
+CXXNoLinkFlag                   = $(GccNoLinkFlag)
+CXXInputFlag                    = $(GccInputFlag)
+CXXOutputFlag                   = $(GccOutputFlag)
+CXXPICFlag                      = $(GccPICFlag)
 
-CXXFLAGS			= $(CXXOPTFLAGS) $(CXXWARNINGS)
+CXXFLAGS                        = $(CXXOPTFLAGS) $(CXXWARNINGS)
 
 # The Objective C compiler flag
 
-OBJCCLanguage			:= -x objective-c
+OBJCCLanguage                   := -x objective-c
 
 # The Objective C++ compiler flag
 
-OBJCXXLanguage			:= -x objective-c++
+OBJCXXLanguage                  := -x objective-c++
 
 # The dependency generator
 
-DEPEND				:= $(ToolBinDir)/$(CROSS_COMPILE)cpp
-DEPENDName			= $(call MakeToolName,$(DEPEND))
-DEPENDInputFlag			=
-DEPENDOutputFlag		= -o
+DEPEND                          := $(ToolBinDir)/$(CROSS_COMPILE)cpp
+DEPENDName                      = $(call MakeToolName,$(DEPEND))
+DEPENDInputFlag                 =
+DEPENDOutputFlag                = -o
 
-DEPENDFLAGS			= -E -MT "$(call GenerateBuildPaths,$*.o) $@" -MM -MP -MF $@
+DEPENDFLAGS                     = -E -MT "$(call GenerateBuildPaths,$*.o) $@" -MM -MP -MF $@
 
 # The linker
 
 ifeq ($(UseLdAsLinker),1)
-LD				= $(ToolBinDir)/$(CROSS_COMPILE)ld
+LD                              = $(ToolBinDir)/$(CROSS_COMPILE)ld
 else
-LD				= $(ToolBinDir)/$(CROSS_COMPILE)$(if $(LinkAgainstCPlusPlus),g++,gcc)
+LD                              = $(ToolBinDir)/$(CROSS_COMPILE)$(if $(LinkAgainstCPlusPlus),g++,gcc)
 endif
 
-LDName				= $(call MakeToolName,$(LD))
-LDLibraryNameFlag		= -l
-LDLibraryPathFlag		= -L
-LDOutputFlag			= $(GccOutputFlag)
+LDName                          = $(call MakeToolName,$(LD))
+LDLibraryNameFlag               = -l
+LDLibraryPathFlag               = -L
+LDOutputFlag                    = $(GccOutputFlag)
 
 ifeq ($(UseLdAsLinker),1)
-LDSharedFlag			= $(call ToolAssertLinkerFlag,-shared)
+LDSharedFlag                    = $(call ToolAssertLinkerFlag,-shared)
 else
 LDSharedFlag                    = -shared
 endif
 LDExportDynamicSymbols          = $(call ToolAssertLinkerFlag,-rdynamic)
-LDSharedNameFlag		= $(call ToolAssertLinkerFlag,-soname=)
-LDResolvePathFlag		= $(call ToolAssertLinkerFlag,-rpath-link)
-LDStartGroupFlag 		= $(call ToolAssertLinkerFlag,--start-group)
-LDEndGroupFlag 			= $(call ToolAssertLinkerFlag,--end-group)
-LDScriptFlag 			= $(call ToolAssertLinkerFlag,--script=)
+LDSharedNameFlag                = $(call ToolAssertLinkerFlag,-soname=)
+LDResolvePathFlag               = $(call ToolAssertLinkerFlag,-rpath-link)
+LDStartGroupFlag                = $(call ToolAssertLinkerFlag,--start-group)
+LDEndGroupFlag                  = $(call ToolAssertLinkerFlag,--end-group)
+LDScriptFlag                    = $(call ToolAssertLinkerFlag,--script=)
 LDMapFlag                       = $(call ToolAssertLinkerFlag,--Map=)
 
 # The symbol lister
 
-NM				:= $(ToolBinDir)/$(CROSS_COMPILE)nm
-NMName				= $(call MakeToolName,$(NM))
+NM                              := $(ToolBinDir)/$(CROSS_COMPILE)nm
+NMName                          = $(call MakeToolName,$(NM))
 
 # The object copier
 
-OBJCOPY				:= $(ToolBinDir)/$(CROSS_COMPILE)objcopy
-OBJCOPYName			= $(call MakeToolName,$(OBJCOPY))
+OBJCOPY                         := $(ToolBinDir)/$(CROSS_COMPILE)objcopy
+OBJCOPYName                     = $(call MakeToolName,$(OBJCOPY))
 
 # The library indexer
 
-RANLIB				:= $(ToolBinDir)/$(CROSS_COMPILE)ranlib
-RANLIBName			= $(call MakeToolName,$(OBJCOPY))
+RANLIB                          := $(ToolBinDir)/$(CROSS_COMPILE)ranlib
+RANLIBName                      = $(call MakeToolName,$(OBJCOPY))
 
 # The symbol stripper
 
-STRIP				:= $(ToolBinDir)/$(CROSS_COMPILE)strip
-STRIPName			= $(call MakeToolName,$(STRIP))
+STRIP                           := $(ToolBinDir)/$(CROSS_COMPILE)strip
+STRIPName                       = $(call MakeToolName,$(STRIP))
 
-ToolGenerateArgument		 = $(if $(2),$(addprefix $(1),$(2)))
+ToolGenerateArgument             = $(if $(2),$(addprefix $(1),$(2)))
 
-ToolGenerateIncludeArgument	 = $(call ToolGenerateArgument,$(CPPIncludeFlag),$(1))
-ToolGenerateDefineArgument	 = $(call ToolGenerateArgument,$(CPPDefineFlag),$(1))
-ToolGenerateUndefineArgument	 = $(call ToolGenerateArgument,$(CPPUndefineFlag),$(1))
+ToolGenerateIncludeArgument      = $(call ToolGenerateArgument,$(CPPIncludeFlag),$(1))
+ToolGenerateDefineArgument       = $(call ToolGenerateArgument,$(CPPDefineFlag),$(1))
+ToolGenerateUndefineArgument     = $(call ToolGenerateArgument,$(CPPUndefineFlag),$(1))
 
-ToolGenerateLibraryPathArgument	 = $(call ToolGenerateArgument,$(LDLibraryPathFlag),$(1))
-ToolGenerateLibraryNameArgument	 = $(call ToolGenerateArgument,$(LDLibraryNameFlag),$(1))
+ToolGenerateLibraryPathArgument  = $(call ToolGenerateArgument,$(LDLibraryPathFlag),$(1))
+ToolGenerateLibraryNameArgument  = $(call ToolGenerateArgument,$(LDLibraryNameFlag),$(1))
 
-ToolLibraryPathArgumentIsPath	 = $(if $(call IsRelativePath,$(1)),$(call GenerateResultPaths,,$(dir $(1))),$(dir $(1)))
+ToolLibraryPathArgumentIsPath    = $(if $(call IsRelativePath,$(1)),$(call GenerateResultPaths,,$(dir $(1))),$(dir $(1)))
 ToolLibraryPathArgumentIsNotPath =
 
-ToolLibraryPathArgumentHandler	 = $(if $(call IsPath,$(1)),$(call ToolLibraryPathArgumentIsPath,$(1)),$(call ToolLibraryPathArgumentIsNotPath,$(1)))
+ToolLibraryPathArgumentHandler   = $(if $(call IsPath,$(1)),$(call ToolLibraryPathArgumentIsPath,$(1)),$(call ToolLibraryPathArgumentIsNotPath,$(1)))
 
 # GenerateLibraryPathArgument <argument>
 #
@@ -296,12 +296,12 @@ ToolLibraryPathArgumentHandler	 = $(if $(call IsPath,$(1)),$(call ToolLibraryPat
 #     delimiter) are assumed to be system libraries and generate no search
 #     path.
 
-GenerateLibraryPathArgument	= $(call ToolGenerateLibraryPathArgument,$(call ToolLibraryPathArgumentHandler,$(1)))
+GenerateLibraryPathArgument     = $(call ToolGenerateLibraryPathArgument,$(call ToolLibraryPathArgumentHandler,$(1)))
 
-GenerateLibraryNameArgument	= $(call ToolGenerateLibraryNameArgument,$(notdir $(1)))
-GenerateLibraryArgument		= $(call GenerateLibraryPathArgument,$(1)) $(call GenerateLibraryNameArgument,$(1))
+GenerateLibraryNameArgument     = $(call ToolGenerateLibraryNameArgument,$(notdir $(1)))
+GenerateLibraryArgument         = $(call GenerateLibraryPathArgument,$(1)) $(call GenerateLibraryNameArgument,$(1))
 
-GenerateLibraryArguments	= $(foreach library,$(1),$(call GenerateLibraryArgument,$(library)))
+GenerateLibraryArguments        = $(foreach library,$(1),$(call GenerateLibraryArgument,$(library)))
 
 # GenerateResolvePathArgument <argument>
 #
@@ -336,11 +336,11 @@ GenerateLibraryArguments	= $(foreach library,$(1),$(call GenerateLibraryArgument
 # resolve paths, the names can be resolved without having those
 # "missing" libraries end up in the "NEEDED" section of the target.
 
-GenerateResolvePathArgument	= $(call ToolGenerateArgument,$(LDResolvePathFlag),$(1))
+GenerateResolvePathArgument     = $(call ToolGenerateArgument,$(LDResolvePathFlag),$(1))
 
-GenerateResolveArgument		= $(call GenerateResolvePathArgument,$(dir $(1)))
+GenerateResolveArgument         = $(call GenerateResolvePathArgument,$(dir $(1)))
 
-GenerateResolveArguments	= $(foreach library,$(1),$(call GenerateResolveArgument,$(library)))
+GenerateResolveArguments        = $(foreach library,$(1),$(call GenerateResolveArgument,$(library)))
 
 #
 # GCC (in most cases) is actually comprised of two separate packages:
@@ -355,13 +355,13 @@ GenerateResolveArguments	= $(foreach library,$(1),$(call GenerateResolveArgument
 # The name of the GCC-based tool, which can be one or more of any
 # character, other than space (' ').
 
-GccSedTool		= [^ ]\+
+GccSedTool              = [^ ]\+
 
 # The version of the GCC-based tool, which must be precisely a
 # two- or three-digit tuple where each tuple is one or more digits, separated
 # by a period (.).
 
-GccSedVers		= \([[:digit:]]\{1,\}\.*\)\{2,3\}
+GccSedVers              = \([[:digit:]]\{1,\}\.*\)\{2,3\}
 
 # The build of the GCC-based tool, which can be any non-empty set of characters.
 
@@ -370,38 +370,38 @@ GccSedBuild             = \(.\+\)
 # The form of the version string for GCC-based tools is "<tool name><space>
 # (<distribution-specific build>)<space><version><not digit or period>.
 
-GccSedRegExp		= ^\($(GccSedTool)\)[[:space:]]($(GccSedBuild))[[:space:]]\($(GccSedVers)\)[^[:digit:].]*$$
+GccSedRegExp            = ^\($(GccSedTool)\)[[:space:]]($(GccSedBuild))[[:space:]]\($(GccSedVers)\)[^[:digit:].]*$$
 
 # The sed 's' command that will match, extract, and process the
 # version and build.
 
-GccSedCommand		= "s/$(GccSedRegExp)/\3 \2/gp"
-GccSedArgs		= $(GccSedCommand)
+GccSedCommand           = "s/$(GccSedRegExp)/\3 \2/gp"
+GccSedArgs              = $(GccSedCommand)
 
 # The grep regular expression, pattern, and arguments used to match
 # the expected version.
 
-GccGrepRegExp		= ^\($(GccVersRegExp)[[:space:]]*$(GccBuildRegExp)\)$$
-GccGrepPattern		= "$(GccGrepRegExp)"
-GccGrepArgs		= $(GccGrepPattern)
+GccGrepRegExp           = ^\($(GccVersRegExp)[[:space:]]*$(GccBuildRegExp)\)$$
+GccGrepPattern          = "$(GccGrepRegExp)"
+GccGrepArgs             = $(GccGrepPattern)
 
 #
 # Macros for checking binutils tool versions
 #
 
-BinutilsSedTool		= [^ ]\{1,\}
-BinutilsSedCruft	= \(version \|(.\{1,\}) \)*
-BinutilsSedVers		= \([[:digit:]]\{1,\}[-.]*\)\{1,\}
-BinutilsSedBuild	= .\{1,\}
+BinutilsSedTool         = [^ ]\{1,\}
+BinutilsSedCruft        = \(version \|(.\{1,\}) \)*
+BinutilsSedVers         = \([[:digit:]]\{1,\}[-.]*\)\{1,\}
+BinutilsSedBuild        = .\{1,\}
 
-BinutilsSedRegExp	= ^GNU \(${BinutilsSedTool}\) ${BinutilsSedCruft}\(${BinutilsSedVers}\)\( *${BinutilsSedBuild}\)*$$
+BinutilsSedRegExp       = ^GNU \(${BinutilsSedTool}\) ${BinutilsSedCruft}\(${BinutilsSedVers}\)\( *${BinutilsSedBuild}\)*$$
 
-BinutilsSedCommand	= "s/$(BinutilsSedRegExp)/\3\5/gp"
-BinutilsSedArgs		= $(BinutilsSedCommand)
+BinutilsSedCommand      = "s/$(BinutilsSedRegExp)/\3\5/gp"
+BinutilsSedArgs         = $(BinutilsSedCommand)
 
-BinutilsGrepRegExp	= ^\($(BinutilsVersRegExp) *$(BinutilsBuildRegExp)\)$$
-BinutilsGrepPattern	= "$(BinutilsGrepRegExp)"
-BinutilsGrepArgs	= $(BinutilsGrepPattern)
+BinutilsGrepRegExp      = ^\($(BinutilsVersRegExp) *$(BinutilsBuildRegExp)\)$$
+BinutilsGrepPattern     = "$(BinutilsGrepRegExp)"
+BinutilsGrepArgs        = $(BinutilsGrepPattern)
 
 #
 # Rule transformation definitions.
@@ -587,6 +587,7 @@ $(Verbose)$(LD) $(LDFLAGS) $(LDOutputFlag) $@ $(filter-out $(DEPLIBS) $($(notdir
 endef
 
 # Transform a set of objects and libraries into an image
+
 define tool-link-image
 $(Verbose)$(LD) $(LDFLAGS) $(LDOutputFlag) $@ $(filter-out $(SCATTER) $(DEPLIBS) $($(notdir $(basename $@))_GENERATION),$^) $(LDStartGroupFlag) $(call GenerateLibraryArguments,$(LDLIBS)) $(LDEndGroupFlag) $(LDScriptFlag)$(SCATTER) $(LDMapFlag)$(MAPFILE) $(call GenerateResolveArguments,$(RESLIBS))
 endef
