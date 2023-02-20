@@ -23,15 +23,21 @@
 
 # We have to bootstrap ourselves into the notion of a correct host
 # operating system. We do this by using uname.
+#
+# Note that conditionalizing and exporting this and HostTuple speed up
+# recursive iteration by 24%.
 
 ifndef HostOS
 export HostOS           := $(shell uname -s | tr '[[:upper:]]' '[[:lower:]]')
-endif
+endif # HostOS
 
 # We have to bootstrap ourselves into the notion of a correct host
 # tuple. We do this by using a known, project-local version of
 # automake's config.guess.
+#
+# Note that conditionalizing and exporting this and HostOS speed up
+# recursive iteration by 24%.
 
 ifndef HostTuple
 export HostTuple        := $(shell $(BuildRoot)/third_party/nuovations-build-make/repo/third_party/automake/repo/lib/config.guess)
-endif
+endif # HostTuple
