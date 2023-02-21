@@ -79,7 +79,7 @@ until [ "${current}" = "${last}" ]; do
     # Check to see if the directory is a root match and if so, leave
     # with successful status.
 
-    if [ -d "${current}"/build/scripts/environment ]; then
+    if [ -d "${current}/build/scripts/environment" ] && [ -f "${current}/Makefile" ]; then
         export BuildRoot="${current}"
         break
     fi
