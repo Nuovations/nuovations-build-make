@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.2d (2023-02-21)
+
+    * Added implicit rules for transforming output from auto-generated
+      source files in the build directory.
+
 #### 0.9.1d (2023-02-21)
 
     * Ensure that the top-level makefile, 'Makefile', is present as an
