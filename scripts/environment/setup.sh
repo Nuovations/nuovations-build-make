@@ -22,6 +22,31 @@
 #      sourced from a current working directory within the tree.
 #
 
+##
+#  @brief
+#    Attempt to echo to standard output the directory of the path by
+#    which this script was sourced.
+#
+#  This Bourne shell-compatible function attempts to determine the
+#  path by which this script was sourced. Since there is no POSIX
+#  standard for sourcing shell scripts and no Bourne shell-compatible
+#  and -standard way to accomplish this, we try a series of fallbacks,
+#  landing at ${PWD} as a last resort.
+#
+#  @note
+#    At minimum, this should work with bash, dash, ksh, sh, and zsh.
+#
+our_path_dir()
+{
+    if [ -n "${BASH_SOURCE}" ]; then
+        echo "$(dirname ${BASH_SOURCE})"
+    elif [ "$(basename ${SHELL})" = "ksh" ] && [ -n "${.sh.file}" ]; then
+        echo "$(dirname ${.sh.file})"
+    else
+        echo "${PWD}"
+    fi
+}
+
 # Figure out if we're sourced or executed by executing 'return' in a
 # subshell.
 #
@@ -32,7 +57,7 @@
 
 $(return >/dev/null 2>&1)
 
-if [ "$?" -eq 0 ]; then
+if [ "${?}" -eq 0 ]; then
     sourced=1
 else
     sourced=0
@@ -42,7 +67,7 @@ fi
 # this script from a working directory within the tree, attempt to
 # find a directory of the form '.../build/scripts/environment/'.
 
-first="$(cd $(dirname "${0}") && /bin/pwd -P)"
+first="$(cd $(our_path_dir) && pwd)"
 current="${first}"
 last=""
 
@@ -66,6 +91,7 @@ until [ "${current}" = "${last}" ]; do
     current=`dirname "${last}"`
 done
 
+unset first
 unset current
 unset last
 
