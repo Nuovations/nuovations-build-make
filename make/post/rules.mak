@@ -485,6 +485,8 @@ $(call GenerateBuildPaths,%$(StaticObjectSuffix)): CCFLAGS  += $(CCPICFlag)
 $(call GenerateBuildPaths,%$(StaticObjectSuffix)): CXXFLAGS += $(CXXPICFlag)
 endif
 
+# Handle input source files in the makefile directory with output in the build directory.
+
 $(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.c.i | $(DependDirectory) $(BuildDirectory)
 	$(compile-and-assemble-c-or-c++)
 
@@ -543,6 +545,68 @@ $(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.C | 
 	$(preprocess-compile-and-assemble-c++)
 
 $(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.mm | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-objective-c++)
+
+# Handle auto-generated input source files with output in the same build directory.
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c-or-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.m.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-objective-c-or-objective-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cc.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cp.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cxx.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cpp.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.CPP.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c++.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.C.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.mm.i) | $(DependDirectory) $(BuildDirectory)
+	$(compile-and-assemble-objective-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c-or-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.m) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-objective-c-or-objective-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cc) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cp) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cxx) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cpp) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.CPP) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c++) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.C) | $(DependDirectory) $(BuildDirectory)
+	$(preprocess-compile-and-assemble-c++)
+
+$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.mm) | $(DependDirectory) $(BuildDirectory)
 	$(preprocess-compile-and-assemble-objective-c++)
 
 #
