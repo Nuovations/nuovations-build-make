@@ -40,7 +40,7 @@ our_path_dir()
 {
     if [ -n "${BASH_SOURCE}" ]; then
         echo "$(dirname ${BASH_SOURCE})"
-    elif [ "$(basename ${SHELL})" = "ksh" ] && [ -n "${.sh.file}" ]; then
+    elif [ "z${SHELL}" != "z" ] && [ "$(basename ${SHELL})" = "ksh" ] && [ -n "${.sh.file}" ]; then
         echo "$(dirname ${.sh.file})"
     else
         echo "${PWD}"
