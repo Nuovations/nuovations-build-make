@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.3d (2023-02-22)
+
+    * Addressed an issue in setup.sh where basename issues an error
+      under certain shells that it was provided with no argument.
+
 #### 0.9.2d (2023-02-21)
 
     * Added implicit rules for transforming output from auto-generated
