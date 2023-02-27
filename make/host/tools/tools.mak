@@ -25,6 +25,9 @@
 # locations (e.g. /bin, /usr/bin, /sbin, and /usr/sbin).
 #
 
+INSTALL                 = /usr/bin/install
+INSTALLFLAGS            = -C
+
 MKDIR                   = mkdir
 MKDIRFLAGS              = -p
 
