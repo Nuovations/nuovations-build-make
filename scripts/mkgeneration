@@ -1,0 +1,65 @@
+#!/usr/bin/env sh
+
+#
+#    Copyright (c) 2010-2023 Nuovation System Design, LLC. All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+#        http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+
+##
+#    @file
+#      This file creates a strictly-increasing build generation
+#      number.
+#
+
+BASENAME=/usr/bin/basename
+CAT=/bin/cat
+MV=/bin/mv
+RM=/bin/rm
+
+OLDEXT=".O"
+NEWEXT=".N"
+
+#
+# usage
+#
+# Display program usage.
+#
+usage() {
+    name=$(${BASENAME} "${0}")
+
+    echo "Usage: ${name} file"
+
+    exit ${1}
+}
+
+#
+# Main Program Body
+#
+
+if [ "$#" -ne 1 ]; then
+    usage 1
+fi
+
+GENERATION="${1}"
+
+if [ ! -r "${GENERATION}" ]; then
+	${RM} -f "${GENERATION}";
+	echo 1 > "${GENERATION}";
+
+else
+	${MV} "${GENERATION}" "${GENERATION}${OLDEXT}";
+	expr 0$(${CAT} "${GENERATION}${OLDEXT}") + 1 > "${GENERATION}";
+	${RM} -f "${GENERATION}${OLDEXT}";
+
+fi
