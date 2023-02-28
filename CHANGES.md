@@ -2,6 +2,12 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.4d (2023-02-27)
+
+    * Added support for generating monotonically-increasing, per-target
+      build generation numbers. This addressed an issue in which targets
+      would always be out of date due to the absence of this support.
+
 #### 0.9.3d (2023-02-22)
 
     * Addressed an issue in setup.sh where basename issues an error
