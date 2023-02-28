@@ -55,7 +55,13 @@ RMFLAGS                 += -v
 endif
 
 SED                     = sed
-SEDFLAGS                = 
+SEDFLAGS                =
+#
+# Script used for creating and updating build generation numbers.
+#
+
+MKGENERATION           := $(BuildRoot)/third_party/nuovations-build-make/repo/scripts/mkgeneration
+MKGENERATIONFLAGS       =
 
 # Common macro used in target commands for creating a directory as
 # the target goal.
@@ -165,6 +171,18 @@ done
 endef
 
 # Fail the build if either HostOS or HostTuple are not defined.
+
+# UpdateGenerationPath <path>
+#
+# Scope: Private
+#
+# Update the generation number associated with an archive, image,
+# library, program or other target.
+#
+define UpdateGenerationPath
+$(Echo) "Updating ($(notdir $(MKGENERATION))) \"$(1)\""
+$(Verbose)$(MKGENERATION) $(MKGENERATIONFLAGS) "$(1)"
+endef
 
 $(call ErrorIfUndefined,HostOS)
 $(call ErrorIfUndefined,HostTuple)
