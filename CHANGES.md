@@ -2,6 +2,16 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.5d (2023-04-04)
+
+    * Added two functions, 'create-symlink' and
+      'create-symlink-result' for creating a symbolic link from a name
+      to a target destination.
+
+    * Addressed an issue where the 'make-submakefile' function was not
+      correctly handling both absolute and relative makefile paths
+      when displaying verbose progress output.
+
 #### 0.9.4d (2023-02-27)
 
     * Added support for generating monotonically-increasing, per-target
