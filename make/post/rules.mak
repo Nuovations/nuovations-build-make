@@ -699,7 +699,7 @@ force:
 # 'makefile', with the current make command goals.
 
 define make-submakefile
-$(Echo) "Processing \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory)/$(1))\""
+$(Echo) "Processing \"$(call GenerateBuildRootEllipsedPath,$(if $(call IsAbsolutePath,$(1)),$(1),$(BuildCurrentDirectory)/$(1)))\""
 +$(Verbose)$(MAKE) -C "$(dir $(1))" -f "$(notdir $(1))" $(MAKECMDGOALS)
 endef # make-submakefile
 
