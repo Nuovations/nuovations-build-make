@@ -25,9 +25,6 @@ examples/hello/lib/hi.c
 examples/hello/lib/Makefile
 examples/hello/main.c
 examples/hello/Makefile
-examples/monte/.build/Makefile/examples/gnu/gcc/x.x.x/debug/Card.gcno
-examples/monte/.build/Makefile/examples/gnu/gcc/x.x.x/debug/Deck.gcno
-examples/monte/.build/Makefile/examples/gnu/gcc/x.x.x/debug/monte.gcno
 examples/monte/Card.cpp
 examples/monte/Card.hpp
 examples/monte/Deck.cpp
@@ -122,8 +119,6 @@ make/target/tools/mentor/sourcery-codebench/2011.03-65/tools.mak
 make/target/tools/mentor/sourcery-codebench/rules.mak
 make/target/tools/mentor/sourcery-codebench/tools.mak
 MANIFEST
-nuovations-build-make-changes.tgz
-nuovations-build-make.tgz
 README.md
 scripts/environment/setup.csh
 scripts/environment/setup.sh
