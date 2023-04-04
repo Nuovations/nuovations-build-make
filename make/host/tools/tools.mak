@@ -84,6 +84,26 @@ define remove-empty-directory-and-ancestors
 fi;
 endef
 
+# create-symlink <link name> <target>
+#
+# Common macro to create a symbolic (that is, soft) link from the
+# specified name to the target.
+
+define create-symlink
+$(Echo) "Linking \"$(call GenerateBuildRootEllipsedPath,$(2))\""
+$(Verbose)ln -sf "$(1)" "$(2)"
+endef
+
+# create-symlink-result <link name> <target>
+#
+# Common macro to create a symbolic (that is, soft) link from the
+# dependency built-in make variable to the target built-in make
+# variable.
+
+define create-symlink-result
+$(call create-symlink,$(<),$(@))
+endef
+
 # create-links <source directory> <target directory>
 #
 # Common macro to create a "link farm" from a source directory to the
