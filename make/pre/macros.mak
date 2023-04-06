@@ -383,8 +383,8 @@ GenerateProgramPaths		= $(call GenerateResultPaths,,$(call GenerateProgramNames,
 
 # GenerateImageNames <paths>
 #
-# Generates a program name(s) by concatenating a predefined program
-# prefix, the specified name(s) and a predefined program suffix.
+# Generates an image name(s) by concatenating a predefined program
+# prefix, the specified name(s) and a predefined image suffix.
 
 GenerateImageNames      = $(addsuffix $(ImageSuffix),$(addprefix $(ImagePrefix),$(1)))
 GenerateImageMapNames   = $(addsuffix $(ImageMapSuffix),$(addprefix $(ImagePrefix),$(1)))
@@ -393,9 +393,9 @@ GenerateImageSrecNames   = $(addsuffix $(ImageSrecSuffix),$(addprefix $(ImagePre
 
 # GenerateImagePaths <paths>
 #
-# Generates a program name, rooted in the results directory, by
-# concatenating a predefined program prefix, the specified name(s) and a
-# predefined program suffix.
+# Generates a image name, rooted in the results directory, by
+# concatenating a predefined image prefix, the specified name(s) and a
+# predefined image suffix.
 
 GenerateImagePaths      = $(call GenerateResultPaths,,$(call GenerateImageNames,$(1)))
 GenerateImageMapPaths   = $(call GenerateResultPaths,,$(call GenerateImageMapNames,$(1)))
