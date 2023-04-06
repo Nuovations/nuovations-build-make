@@ -1057,8 +1057,8 @@ clean: recursive local-clean
 
 local-clean:
 	$(Echo) "Cleaning in \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory))\""
-	$(Verbose)$(RM) $(RMFLAGS) $(CleanPaths)
-	$(Verbose)$(RM) $(RMFLAGS) *~ "#"* *.i
+	-$(Verbose)$(RM) $(RMFLAGS) $(CleanPaths)
+	-$(Verbose)$(RM) $(RMFLAGS) *~ "#"* *.i
 
 #
 # DistClean targets
@@ -1075,7 +1075,7 @@ local-distclean: clean
     # of these fail (can happen when there are sub Makefiles in the same folder, which can
     # result in multiple attempts to rmdir a folder in parallel builds).
 	$(Echo) "DistCleaning in \"$(call GenerateBuildRootEllipsedPath,$(BuildCurrentDirectory))\""
-	$(Verbose)$(RM) $(RMFLAGS) $(DistCleanPaths)
+	-$(Verbose)$(RM) $(RMFLAGS) $(DistCleanPaths)
 	$(call remove-empty-directory-and-ancestors, $(BuildDirectory))
 	$(call remove-empty-directory-and-ancestors, $(DependDirectory))
 	$(call remove-empty-directory-and-ancestors, $(ResultDirectory))
