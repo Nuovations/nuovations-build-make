@@ -36,9 +36,9 @@ PackageThirdPartyFile           := $(wildcard $(_ThirdPartyFile))
 
 _PackageHasThirdPartyFile       := $(if $(PackageThirdPartyFile),Y,N)
 
-PackageLicenseFile		= $(if $(PackageName),$(PackageName).license,)
-PackageURLFile			= $(if $(PackageName),$(PackageName).url,)
-PackageVersionFile		= $(if $(PackageName),$(PackageName).version,)
+PackageLicenseFile		 = $(if $(PackageName),$(PackageName).license,)
+PackageURLFile			 = $(if $(PackageName),$(PackageName).url,)
+PackageVersionFile		 = $(if $(PackageName),$(PackageName).version,)
 
 define _package-extract-third_party-field
 $(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(_ThirdPartyFile)")
@@ -53,12 +53,12 @@ PacakgeURL                      ?= $(shell cat $(PackageURLFile))
 PackageVersion			?= $(shell cat $(PackageVersionFile))
 endif
 
-PackagePatchDir			= $(PackageName).patches
-PackagePatchPaths		= $(sort $(wildcard $(PackagePatchDir)/*.patch*))
+PackagePatchDir                  = $(PackageName).patches
+PackagePatchPaths                = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
 
-PackageSnapshotFile		:= $(PackageName)-snapshot.tar.bz2
-PackageSnapshotPath		:= $(call Slashify,$(PackageSnapshotDir))$(PackageSnapshotFile)
-PackageDefaultGoal		:= $(if $(BuildMode),$(call ToLower,$(BuildMode)),stage)
+PackageSnapshotFile             := $(PackageName)-snapshot.tar.bz2
+PackageSnapshotPath             := $(call Slashify,$(PackageSnapshotDir))$(PackageSnapshotFile)
+PackageDefaultGoal              := $(if $(BuildMode),$(call ToLower,$(BuildMode)),stage)
 
 # expand-and-patch-package
 #
