@@ -262,38 +262,6 @@ GenerateObjectPaths		= $(call GenerateBuildPaths,$(notdir $(call GenerateObjectN
 
 GenerateSharedObjectPaths	= $(call GenerateBuildPaths,$(notdir $(call GenerateSharedObjectNames,$(1))))
 
-##
-## Images
-##
-## "Bare metal" or other executables that typically function outside
-## of a standard C or C++ runtime environment that may lack a 'main'
-## entry point. These are commonly used on embedded targets without an
-## operating system or for bootloaders and operating system kernels
-## themselves.
-##
-
-# GenerateImageNames <paths>
-#
-# Generates a program name(s) by concatenating a predefined program
-# prefix, the specified name(s) and a predefined program suffix.
-
-GenerateImageNames      = $(addsuffix $(ImageSuffix),$(addprefix $(ImagePrefix),$(1)))
-GenerateImageMapNames   = $(addsuffix $(ImageMapSuffix),$(addprefix $(ImagePrefix),$(1)))
-GenerateImageBinNames   = $(addsuffix $(ImageBinSuffix),$(addprefix $(ImagePrefix),$(1)))
-GenerateImageSrecNames   = $(addsuffix $(ImageSrecSuffix),$(addprefix $(ImagePrefix),$(1)))
-
-# GenerateImagePaths <paths>
-#
-# Generates a program name, rooted in the results directory, by
-# concatenating a predefined program prefix, the specified name(s) and a
-# predefined program suffix.
-
-GenerateImagePaths      = $(call GenerateResultPaths,,$(call GenerateImageNames,$(1)))
-GenerateImageMapPaths   = $(call GenerateResultPaths,,$(call GenerateImageMapNames,$(1)))
-GenerateImageBinPaths   = $(call GenerateResultPaths,,$(call GenerateImageBinNames,$(1)))
-GenerateImageSrecPaths   = $(call GenerateResultPaths,,$(call GenerateImageSrecNames,$(1)))
-
-
 # GenerateStaticObjectPaths <paths>
 #
 # Generates a static object path(s), rooted in the build/object
@@ -402,6 +370,38 @@ GenerateProgramNames		= $(addsuffix $(ProgramSuffix),$(addprefix $(ProgramPrefix
 # predefined program suffix.
 
 GenerateProgramPaths		= $(call GenerateResultPaths,,$(call GenerateProgramNames,$(1)))
+
+##
+## Images
+##
+## "Bare metal" or other executables that typically function outside
+## of a standard C or C++ runtime environment that may lack a 'main'
+## entry point. These are commonly used on embedded targets without an
+## operating system or for bootloaders and operating system kernels
+## themselves.
+##
+
+# GenerateImageNames <paths>
+#
+# Generates a program name(s) by concatenating a predefined program
+# prefix, the specified name(s) and a predefined program suffix.
+
+GenerateImageNames      = $(addsuffix $(ImageSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageMapNames   = $(addsuffix $(ImageMapSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageBinNames   = $(addsuffix $(ImageBinSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageSrecNames   = $(addsuffix $(ImageSrecSuffix),$(addprefix $(ImagePrefix),$(1)))
+
+# GenerateImagePaths <paths>
+#
+# Generates a program name, rooted in the results directory, by
+# concatenating a predefined program prefix, the specified name(s) and a
+# predefined program suffix.
+
+GenerateImagePaths      = $(call GenerateResultPaths,,$(call GenerateImageNames,$(1)))
+GenerateImageMapPaths   = $(call GenerateResultPaths,,$(call GenerateImageMapNames,$(1)))
+GenerateImageBinPaths   = $(call GenerateResultPaths,,$(call GenerateImageBinNames,$(1)))
+GenerateImageSrecPaths   = $(call GenerateResultPaths,,$(call GenerateImageSrecNames,$(1)))
+
 
 ##
 ## Generations
