@@ -30,30 +30,37 @@
 #         are extracted.
 #
 
-_ThirdPartyFile                 := README.third_party
+_PackageRootDefault              = $(CURDIR)
 
-PackageThirdPartyFile           := $(wildcard $(_ThirdPartyFile))
+PackageRoot                      = $(_PackageRootDefault)
 
-_PackageHasThirdPartyFile       := $(if $(PackageThirdPartyFile),Y,N)
+PackageThirdPartyName           := README.third_party
 
-PackageLicenseFile		 = $(if $(PackageName),$(PackageName).license,)
-PackageURLFile			 = $(if $(PackageName),$(PackageName).url,)
-PackageVersionFile		 = $(if $(PackageName),$(PackageName).version,)
+_GeneratePackagePaths            = $(addprefix $(call Slashify,$(PackageRoot)),$(1))
 
-define _package-extract-third_party-field
-$(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(_ThirdPartyFile)")
+_PackageThirdPartyPath           = $(call _GeneratePackagePaths,$(PackageThirdPartyName))
+
+PackageThirdPartyPath            = $(wildcard $(_PackageThirdPartyPath))
+
+_PackageHasThirdPartyPath        = $(if $(PackageThirdPartyPath),Y,N)
+
+PackageLicenseFile               = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).license),)
+PackageURLFile                   = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).url),)
+PackageVersionFile               = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).version),)
+
+define _package-extract-third_party-field-from-path
+$(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(2)")
 endef
 
-ifeq ($(call IsYes,$(_PackageHasThirdPartyFile)),Y)
-PackageName                     := $(call _package-extract-third_party-field,Short Name)
-PackageURL                      := $(call _package-extract-third_party-field,URL)
-PackageVersion                  := $(call _package-extract-third_party-field,Version)
-else
-PacakgeURL                      ?= $(shell cat $(PackageURLFile))
-PackageVersion			?= $(shell cat $(PackageVersionFile))
-endif
+define _package-extract-third_party-field
+$(call _package-extract-third_party-field-from-path,$(1),$(_PackageThirdPartyPath))
+endef
 
-PackagePatchDir                  = $(PackageName).patches
+PackageName                     ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Short Name),$(Null))
+PackageURL                      ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),))
+PackageVersion                  ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageURLFile)),))
+
+PackagePatchDir                  = $(call _GeneratePackagePaths,$(PackageName).patches)
 PackagePatchPaths                = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
 
 PackageSnapshotFile             := $(PackageName)-snapshot.tar.bz2
@@ -63,7 +70,7 @@ PackageDefaultGoal              := $(if $(BuildMode),$(call ToLower,$(BuildMode)
 # expand-and-patch-package
 #
 define expand-and-patch-package
-$(call expand-archive,$(PackageArchive),.)
+$(call expand-archive,$(call _GeneratePackagePaths,$(PackageArchive)),.)
 $(call patch-directory,$(@),$(PackagePatchArgs),$(PackagePatchPaths))
 $(Verbose)touch $(@)
 endef
