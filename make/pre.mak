@@ -20,7 +20,7 @@
 #      any makefile used in the build tree.
 #
 
-BuildCurrentDirectory      := $(shell /bin/pwd -L)
+BuildCurrentDirectory           := $(shell /bin/pwd -L)
 
 include pre/host.mak
 
@@ -28,8 +28,8 @@ include pre/macros.mak
 
 $(call ErrorIfUndefined,BuildProduct)
 
-AllProductMakefilesWithPath = $(sort $(wildcard $(BuildRoot)/build/make/products/*.mak))
-BuildProductMakefile        = $(filter %/$(BuildProduct).mak,$(AllProductMakefilesWithPath))
+AllProductMakefilesWithPath      = $(sort $(wildcard $(BuildRoot)/build/make/products/*.mak))
+BuildProductMakefile             = $(filter %/$(BuildProduct).mak,$(AllProductMakefilesWithPath))
 
 include $(BuildProductMakefile)
 
@@ -37,7 +37,11 @@ $(call ErrorIfUndefined,BuildConfig)
 
 include configs/$(BuildConfig).mak
 
+# A TargetOS must be defined.
+
 $(call ErrorIfUndefined,TargetOS)
+
+# However, target-specific suffixes may not be.
 
 -include pre/macros/$(TargetOS)/suffixes.mak
 
@@ -55,7 +59,7 @@ $(call ErrorIfUndefined,ToolTuple)
 # used to qualify intermediate or final build results. The product and
 # configuration may be optionally-specified.
 
-MakeBuildTuple		= $(if $(1),$(call Slashify,$(1)),)$(if $(3),$(call Slashify,$(2)),$(2))$(if $(3),$(3),)
+MakeBuildTuple                   = $(if $(1),$(call Slashify,$(1)),)$(if $(3),$(call Slashify,$(2)),$(2))$(if $(3),$(3),)
 
 # UnconditionalBuildTuple
 #
@@ -65,7 +69,7 @@ MakeBuildTuple		= $(if $(1),$(call Slashify,$(1)),)$(if $(3),$(call Slashify,$(2
 # tool chain and build configuration, suitable for use to qualify
 # intermediate or final build results.
 
-UnconditionalBuildTuple	:= $(call MakeBuildTuple,$(BuildProduct),$(ToolTuple),$(BuildConfig))
+UnconditionalBuildTuple         := $(call MakeBuildTuple,$(BuildProduct),$(ToolTuple),$(BuildConfig))
 
 _BuildConfigSpecializedDefault  := Yes
 BuildConfigSpecialized          ?= $(_BuildConfigSpecializedDefault)
@@ -84,4 +88,4 @@ BuildProductSpecialized         ?= $(_BuildProductSpecializedDefault)
 # to always evaluate this for each local Makefile in case it specified
 # a value for BuildProductSpecialized or BuildConfigSpecialized.
 
-ConditionalBuildTuple	:= $(call MakeBuildTuple,$(if $(call IsNo,$(BuildProductSpecialized)),,$(BuildProduct)),$(ToolTuple),$(if $(call IsNo,$(BuildConfigSpecialized)),,$(BuildConfig)))
+ConditionalBuildTuple           := $(call MakeBuildTuple,$(if $(call IsNo,$(BuildProductSpecialized)),,$(BuildProduct)),$(ToolTuple),$(if $(call IsNo,$(BuildConfigSpecialized)),,$(BuildConfig)))
