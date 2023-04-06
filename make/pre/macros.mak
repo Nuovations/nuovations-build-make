@@ -46,6 +46,10 @@ include pre/macros/tps.mak
 # Judicious use of the Deslashify and Slashify macros ensure we achieve
 # this goal.
 
+##
+## Makefiles
+##
+
 # FirstMakefile
 #
 # Returns the first makefile in the make-maintained MAKEFILE_LIST
@@ -113,6 +117,10 @@ GenerateHiddenNames		= $(addprefix $(Dot),$(1))
 
 GenerateMakeConditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slashify,$(1))$(call Slashify,$(call FirstMakefile))$(ConditionalBuildTuple))
 
+##
+## Dependencies
+##
+
 DependBaseDirectory		:= $(call GenerateHiddenNames,depend)
 DependDirectory			= $(call GenerateMakeConditionalBuildQualifiedDirectory,$(DependBaseDirectory))
 
@@ -122,6 +130,10 @@ DependDirectory			= $(call GenerateMakeConditionalBuildQualifiedDirectory,$(Depe
 # from the specified path(s).
 
 GenerateDependPaths		= $(addprefix $(call Slashify,$(DependDirectory)),$(notdir $(1)))
+
+##
+## Intermediate Build Results
+##
 
 # Build directories are where intermediate build result files are located.
 
@@ -134,6 +146,10 @@ BuildDirectory			= $(call GenerateMakeConditionalBuildQualifiedDirectory,$(Build
 # directory, from the specified path(s).
 
 GenerateBuildPaths		= $(addprefix $(call Slashify,$(BuildDirectory)),$(1))
+
+##
+## Final Build Results
+##
 
 # Result directories are where final build result files are located.
 #
@@ -160,6 +176,10 @@ ResultDirectory			= $(call GenerateResultSubdirectory,$(CURDIR))
 # directory.
 
 GenerateResultPaths		= $(call CanonicalizePath,$(addprefix $(call Slashify,$(call GenerateResultSubdirectory,$(if $(1),$(1),$(BuildCurrentDirectory)))),$(2)))
+
+##
+## Build Root
+##
 
 # GenerateRelativeBuildRoot <path>
 #
@@ -242,6 +262,16 @@ GenerateObjectPaths		= $(call GenerateBuildPaths,$(notdir $(call GenerateObjectN
 
 GenerateSharedObjectPaths	= $(call GenerateBuildPaths,$(notdir $(call GenerateSharedObjectNames,$(1))))
 
+##
+## Images
+##
+## "Bare metal" or other executables that typically function outside
+## of a standard C or C++ runtime environment that may lack a 'main'
+## entry point. These are commonly used on embedded targets without an
+## operating system or for bootloaders and operating system kernels
+## themselves.
+##
+
 # GenerateImageNames <paths>
 #
 # Generates a program name(s) by concatenating a predefined program
@@ -303,6 +333,14 @@ GenerateSharedLibraryNames	= $(call GenerateLibraryNames,$(SharedLibrarySuffix),
 
 GenerateLibraryPaths		= $(call GenerateResultPaths,,$(call GenerateLibraryNames,$(1),$(2)))
 
+##
+## Archive Libraries
+##
+## Archives of executable code and data that are linked once per
+## program, resulting in both compile- and run-time duplication of
+## both code and data.
+##
+
 # GenerateArchiveLibraryPaths <extension> <names>
 #
 # Generates an archive library path(s), rooted in the current
@@ -319,6 +357,13 @@ GenerateArchiveLibraryPaths	= $(call GenerateResultPaths,,$(call GenerateArchive
 # specified name(s) and the defined archive library extension.
 
 GenerateArchiveLibraryResultPaths = $(call GenerateResultPaths,$(1),$(call GenerateArchiveLibraryNames,$(2)))
+
+##
+## Shared Libraries
+##
+## Shared executable code and data that can be concurrently used by
+## multiple running programs.
+##
 
 # GenerateSharedLibraryPaths <extension> <names>
 #
@@ -337,6 +382,12 @@ GenerateSharedLibraryPaths	= $(call GenerateResultPaths,,$(call GenerateSharedLi
 
 GenerateSharedLibraryResultPaths = $(call GenerateResultPaths,$(1),$(call GenerateSharedLibraryNames,$(2)))
 
+##
+## Programs
+##
+## Standalone executables.
+##
+
 # GenerateProgramNames <paths>
 #
 # Generates a program name(s) by concatenating a predefined program
@@ -351,6 +402,14 @@ GenerateProgramNames		= $(addsuffix $(ProgramSuffix),$(addprefix $(ProgramPrefix
 # predefined program suffix.
 
 GenerateProgramPaths		= $(call GenerateResultPaths,,$(call GenerateProgramNames,$(1)))
+
+##
+## Generations
+##
+## Related to build generartion file names, files used to indicate the
+## current generation number of a program, image, archive or library
+## build.
+##
 
 #
 # GenerateGenerationNames <prefixes>
