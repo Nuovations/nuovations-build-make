@@ -28,8 +28,15 @@ include pre/macros.mak
 
 $(call ErrorIfUndefined,BuildProduct)
 
+# Determine all potential project-sourced product makefiles.
+
 AllProductMakefilesWithPath      = $(sort $(wildcard $(BuildRoot)/build/make/products/*.mak))
+
+# Find a match for the current build product among those makefiles.
+
 BuildProductMakefile             = $(filter %/$(BuildProduct).mak,$(AllProductMakefilesWithPath))
+
+# Include the match, if any. If no match was found, this will error out.
 
 include $(BuildProductMakefile)
 
