@@ -56,7 +56,7 @@ include pre/macros/tps.mak
 # variable. This should be the name of the first makefile in the
 # current directory that make invoked.
 
-FirstMakefile			= $(firstword $(MAKEFILE_LIST))
+FirstMakefile                           = $(firstword $(MAKEFILE_LIST))
 
 # LastMakefile
 #
@@ -64,7 +64,7 @@ FirstMakefile			= $(firstword $(MAKEFILE_LIST))
 # variable. This should be the name of the last makefile included
 # via an include, -include, or sinclude directive.
 
-LastMakefile			= $(lastword $(MAKEFILE_LIST))
+LastMakefile                            = $(lastword $(MAKEFILE_LIST))
 
 # GenerateUnconditionalBuildQualifiedDirectory <directory>
 #
@@ -74,7 +74,7 @@ LastMakefile			= $(lastword $(MAKEFILE_LIST))
 # tuple, effectively creating a build tuple-qualified directory name
 # that can be used to store build-tuple-specific files.
 
-GenerateUnconditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slashify,$(1))$(UnconditionalBuildTuple))
+GenerateUnconditionalBuildQualifiedDirectory            = $(call Deslashify,$(call Slashify,$(1))$(UnconditionalBuildTuple))
 
 # GenerateMakeUnconditionalBuildQualifiedDirectory <directory>
 #
@@ -85,7 +85,7 @@ GenerateUnconditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slashify
 # build tuple- qualified directory name that can be used to store
 # makefile- and build-tuple-specific files.
 
-GenerateMakeUnconditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slashify,$(1))$(call Slashify,$(call FirstMakefile))$(UnconditionalBuildTuple))
+GenerateMakeUnconditionalBuildQualifiedDirectory        = $(call Deslashify,$(call Slashify,$(1))$(call Slashify,$(call FirstMakefile))$(UnconditionalBuildTuple))
 
 # GenerateConditionalBuildQualifiedDirectory <directory>
 #
@@ -95,7 +95,7 @@ GenerateMakeUnconditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slas
 # tuple, effectively creating a build tuple-qualified directory name
 # that can be used to store build-tuple-specific files.
 
-GenerateConditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slashify,$(1))$(ConditionalBuildTuple))
+GenerateConditionalBuildQualifiedDirectory              = $(call Deslashify,$(call Slashify,$(1))$(ConditionalBuildTuple))
 
 # GenerateHiddenName <names>
 #
@@ -115,21 +115,21 @@ GenerateHiddenNames		= $(addprefix $(Dot),$(1))
 # build tuple- qualified directory name that can be used to store
 # makefile- and build-tuple-specific files.
 
-GenerateMakeConditionalBuildQualifiedDirectory	= $(call Deslashify,$(call Slashify,$(1))$(call Slashify,$(call FirstMakefile))$(ConditionalBuildTuple))
+GenerateMakeConditionalBuildQualifiedDirectory          = $(call Deslashify,$(call Slashify,$(1))$(call Slashify,$(call FirstMakefile))$(ConditionalBuildTuple))
 
 ##
 ## Dependencies
 ##
 
 DependBaseDirectory		:= $(call GenerateHiddenNames,depend)
-DependDirectory			= $(call GenerateMakeConditionalBuildQualifiedDirectory,$(DependBaseDirectory))
+DependDirectory                         = $(call GenerateMakeConditionalBuildQualifiedDirectory,$(DependBaseDirectory))
 
 # GenerateDependPaths <paths>
 #
 # Generates the name(s) of a path(s), rooted in the dependency directory,
 # from the specified path(s).
 
-GenerateDependPaths		= $(addprefix $(call Slashify,$(DependDirectory)),$(notdir $(1)))
+GenerateDependPaths                     = $(addprefix $(call Slashify,$(DependDirectory)),$(notdir $(1)))
 
 ##
 ## Intermediate Build Results
@@ -137,15 +137,15 @@ GenerateDependPaths		= $(addprefix $(call Slashify,$(DependDirectory)),$(notdir 
 
 # Build directories are where intermediate build result files are located.
 
-BuildBaseDirectory		:= $(call GenerateHiddenNames,build)
-BuildDirectory			= $(call GenerateMakeConditionalBuildQualifiedDirectory,$(BuildBaseDirectory))
+BuildBaseDirectory                     := $(call GenerateHiddenNames,build)
+BuildDirectory                          = $(call GenerateMakeConditionalBuildQualifiedDirectory,$(BuildBaseDirectory))
 
 # GenerateBuildPaths <paths>
 #
 # Generates the name(s) of a path(s), rooted in the build/object
 # directory, from the specified path(s).
 
-GenerateBuildPaths		= $(addprefix $(call Slashify,$(BuildDirectory)),$(1))
+GenerateBuildPaths                      = $(addprefix $(call Slashify,$(BuildDirectory)),$(1))
 
 ##
 ## Final Build Results
@@ -157,14 +157,14 @@ GenerateBuildPaths		= $(addprefix $(call Slashify,$(BuildDirectory)),$(1))
 # top of the project tree and are "public". That is, they can assume
 # to be traversed by any other command or executable in the project.
 
-ResultBaseDirectory		= $(call Deslashify,$(call Slashify,$(call CanonicalizePath,$(BuildRoot)))results)
-ResultBuildDirectory		= $(call GenerateUnconditionalBuildQualifiedDirectory,$(ResultBaseDirectory))
+ResultBaseDirectory                     = $(call Deslashify,$(call Slashify,$(call CanonicalizePath,$(BuildRoot)))results)
+ResultBuildDirectory                    = $(call GenerateUnconditionalBuildQualifiedDirectory,$(ResultBaseDirectory))
 
 # GenerateResultSubdirectory <subdirectory>
 #
 # Generates the name of a subdirectory, rooted in the result directory.
 
-GenerateResultSubdirectory	= $(call Deslashify,$(call Slashify,$(ResultBuildDirectory))$(subst $(call Slashify,$(call CanonicalizePath,$(BuildRoot))),,$(1)))
+GenerateResultSubdirectory              = $(call Deslashify,$(call Slashify,$(ResultBuildDirectory))$(subst $(call Slashify,$(call CanonicalizePath,$(BuildRoot))),,$(1)))
 
 ResultDirectory			= $(call GenerateResultSubdirectory,$(CURDIR))
 
@@ -186,49 +186,49 @@ GenerateResultPaths		= $(call CanonicalizePath,$(addprefix $(call Slashify,$(cal
 # Generates the relative path components (i.e. '../') to the build
 # root from the specified path.
 
-GenerateRelativeBuildRoot	= $(call GenerateRelativeBasePath,$(1),$(call CanonicalizePath,$(BuildRoot)))
+GenerateRelativeBuildRoot               = $(call GenerateRelativeBasePath,$(1),$(call CanonicalizePath,$(BuildRoot)))
 
 # RelativeBuildRoot
 #
 # The relative path components to the build root from the current
 # directory.
 
-RelativeBuildRoot		= $(call GenerateRelativeBuildRoot,$(CURDIR))
+RelativeBuildRoot                       = $(call GenerateRelativeBuildRoot,$(CURDIR))
 
 # GenerateBaseDependNames <paths>
 #
 # Generates the name(s) of the base (non-post-processed) dependency path(s)
 # from the specified path(s).
 
-GenerateBaseDependNames		= $(call ChangeFileExtension,$(BaseDependSuffix),$(1))
+GenerateBaseDependNames                 = $(call ChangeFileExtension,$(BaseDependSuffix),$(1))
 
 # GeneratePatchedDependNames <paths>
 #
 # Generates the name(s) of the patched (post-processed) dependency path(s)
 # from the specified path(s).
 
-GeneratePatchedDependNames	= $(call ChangeFileExtension,$(PatchedDependSuffix),$(1))
+GeneratePatchedDependNames              = $(call ChangeFileExtension,$(PatchedDependSuffix),$(1))
 
 # GenerateBaseDependPaths <paths>
 #
 # Generates the path(s) of the base (non-post-processed) dependency path(s),
 # rooted in the dependency directory, from the specified path(s).
 
-GenerateBaseDependPaths		= $(call GenerateDependPaths,$(call GenerateBaseDependNames,$(1)))
+GenerateBaseDependPaths                 = $(call GenerateDependPaths,$(call GenerateBaseDependNames,$(1)))
 
 # GeneratePatchedDependPaths <paths>
 #
 # Generates the path(s) of the patched (post-processed) dependency path(s),
 # rooted in the dependency directory, from the specified path(s).
 
-GeneratePatchedDependPaths	= $(call GenerateDependPaths,$(call GeneratePatchedDependNames,$(1)))
+GeneratePatchedDependPaths              = $(call GenerateDependPaths,$(call GeneratePatchedDependNames,$(1)))
 
 # GenerateObjectNames <extension> <paths>
 #
 # Generates an object name(s) by replacing the existing file extension of
 # the specified path(s) with the supplied object extension.
 
-GenerateObjectNames		= $(call ChangeFileExtension,$(1),$(2))
+GenerateObjectNames                     = $(call ChangeFileExtension,$(1),$(2))
 
 # GenerateSharedObjectNames <paths>
 #
@@ -236,7 +236,7 @@ GenerateObjectNames		= $(call ChangeFileExtension,$(1),$(2))
 # extension of the specified path(s) with the defined shared object
 # extension.
 
-GenerateSharedObjectNames	= $(call GenerateObjectNames,$(SharedObjectSuffix),$(1))
+GenerateSharedObjectNames               = $(call GenerateObjectNames,$(SharedObjectSuffix),$(1))
 
 # GenerateStaticObjectNames <paths>
 #
@@ -244,7 +244,7 @@ GenerateSharedObjectNames	= $(call GenerateObjectNames,$(SharedObjectSuffix),$(1
 # extension of the specified path(s) with the defined static object
 # extension.
 
-GenerateStaticObjectNames	= $(call GenerateObjectNames,$(StaticObjectSuffix),$(1))
+GenerateStaticObjectNames               = $(call GenerateObjectNames,$(StaticObjectSuffix),$(1))
 
 # GenerateObjectPaths <extension> <paths>
 #
@@ -252,7 +252,7 @@ GenerateStaticObjectNames	= $(call GenerateObjectNames,$(StaticObjectSuffix),$(1
 # replacing the existing file extension of the specified path(s) with the
 # supplied object extension.
 
-GenerateObjectPaths		= $(call GenerateBuildPaths,$(notdir $(call GenerateObjectNames,$(1),$(2))))
+GenerateObjectPaths                     = $(call GenerateBuildPaths,$(notdir $(call GenerateObjectNames,$(1),$(2))))
 
 # GenerateSharedObjectPaths <paths>
 #
@@ -260,7 +260,7 @@ GenerateObjectPaths		= $(call GenerateBuildPaths,$(notdir $(call GenerateObjectN
 # directory, by replacing the existing file extension of the specified
 # path(s) with the defined shared object extension.
 
-GenerateSharedObjectPaths	= $(call GenerateBuildPaths,$(notdir $(call GenerateSharedObjectNames,$(1))))
+GenerateSharedObjectPaths               = $(call GenerateBuildPaths,$(notdir $(call GenerateSharedObjectNames,$(1))))
 
 # GenerateStaticObjectPaths <paths>
 #
@@ -268,14 +268,14 @@ GenerateSharedObjectPaths	= $(call GenerateBuildPaths,$(notdir $(call GenerateSh
 # directory, by replacing the existing file extension of the specified
 # path(s) with the defined static object extension.
 
-GenerateStaticObjectPaths	= $(call GenerateBuildPaths,$(notdir $(call GenerateStaticObjectNames,$(1))))
+GenerateStaticObjectPaths               = $(call GenerateBuildPaths,$(notdir $(call GenerateStaticObjectNames,$(1))))
 
 # GenerateLibraryNames <extension> <names>
 #
 # Generates a library name(s) by concatenating a predefined library
 # prefix, the specified name(s) and the specified library extension.
 
-GenerateLibraryNames		= $(addsuffix $(1),$(addprefix $(LibraryPrefix),$(2)))
+GenerateLibraryNames                    = $(addsuffix $(1),$(addprefix $(LibraryPrefix),$(2)))
 
 # GenerateArchiveLibraryNames <names>
 #
@@ -283,7 +283,7 @@ GenerateLibraryNames		= $(addsuffix $(1),$(addprefix $(LibraryPrefix),$(2)))
 # library prefix, the specified name(s) and the defined archive library
 # extension.
 
-GenerateArchiveLibraryNames	= $(call GenerateLibraryNames,$(ArchiveLibrarySuffix),$(1))
+GenerateArchiveLibraryNames             = $(call GenerateLibraryNames,$(ArchiveLibrarySuffix),$(1))
 
 # GenerateSharedLibraryNames <names>
 #
@@ -291,7 +291,7 @@ GenerateArchiveLibraryNames	= $(call GenerateLibraryNames,$(ArchiveLibrarySuffix
 # library prefix, the specified name(s) and the defined shared library
 # extension.
 
-GenerateSharedLibraryNames	= $(call GenerateLibraryNames,$(SharedLibrarySuffix),$(1))
+GenerateSharedLibraryNames              = $(call GenerateLibraryNames,$(SharedLibrarySuffix),$(1))
 
 # GenerateLibraryPaths <extension> <names>
 #
@@ -299,7 +299,7 @@ GenerateSharedLibraryNames	= $(call GenerateLibraryNames,$(SharedLibrarySuffix),
 # concatenating a predefined library prefix, the specified name(s) and
 # the specified library extension.
 
-GenerateLibraryPaths		= $(call GenerateResultPaths,,$(call GenerateLibraryNames,$(1),$(2)))
+GenerateLibraryPaths                    = $(call GenerateResultPaths,,$(call GenerateLibraryNames,$(1),$(2)))
 
 ##
 ## Archive Libraries
@@ -316,7 +316,7 @@ GenerateLibraryPaths		= $(call GenerateResultPaths,,$(call GenerateLibraryNames,
 # concatenating a predefined library prefix, the specified name(s) and
 # the defined archive library extension.
 
-GenerateArchiveLibraryPaths	= $(call GenerateResultPaths,,$(call GenerateArchiveLibraryNames,$(1)))
+GenerateArchiveLibraryPaths             = $(call GenerateResultPaths,,$(call GenerateArchiveLibraryNames,$(1)))
 
 # GenerateArchiveLibraryResultPaths <subdirectory> <names>
 #
@@ -324,7 +324,7 @@ GenerateArchiveLibraryPaths	= $(call GenerateResultPaths,,$(call GenerateArchive
 # directory, by concatenating a predefined library prefix, the
 # specified name(s) and the defined archive library extension.
 
-GenerateArchiveLibraryResultPaths = $(call GenerateResultPaths,$(1),$(call GenerateArchiveLibraryNames,$(2)))
+GenerateArchiveLibraryResultPaths       = $(call GenerateResultPaths,$(1),$(call GenerateArchiveLibraryNames,$(2)))
 
 ##
 ## Shared Libraries
@@ -340,7 +340,7 @@ GenerateArchiveLibraryResultPaths = $(call GenerateResultPaths,$(1),$(call Gener
 # a predefined library prefix, the specified name(s) and the defined
 # shared library extension.
 
-GenerateSharedLibraryPaths	= $(call GenerateResultPaths,,$(call GenerateSharedLibraryNames,$(1)))
+GenerateSharedLibraryPaths              = $(call GenerateResultPaths,,$(call GenerateSharedLibraryNames,$(1)))
 
 # GenerateSharedLibraryResultPaths <subdirectory> <names>
 #
@@ -348,7 +348,7 @@ GenerateSharedLibraryPaths	= $(call GenerateResultPaths,,$(call GenerateSharedLi
 # directory, by concatenating a predefined library prefix, the
 # specified name(s) and the defined shared library extension.
 
-GenerateSharedLibraryResultPaths = $(call GenerateResultPaths,$(1),$(call GenerateSharedLibraryNames,$(2)))
+GenerateSharedLibraryResultPaths        = $(call GenerateResultPaths,$(1),$(call GenerateSharedLibraryNames,$(2)))
 
 ##
 ## Programs
@@ -361,7 +361,7 @@ GenerateSharedLibraryResultPaths = $(call GenerateResultPaths,$(1),$(call Genera
 # Generates a program name(s) by concatenating a predefined program
 # prefix, the specified name(s) and a predefined program suffix.
 
-GenerateProgramNames		= $(addsuffix $(ProgramSuffix),$(addprefix $(ProgramPrefix),$(1)))
+GenerateProgramNames                    = $(addsuffix $(ProgramSuffix),$(addprefix $(ProgramPrefix),$(1)))
 
 # GenerateProgramPaths <paths>
 #
@@ -369,7 +369,7 @@ GenerateProgramNames		= $(addsuffix $(ProgramSuffix),$(addprefix $(ProgramPrefix
 # concatenating a predefined program prefix, the specified name(s) and a
 # predefined program suffix.
 
-GenerateProgramPaths		= $(call GenerateResultPaths,,$(call GenerateProgramNames,$(1)))
+GenerateProgramPaths                    = $(call GenerateResultPaths,,$(call GenerateProgramNames,$(1)))
 
 ##
 ## Images
@@ -386,10 +386,10 @@ GenerateProgramPaths		= $(call GenerateResultPaths,,$(call GenerateProgramNames,
 # Generates an image name(s) by concatenating a predefined program
 # prefix, the specified name(s) and a predefined image suffix.
 
-GenerateImageNames      = $(addsuffix $(ImageSuffix),$(addprefix $(ImagePrefix),$(1)))
-GenerateImageMapNames   = $(addsuffix $(ImageMapSuffix),$(addprefix $(ImagePrefix),$(1)))
-GenerateImageBinNames   = $(addsuffix $(ImageBinSuffix),$(addprefix $(ImagePrefix),$(1)))
-GenerateImageSrecNames   = $(addsuffix $(ImageSrecSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageNames                      = $(addsuffix $(ImageSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageMapNames                   = $(addsuffix $(ImageMapSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageBinNames                   = $(addsuffix $(ImageBinSuffix),$(addprefix $(ImagePrefix),$(1)))
+GenerateImageSrecNames                  = $(addsuffix $(ImageSrecSuffix),$(addprefix $(ImagePrefix),$(1)))
 
 # GenerateImagePaths <paths>
 #
@@ -397,11 +397,10 @@ GenerateImageSrecNames   = $(addsuffix $(ImageSrecSuffix),$(addprefix $(ImagePre
 # concatenating a predefined image prefix, the specified name(s) and a
 # predefined image suffix.
 
-GenerateImagePaths      = $(call GenerateResultPaths,,$(call GenerateImageNames,$(1)))
-GenerateImageMapPaths   = $(call GenerateResultPaths,,$(call GenerateImageMapNames,$(1)))
-GenerateImageBinPaths   = $(call GenerateResultPaths,,$(call GenerateImageBinNames,$(1)))
-GenerateImageSrecPaths   = $(call GenerateResultPaths,,$(call GenerateImageSrecNames,$(1)))
-
+GenerateImagePaths                      = $(call GenerateResultPaths,,$(call GenerateImageNames,$(1)))
+GenerateImageMapPaths                   = $(call GenerateResultPaths,,$(call GenerateImageMapNames,$(1)))
+GenerateImageBinPaths                   = $(call GenerateResultPaths,,$(call GenerateImageBinNames,$(1)))
+GenerateImageSrecPaths                  = $(call GenerateResultPaths,,$(call GenerateImageSrecNames,$(1)))
 
 ##
 ## Generations
@@ -420,8 +419,8 @@ GenerateImageSrecPaths   = $(call GenerateResultPaths,,$(call GenerateImageSrecN
 # current generation number of a program, image, archive or library
 # build.
 
-GenerationNameSuffix		= -generation
-GenerateGenerationNames		= $(addsuffix $(GenerationNameSuffix),$(call GenerateHiddenNames,$(1)))
+GenerationNameSuffix                    = -generation
+GenerateGenerationNames                 = $(addsuffix $(GenerationNameSuffix),$(call GenerateHiddenNames,$(1)))
 
 #
 # GenerateGenerationPaths <prefixes>
@@ -432,4 +431,4 @@ GenerateGenerationNames		= $(addsuffix $(GenerationNameSuffix),$(call GenerateHi
 # current generation number of a program, image, archive or library
 # build.
 
-GenerateGenerationPaths		= $(call GenerateBuildPaths,$(call GenerateGenerationNames,$(1)))
+GenerateGenerationPaths                 = $(call GenerateBuildPaths,$(call GenerateGenerationNames,$(1)))
