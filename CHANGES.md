@@ -2,6 +2,17 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.6d (2023-04-06)
+
+    * Added support for a 'PackageRoot', defaulting to the current
+      directory, for third-party archive or source packages. This
+      allows makefile(s) for the package and the metadata and archive
+      or source to be in disparate locations.
+
+    * Addressed an issue in which 'clean' and 'distclean' targets
+      would fail due to missing files or directories. Ensure that such
+      errors are always ignored in their target recipes.
+
 #### 0.9.5d (2023-04-04)
 
     * Added two functions, 'create-symlink' and
