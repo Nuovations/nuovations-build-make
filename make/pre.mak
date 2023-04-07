@@ -54,8 +54,16 @@ $(call ErrorIfUndefined,TargetOS)
 
 include pre/tools.mak
 
+# HostOS must be defined.
+
+$(call ErrorIfUndefined,HostOS)
+
+# However, host-specific suffixes may not be.
+
 -include pre/macros/$(HostOS)/environment.mak
 
+$(call ErrorIfUndefined,HostToolTuple)
+$(call ErrorIfUndefined,TargetToolTuple)
 $(call ErrorIfUndefined,ToolTuple)
 
 # MakeBuildTuple <product> <tool tuple> <configuration>
