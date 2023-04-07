@@ -31,12 +31,15 @@
 # displayed; otherwise, commands are not displayed.
 #
 
-Quiet               = @
+_BuildVerboseDefault := No
+BuildVerbose         ?= $(_BuildVerboseDefault)
+
+Quiet                := @
 
 ifneq ($(findstring s,$(MAKEFLAGS)),)
-Echo                = $(Quiet)true
-Verbose             = $(Quiet)
+Echo                  = $(Quiet)true
+Verbose               = $(Quiet)
 else
-Echo                = $(Quiet)/bin/echo
-Verbose             = $(if $(call IsYes,$(BuildVerbose)),,@)
+Echo                  = $(Quiet)/bin/echo
+Verbose               = $(if $(call IsYes,$(BuildVerbose)),,$(Quiet))
 endif
