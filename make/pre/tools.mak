@@ -24,18 +24,31 @@
 
 include host/tools.mak
 
-# Before we can source the correct make header for the desired tool
-# chain, we need to ensure that the correct tool chain tuple variables
-# are set.
+# Before we can source the correct make header for the desired target
+# or host tool chain, we need to ensure that the correct target and
+# host tool chain tuple variables are set.
 
-$(call ErrorIfUndefined,ToolVendor)
-$(call ErrorIfUndefined,ToolProduct)
-$(call ErrorIfUndefined,ToolVersion)
+$(call ErrorIfUndefined,HostToolVendor)
+$(call ErrorIfUndefined,HostToolProduct)
+$(call ErrorIfUndefined,HostToolVersion)
+
+$(call ErrorIfUndefined,TargetToolVendor)
+$(call ErrorIfUndefined,TargetToolProduct)
+$(call ErrorIfUndefined,TargetToolVersion)
 
 MakeToolTuple         = $(1)/$(2)/$(3)
 
 HostToolTuple         = $(call MakeToolTuple,$(HostToolVendor),$(HostToolProduct),$(HostToolVersion))
 TargetToolTuple       = $(call MakeToolTuple,$(TargetToolVendor),$(TargetToolProduct),$(TargetToolVersion))
+
+# Everything from here forward defaults to using Tool*, if it is a
+# variable or function not qualified with "Host" or "Target". Default
+# to the target definitions for the tool tuple values.
+
+ToolVendor            = $(TargetToolVendor)
+ToolProduct           = $(TargetToolProduct)
+ToolVersion           = $(TargetToolVersion)
+
 ToolTuple             = $(call MakeToolTuple,$(ToolVendor),$(ToolProduct),$(ToolVersion))
 
 MakeToolNameFromTuple = $(join $(notdir $(1))," $(2)")
