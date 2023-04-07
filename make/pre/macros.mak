@@ -121,7 +121,9 @@ GenerateMakeConditionalBuildQualifiedDirectory          = $(call Deslashify,$(ca
 ## Dependencies
 ##
 
-DependBaseDirectory		:= $(call GenerateHiddenNames,depend)
+DependBaseDirectoryName                := depend
+DependBaseDirectory                    := $(call GenerateHiddenNames,$(DependBaseDirectoryName))
+
 DependDirectory                         = $(call GenerateMakeConditionalBuildQualifiedDirectory,$(DependBaseDirectory))
 
 # GenerateDependPaths <paths>
@@ -137,7 +139,9 @@ GenerateDependPaths                     = $(addprefix $(call Slashify,$(DependDi
 
 # Build directories are where intermediate build result files are located.
 
-BuildBaseDirectory                     := $(call GenerateHiddenNames,build)
+BuildBaseDirectoryName                 := build
+BuildBaseDirectory                     := $(call GenerateHiddenNames,$(BuildBaseDirectoryName))
+
 BuildDirectory                          = $(call GenerateMakeConditionalBuildQualifiedDirectory,$(BuildBaseDirectory))
 
 # GenerateBuildPaths <paths>
@@ -157,7 +161,8 @@ GenerateBuildPaths                      = $(addprefix $(call Slashify,$(BuildDir
 # top of the project tree and are "public". That is, they can assume
 # to be traversed by any other command or executable in the project.
 
-ResultBaseDirectory                     = $(call Deslashify,$(call Slashify,$(call CanonicalizePath,$(BuildRoot)))results)
+ResultBaseDirectoryName                := results
+ResultBaseDirectory                     = $(call Deslashify,$(call Slashify,$(call CanonicalizePath,$(BuildRoot)))$(ResultBaseDirectoryName))
 ResultBuildDirectory                    = $(call GenerateUnconditionalBuildQualifiedDirectory,$(ResultBaseDirectory))
 
 # GenerateResultSubdirectory <subdirectory>
