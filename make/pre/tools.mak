@@ -32,11 +32,11 @@ $(call ErrorIfUndefined,ToolVendor)
 $(call ErrorIfUndefined,ToolProduct)
 $(call ErrorIfUndefined,ToolVersion)
 
-MakeToolTuple	 = $(1)/$(2)/$(3)
+MakeToolTuple         = $(1)/$(2)/$(3)
 
-ToolTuple        = $(call MakeToolTuple,$(ToolVendor),$(ToolProduct),$(ToolVersion))
+ToolTuple             = $(call MakeToolTuple,$(ToolVendor),$(ToolProduct),$(ToolVersion))
 
-MakeToolName     = $(join $(notdir $(1))," $(ToolTuple)")
+MakeToolName          = $(join $(notdir $(1))," $(ToolTuple)")
 
 # Source the make header for the target tools specified by the current
 # ToolTuple.
@@ -50,11 +50,11 @@ include target/tools/$(ToolTuple)/tools.mak
 # or later.
 #
 
-MAKESedVers	= [[:digit:]]\{1,\}\.[[:digit:]]\{1,\}
-MAKESedRegExp   = ^.*\(GNU Make $(MAKESedVers)\).*$
-MAKESedCommand  = "s/$(MAKESedRegExp)/\1/gp"
-MAKESedArgs	= $(MAKESedCommand)
+MAKESedVers           = [[:digit:]]\{1,\}\.[[:digit:]]\{1,\}
+MAKESedRegExp         = ^.*\(GNU Make $(MAKESedVers)\).*$
+MAKESedCommand        = "s/$(MAKESedRegExp)/\1/gp"
+MAKESedArgs           = $(MAKESedCommand)
 
-MAKEGrepRegExp	= ^.*\(GNU Make \(3\.8[12]\|4.[[:digit:]]*\)\).*$
-MAKEGrepPattern	= "$(MAKEGrepRegExp)"
-MAKEGrepArgs	= $(MAKEGrepPattern)
+MAKEGrepRegExp        = ^.*\(GNU Make \(3\.8[12]\|4.[[:digit:]]*\)\).*$
+MAKEGrepPattern       = "$(MAKEGrepRegExp)"
+MAKEGrepArgs          = $(MAKEGrepPattern)
