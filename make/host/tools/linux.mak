@@ -29,5 +29,5 @@ SIZE		= /usr/bin/stat -c "%s"
 # created.
 
 define host-install-result
-$(Verbose)install -D "$(<)" "$(@)"
+$(Verbose)$(INSTALL) $(INSTALLFLAGS) -D "$(<)" "$(@)"
 endef

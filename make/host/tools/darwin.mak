@@ -30,5 +30,5 @@ SIZE		= /usr/bin/stat -f "%z"
 
 define host-install-result
 $(Verbose)$(MKDIR) $(MKDIRFLAGS) "$(@D)"
-$(Verbose)install "$(<)" "$(@)"
+$(Verbose)$(INSTALL) $(INSTALLFLAGS) "$(<)" "$(@)"
 endef
