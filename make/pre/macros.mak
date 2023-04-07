@@ -97,15 +97,6 @@ GenerateMakeUnconditionalBuildQualifiedDirectory        = $(call Deslashify,$(ca
 
 GenerateConditionalBuildQualifiedDirectory              = $(call Deslashify,$(call Slashify,$(1))$(ConditionalBuildTuple))
 
-# GenerateHiddenName <names>
-#
-# Scope: Public
-#
-# Generate file names that will be, by default, hidden from a normal
-# directory listing
-
-GenerateHiddenNames		= $(addprefix $(Dot),$(1))
-
 # GenerateMakeConditionalBuildQualifiedDirectory <directory>
 #
 # Scope: Private
@@ -116,6 +107,15 @@ GenerateHiddenNames		= $(addprefix $(Dot),$(1))
 # makefile- and build-tuple-specific files.
 
 GenerateMakeConditionalBuildQualifiedDirectory          = $(call Deslashify,$(call Slashify,$(1))$(call Slashify,$(call FirstMakefile))$(ConditionalBuildTuple))
+
+# GenerateHiddenName <names>
+#
+# Scope: Public
+#
+# Generate file names that will be, by default, hidden from a normal
+# directory listing
+
+GenerateHiddenNames                     = $(addprefix $(Dot),$(1))
 
 ##
 ## Dependencies
