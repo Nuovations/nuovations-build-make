@@ -484,6 +484,16 @@ $(CleanProductConfigs):
 .PHONY: $(DistCleanBuildAction)
 $(DistCleanBuildAction): $(DistCleanProductConfigs)
 
+# Generate distclean action for a specific configuration for all products.
+#
+# Here, again, we leverage GNU make secondary expansion to make a
+# tuple consisting of the distclean build action, all products, and the
+# configuration associated with the target goal.
+
+.SECONDEXPANSION:
+.PHONY: $(DistCleanBuildConfigs)
+$(DistCleanBuildConfigs): $$(call AddTargetInfix,$$(@),$(BuildProducts))
+
 # Generate distclean action for all products.
 #
 # Here, again, we leverage GNU make secondary expansion
