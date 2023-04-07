@@ -2,6 +2,19 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.7d (2023-04-06)
+
+    * Added parallel host- and target-qualified variables, macros, and
+      functions to lay the groundwork for supporting host- or
+      target-specific builds with the eventual goal of supporting both
+      side-by-side.
+
+      - Added checks to ensure that the host OS and the host- and
+        target-qualified tool tuples are set. Default the unqualified
+        tool tuple values to their target instances.
+
+    * Added a default value for 'BuildVerbose' of 'No'.
+
 #### 0.9.6d (2023-04-06)
 
     * Added support for a 'PackageRoot', defaulting to the current
