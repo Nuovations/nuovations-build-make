@@ -20,7 +20,7 @@
 #      (i.e. non-toolchain-specific) tools used in the project.
 #
 
-# Source the make header for the host tools
+# Source the make header for the host (non-toolchain) tools
 
 include host/tools.mak
 
@@ -34,9 +34,15 @@ $(call ErrorIfUndefined,ToolVersion)
 
 MakeToolTuple         = $(1)/$(2)/$(3)
 
+HostToolTuple         = $(call MakeToolTuple,$(HostToolVendor),$(HostToolProduct),$(HostToolVersion))
+TargetToolTuple       = $(call MakeToolTuple,$(TargetToolVendor),$(TargetToolProduct),$(TargetToolVersion))
 ToolTuple             = $(call MakeToolTuple,$(ToolVendor),$(ToolProduct),$(ToolVersion))
 
-MakeToolName          = $(join $(notdir $(1))," $(ToolTuple)")
+MakeToolNameFromTuple = $(join $(notdir $(1))," $(2)")
+
+MakeHostToolName      = $(call MakeToolNameFromTuple,$(1),$(HostToolTuple))
+MakeTargetToolName    = $(call MakeToolNameFromTuple,$(1),$(TargetToolTuple))
+MakeToolName          = $(call MakeToolNameFromTuple,$(1),$(ToolTuple))
 
 # Source the make header for the target tools specified by the current
 # ToolTuple.

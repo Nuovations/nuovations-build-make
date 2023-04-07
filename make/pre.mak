@@ -68,6 +68,26 @@ $(call ErrorIfUndefined,ToolTuple)
 
 MakeBuildTuple                   = $(if $(1),$(call Slashify,$(1)),)$(if $(3),$(call Slashify,$(2)),$(2))$(if $(3),$(3),)
 
+# UnconditionalHostBuildTuple
+#
+# Scope: Private
+#
+# The current host build tuple, qualified by the current build
+# product, tool chain and build configuration, suitable for use to
+# qualify intermediate or final build results.
+
+UnconditionalHostBuildTuple     := $(call MakeBuildTuple,$(BuildProduct),$(HostToolTuple),$(BuildConfig))
+
+# UnconditionalTargetBuildTuple
+#
+# Scope: Private
+#
+# The current target build tuple, qualified by the current build
+# product, tool chain and build configuration, suitable for use to
+# qualify intermediate or final build results.
+
+UnconditionalTargetBuildTuple   := $(call MakeBuildTuple,$(BuildProduct),$(TargetToolTuple),$(BuildConfig))
+
 # UnconditionalBuildTuple
 #
 # Scope: Private
