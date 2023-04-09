@@ -41,13 +41,21 @@ TargetTuple             = $(HostTuple)
 #
 
 ifeq ($(HostOS),darwin)
-ToolVendor              = apple
-ToolProduct             = clang
+_DefaultToolVendor      = apple
+_DefaultToolProduct     = clang
 else
-ToolVendor              = gnu
-ToolProduct             = gcc
+_DefaultToolVendor      = gnu
+_DefaultToolProduct     = gcc
 endif # HostOS
-ToolVersion             = x.x.x
+_DefaultToolVersion     = x.x.x
+
+HostToolVendor          = $(_DefaultToolVendor)
+HostToolProduct         = $(_DefaultToolProduct)
+HostToolVersion         = $(_DefaultToolVersion)
+
+TargetToolVendor        = $(_DefaultToolVendor)
+TargetToolProduct       = $(_DefaultToolProduct)
+TargetToolVersion       = $(_DefaultToolVersion)
 
 #
 # Processor- and architecture-specific machine and language flags.
