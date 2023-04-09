@@ -233,8 +233,8 @@ LDOutputFlag                    = $(ClangOutputFlag)
 
 LDSharedFlag                    = -dynamiclib
 LDExportDynamicSymbols          = $(call ToolAssertLinkerFlag,-rdynamic)
-LDSharedNameFlag                = $(call ToolAssertLinkerFlag,"-install_name,")
-LDResolvePathFlag               = $(call ToolAssertLinkerFlag,"-dylib_file,:")
+LDSharedNameFlag                = $(call ToolAssertLinkerFlag,-install_name$(Comma))
+LDResolvePathFlag               = $(call ToolAssertLinkerFlag,-dylib_file$(Comma):)
 LDGCovFlag                      = --coverage -lprofile_rt
 
 # The symbol lister
