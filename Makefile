@@ -45,11 +45,12 @@ RM                   ?= rm
 RMDIR                ?= rmdir
 SED                  ?= sed
 TAR                  ?= tar
+TARFLAGS             ?= --format pax
 XZ                   ?= xz
 
 INSTALL_SCRIPT       ?= $(INSTALL) -m 755
 
-dist_tar_ARCHIVE      = $(TAR) -chof -
+dist_tar_ARCHIVE      = $(TAR) $(TARFLAGS) -chf -
 
 dist_tgz_ARCHIVE      = $(dist_tar_ARCHIVE)
 dist_tgz_COMPRESS     = $(GZIP) --best -c
@@ -339,7 +340,7 @@ stage: $(DISTFILES) $(builddir)/.local-version
 	$(call remove-dir,$(distdir))
 	$(call create-dir,$(distdir))
 	$(V_MAKE_DIST_HOOK)$(MAKE) -s distdir="$(distdir)" dist-hook
-	$(V_COPY_DISTFILES)(cd $(abs_top_srcdir); $(dist_tar_ARCHIVE) $(DISTFILES) | (cd $(abs_builddir)/$(distdir); $(TAR) xfBp -))
+	$(V_COPY_DISTFILES)(cd $(abs_top_srcdir); $(dist_tar_ARCHIVE) $(DISTFILES) | (cd $(abs_builddir)/$(distdir); $(TAR) $(TARFLAGS) -xBpf -))
 
 #
 # Produce an architecture-independent distribution using a tar archive
