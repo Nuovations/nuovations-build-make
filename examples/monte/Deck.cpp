@@ -26,6 +26,7 @@
 #include "Deck.hpp"
 
 #include <algorithm>
+#include <random>
 #include <vector>
 
 #include <stddef.h>
@@ -38,37 +39,6 @@
 
 using namespace std;
 
-
-/**
- *  @brief
- *    This effects a random number generator object that conforms to
- *    the C++ STL algorithm interface for random_shuffle.
- *
- *  The actual algorithm used is from Bjarne Stroustrup's "The C++
- *  Programming Lanuage" (3rd Edition). It is also found in Nicolai
- *  Josuttis's "The C++ Standard Template Library: A Tutorial and
- *  Reference" (p. 394).
- *
- *  Basically, it turns a random number 0 <= n < max.
- *
- */
-class Random
-{
-
-public:
-	// Con/destructors
-	Random(unsigned int inSeed) { srand(inSeed); }
-	virtual ~Random(void) { return; }
-
-	ptrdiff_t operator() (ptrdiff_t max)
-	{
-		double tmp;
-
-		tmp = static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-
-		return (static_cast<ptrdiff_t>(tmp * max));
-	}
-};
 
 /**
  *  @brief
@@ -113,9 +83,7 @@ Deck::GetCount(void) const
 void
 Deck::Shuffle(void)
 {
-	Random randomizer(time(NULL) ^ getpid());
-
-	random_shuffle(mCards.begin(), mCards.end(), randomizer);
+	shuffle(mCards.begin(), mCards.end(), default_random_engine());
 }
 
 /**
