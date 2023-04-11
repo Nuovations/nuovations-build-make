@@ -35,13 +35,8 @@ print-%:
 # variables may include $(error ...) in their expansion, causing printvars to
 # terminate early, or cause printvars to hang indefinitely.
 #
-# PackageVersion and UpdateBuildHeader cause printvars to hang because they attempt to
-# $(shell cat ...) a variable with an empty expansion.
-#
 printvars-filter := \
-	ErrorIfUndefined \
-	PackageVersion \
-	UpdateBuildHeader \
+	ErrorIfUndefined
 
 # Classes of variables, as described by $(origin ...), to exclude from the
 # output of "make printvars".
@@ -49,7 +44,7 @@ printvars-filter := \
 printvars-origin-filter := \
 	environment% \
 	default \
-	automatic \
+	automatic
 
 .PHONY: printvars
 printvars:
