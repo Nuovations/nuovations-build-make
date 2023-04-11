@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.10d (2023-05-19)
+
+    * Addressed a portability issue with the 'monte' examples program
+      under iOS/macOS/tvOS (Darwin).
+
 #### 0.9.9d (2023-04-11)
 
     * Optimized the performance of build iteration, particularly under
