@@ -480,10 +480,18 @@ $(call GenerateBuildPaths,%$(SharedObjectSuffix)): CXXFLAGS += $(CXXPICFlag)
 
 # Only add the shared object flag for static objects if 'EnableShared' is asserted.
 
-ifeq ($(call IsYes,$(EnableShared)),Y)
-$(call GenerateBuildPaths,%$(StaticObjectSuffix)): CCFLAGS  += $(CCPICFlag)
-$(call GenerateBuildPaths,%$(StaticObjectSuffix)): CXXFLAGS += $(CXXPICFlag)
-endif
+EnableShared_Y           = $(call IsYes,$(EnableShared))
+
+CCFLAGS_EnableShared_   := $(Null)
+CCFLAGS_EnableShared_N  := $(CCFLAGS_EnableShared_)
+CCFLAGS_EnableShared_Y   = $(CCPICFlag)
+
+CXXFLAGS_EnableShared_  := $(Null)
+CXXFLAGS_EnableShared_N := $(CXXFLAGS_EnableShared_)
+CXXFLAGS_EnableShared_Y  = $(CXXPICFlag)
+
+$(call GenerateBuildPaths,%$(StaticObjectSuffix)): CCFLAGS  += $(CCFLAGS_EnableShared_$(EnableShared_Y))
+$(call GenerateBuildPaths,%$(StaticObjectSuffix)): CXXFLAGS += $(CXXFLAGS_EnableShared_$(EnableShared_Y))
 
 # Handle input source files in the makefile directory with output in the build directory.
 
