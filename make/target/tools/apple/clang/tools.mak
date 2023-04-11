@@ -223,7 +223,12 @@ LinkAgainstCPlusPlus_          := N
 LinkAgainstCPlusPlus_N          = $(call IsNo,$(LinkAgainstCPlusPlus))
 LinkAgainstCPlusPlus_Y          = $(call IsYes,$(LinkAgainstCPlusPlus))
 
-LD                              = $(ToolBinDir)/$(if $(LinkAgainstCPlusPlus),clang++,clang)
+LD_LinkAgainstCPlusPlus_       := $(ToolBinDir)/clang
+LD_LinkAgainstCPlusPlus_N      := $(LD_LinkAgainstCPlusPlus_)
+LD_LinkAgainstCPlusPlus_Y       = $(ToolBinDir)/clang++
+
+LD                              = $(LD_LinkAgainstCPlusPlus_$(LinkAgainstCPlusPlus_Y))
+
 LDName                          = $(call MakeToolName,$(LD))
 LDLibraryNameFlag               = -l
 LDLibraryPathFlag               = -L
