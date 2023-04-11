@@ -669,11 +669,17 @@ LDFLAGS                           += $(LDFLAGS_UseThreadSanitizer_$(UseThreadSan
 #
 # Undefined Behavior Sanitizer
 #
-define tool-enable-undefined-sanitizer
-LANGFLAGS  += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
-LDFLAGS    += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
-endef  # tool-enable-undefined-sanitizer
 
-ifneq ($(call IsYes,$(UseUndefinedSanitizer)),)
-$(eval $(tool-enable-undefined-sanitizer))
-endif # UseUndefinedSanitizer
+UseUndefinedSanitizer_Y            = $(call IsYes,$(UseUndefinedSanitizer))
+
+LANGFLAGS_UseUndefinedSanitizer_  := $(Null)
+LANGFLAGS_UseUndefinedSanitizer_N := $(LANGFLAGS_UseUndefinedSanitizer_)
+LANGFLAGS_UseUndefinedSanitizer_Y  = $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
+
+LDFLAGS_UseUndefinedSanitizer_    := $(Null)
+LDFLAGS_UseUndefinedSanitizer_N   := $(LDFLAGS_UseUndefinedSanitizer_)
+LDFLAGS_UseUndefinedSanitizer_Y    = $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
+
+LANGFLAGS                         += $(LANGFLAGS_UseUndefinedSanitizer_$(UseUndefinedSanitizer_Y))
+
+LDFLAGS                           += $(LDFLAGS_UseUndefinedSanitizer_$(UseUndefinedSanitizer_Y))
