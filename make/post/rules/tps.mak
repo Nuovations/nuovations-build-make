@@ -62,7 +62,7 @@ replay: snapshot
 else
 .PHONY: replay
 replay: | $(ResultDirectory)
-	$(Echo) "Replaying snapshot from: $(PackageSnapshotPath)"
+	$(Echo) "Replaying snapshot from \"$(PackageSnapshotPath)\""
 	$(Echo) "Replaying snapshot to \"$(call GenerateBuildRootEllipsedPath,$(ResultDirectory))\""
 	$(Verbose)tar -C $(ResultDirectory) --bzip2 -xf $(PackageSnapshotPath)
 endif
