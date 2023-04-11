@@ -219,6 +219,10 @@ DEPENDFLAGS                     = -E -MT "$(call GenerateBuildPaths,$*.o) $@" -M
 
 # The linker
 
+LinkAgainstCPlusPlus_          := N
+LinkAgainstCPlusPlus_N          = $(call IsNo,$(LinkAgainstCPlusPlus))
+LinkAgainstCPlusPlus_Y          = $(call IsYes,$(LinkAgainstCPlusPlus))
+
 LD                              = $(ToolBinDir)/$(if $(LinkAgainstCPlusPlus),clang++,clang)
 LDName                          = $(call MakeToolName,$(LD))
 LDLibraryNameFlag               = -l
