@@ -632,15 +632,24 @@ LDFLAGS                     += $(LDFLAGS_UseCodeCoverage_$(UseCodeCoverage_Y))
 #
 # Address Sanitizer
 #
-define tool-enable-address-sanitizer
-LANGFLAGS  += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeAddress))
-LANGFLAGS  += $(call ToolDeassertLanguageFlag,$(LangOmitFramePointer))
-LANGFLAGS  += $(call ToolDeassertLanguageFlag,$(LangOptimizeSiblingCalls))
 
-LDFLAGS    += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeAddress))
-LDFLAGS    += $(call ToolDeassertLanguageFlag,$(LangOmitFramePointer))
-LDFLAGS    += $(call ToolDeassertLanguageFlag,$(LangOptimizeSiblingCalls))
-endef # tool-enable-address-sanitizer
+UseAddressSanitizer_Y            = $(call IsYes,$(UseAddressSanitizer))
+
+LANGFLAGS_UseAddressSanitizer_  := $(Null)
+LANGFLAGS_UseAddressSanitizer_N := $(LANGFLAGS_UseAddressSanitizer_)
+LANGFLAGS_UseAddressSanitizer_Y  = $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeAddress))
+LANGFLAGS_UseAddressSanitizer_Y += $(call ToolDeassertLanguageFlag,$(LangOmitFramePointer))
+LANGFLAGS_UseAddressSanitizer_Y += $(call ToolDeassertLanguageFlag,$(LangOptimizeSiblingCalls))
+
+LDFLAGS_UseAddressSanitizer_    := $(Null)
+LDFLAGS_UseAddressSanitizer_N   := $(LDFLAGS_UseAddressSanitizer_)
+LDFLAGS_UseAddressSanitizer_Y    = $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeAddress))
+LDFLAGS_UseAddressSanitizer_Y   += $(call ToolDeassertLanguageFlag,$(LangOmitFramePointer))
+LDFLAGS_UseAddressSanitizer_Y   += $(call ToolDeassertLanguageFlag,$(LangOptimizeSiblingCalls))
+
+LANGFLAGS                       += $(LANGFLAGS_UseAddressSanitizer_$(UseAddressSanitizer_Y))
+
+LDFLAGS                         += $(LDFLAGS_UseAddressSanitizer_$(UseAddressSanitizer_Y))
 
 #
 # Leak Sanitizer
@@ -665,10 +674,6 @@ define tool-enable-undefined-sanitizer
 LANGFLAGS  += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
 LDFLAGS    += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
 endef  # tool-enable-undefined-sanitizer
-
-ifneq ($(call IsYes,$(UseAddressSanitizer)),)
-$(eval $(tool-enable-address-sanitizer))
-endif # UseAddressSanitizer
 
 ifneq ($(call IsYes,$(UseLeakSanitizer)),)
 $(eval $(tool-enable-leak-sanitizer))
