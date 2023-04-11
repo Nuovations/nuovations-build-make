@@ -610,15 +610,20 @@ endef
 #
 # Code Coverage
 #
-define tool-enable-code-coverage
-LANGFLAGS  += $(GccCoverageFlag)
 
-LDFLAGS    += $(LDGCovFlag)
-endef # tool-enable-code-coverage
+UseCodeCoverage_Y            = $(call IsYes,$(UseCodeCoverage))
 
-ifneq ($(call IsYes,$(UseCodeCoverage)),)
-$(eval $(tool-enable-code-coverage))
-endif # UseCodeCoverage
+LANGFLAGS_UseCodeCoverage_  := $(Null)
+LANGFLAGS_UseCodeCoverage_N := $(LANGFLAGS_UseCodeCoverage_)
+LANGFLAGS_UseCodeCoverage_Y  = $(GccCoverageFlag)
+
+LDFLAGS_UseCodeCoverage_    := $(Null)
+LDFLAGS_UseCodeCoverage_N   := $(LDFLAGS_UseCodeCoverage_)
+LDFLAGS_UseCodeCoverage_Y    = $(LDGCovFlag)
+
+LANGFLAGS                   += $(LANGFLAGS_UseCodeCoverage_$(UseCodeCoverage_Y))
+
+LDFLAGS                     += $(LDFLAGS_UseCodeCoverage_$(UseCodeCoverage_Y))
 
 #
 # Sanitizers
