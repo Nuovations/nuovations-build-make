@@ -43,6 +43,10 @@ ToolDeassertMachineFlag         = $(call GccDeassertFlag,$(GccMachineFlag),$(1))
 
 ToolAssertLanguageSanitizerFlag = $(call ToolAssertLanguageFlag,$(LangSanitize)=$(1))
 
+UseLdAsLinker_                 := N
+UseLdAsLinker_N                 = $(call IsNo,$(UseLdAsLinker))
+UseLdAsLinker_Y                 = $(call IsYes,$(UseLdAsLinker))
+
 ifeq ($(UseLdAsLinker),1)
 GccLinkerFlag                   =
 else
