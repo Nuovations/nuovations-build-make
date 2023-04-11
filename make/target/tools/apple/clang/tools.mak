@@ -633,10 +633,20 @@ LDFLAGS                         += $(LDFLAGS_UseAddressSanitizer_$(UseAddressSan
 #
 # Leak Sanitizer
 #
-define tool-enable-leak-sanitizer
-LANGFLAGS  += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeLeak))
-LDFLAGS    += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeLeak))
-endef  # tool-enable-leak-sanitizer
+
+UseLeakSanitizer_Y                 = $(call IsYes,$(UseLeakSanitizer))
+
+LANGFLAGS_UseLeakSanitizer_       := $(Null)
+LANGFLAGS_UseLeakSanitizer_N      := $(LANGFLAGS_UseLeakSanitizer_)
+LANGFLAGS_UseLeakSanitizer_Y       = $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeLeak))
+
+LDFLAGS_UseLeakSanitizer_         := $(Null)
+LDFLAGS_UseLeakSanitizer_N        := $(LDFLAGS_UseLeakSanitizer_)
+LDFLAGS_UseLeakSanitizer_Y         = $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeLeak))
+
+LANGFLAGS                         += $(LANGFLAGS_UseLeakSanitizer_$(UseLeakSanitizer_Y))
+
+LDFLAGS                           += $(LDFLAGS_UseLeakSanitizer_$(UseLeakSanitizer_Y))
 
 #
 # Thread Sanitizer
@@ -653,10 +663,6 @@ define tool-enable-undefined-sanitizer
 LANGFLAGS  += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
 LDFLAGS    += $(call ToolAssertLanguageSanitizerFlag,$(LangSanitizeUndefined))
 endef  # tool-enable-undefined-sanitizer
-
-ifneq ($(call IsYes,$(UseLeakSanitizer)),)
-$(eval $(tool-enable-leak-sanitizer))
-endif # UseLeakSanitizer
 
 ifneq ($(call IsYes,$(UseThreadSanitizer)),)
 $(eval $(tool-enable-thread-sanitizer))
