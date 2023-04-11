@@ -35,8 +35,8 @@ SharedLibrarySuffix             = .so
 SharedLibraryMapSuffix          = .map
 
 ProgramPrefix                   =
-ProgramMapSuffix                = .map
 ProgramSuffix                   =
+ProgramMapSuffix                = .map
 
 ImageSuffix                     = .elf
 ImageMapSuffix                  = .map
