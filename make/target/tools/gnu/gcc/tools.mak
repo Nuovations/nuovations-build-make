@@ -232,11 +232,15 @@ LinkAgainstCPlusPlus_          := N
 LinkAgainstCPlusPlus_N          = $(call IsNo,$(LinkAgainstCPlusPlus))
 LinkAgainstCPlusPlus_Y          = $(call IsYes,$(LinkAgainstCPlusPlus))
 
-ifeq ($(UseLdAsLinker),1)
-LD                              = $(ToolBinDir)/$(CROSS_COMPILE)ld
-else
-LD                              = $(ToolBinDir)/$(CROSS_COMPILE)$(if $(LinkAgainstCPlusPlus),g++,gcc)
-endif
+LD_LinkAgainstCPlusPlus_       := $(ToolBinDir)/$(CROSS_COMPILE)gcc
+LD_LinkAgainstCPlusPlus_N      := $(LD_LinkAgainstCPlusPlus_)
+LD_LinkAgainstCPlusPlus_Y       = $(ToolBinDir)/$(CROSS_COMPILE)g++
+
+LD_UseLdAsLinker_              := $(Null)
+LD_UseLdAsLinker_N             := $(LD_UseLdAsLinker_)
+LD_UseLdAsLinker_Y              = $(ToolBinDir)/$(CROSS_COMPILE)ld
+
+LD                              = $(if $(LD_UseLdAsLinker_$(UseLdAsLinker_Y)),$(LD_UseLdAsLinker_$(UseLdAsLinker_Y)),$(LD_LinkAgainstCPlusPlus_$(LinkAgainstCPlusPlus_Y)))
 
 LDName                          = $(call MakeToolName,$(LD))
 LDLibraryNameFlag               = -l
