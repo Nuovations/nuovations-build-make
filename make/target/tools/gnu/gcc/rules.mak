@@ -80,10 +80,10 @@ do-check-g++: ToolPath=$(CXX)
 do-check-g++: ToolDescription="GNU C++ compiler"
 
 do-check-ld: ToolPath=$(LD)
-ifeq ($(UseLdAsLinker),1)
+ifeq ($(UseLdAsLinker_Y),Y)
 do-check-ld: ToolSedArgs=$(BinutilsSedArgs)
 do-check-ld: ToolGrepArgs=$(BinutilsGrepArgs)
-endif
+endif # ifeq ($(UseLdAsLinker_Y),Y)
 do-check-ld: ToolDescription="GNU linker"
 
 do-check-nm: ToolPath=$(NM)
