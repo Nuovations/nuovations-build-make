@@ -31,8 +31,13 @@
 # displayed; otherwise, commands are not displayed.
 #
 
-_BuildVerboseDefault := No
+_BuildVerboseDefault := N
+
 BuildVerbose         ?= $(_BuildVerboseDefault)
+
+BuildVerbose_        := $(_BuildVerboseDefault)
+BuildVerbose_N        = $(call IsNo,$(BuildVerbose))
+BuildVerbose_Y        = $(call IsYes,$(BuildVerbose))
 
 Quiet                := @
 
@@ -41,5 +46,5 @@ Echo                  = $(Quiet)true
 Verbose               = $(Quiet)
 else
 Echo                  = $(Quiet)/bin/echo
-Verbose               = $(if $(call IsYes,$(BuildVerbose)),,$(Quiet))
+Verbose               = $(if $(BuildVerbose_Y),,$(Quiet))
 endif
