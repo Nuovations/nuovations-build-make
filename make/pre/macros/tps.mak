@@ -48,10 +48,6 @@ PackageThirdPartyPath              = $(wildcard $(_PackageThirdPartyPath))
 
 _PackageHasThirdPartyPath          = $(if $(PackageThirdPartyPath),Y,N)
 
-PackageLicenseFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).license),)
-PackageURLFile                     = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).url),)
-PackageVersionFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).version),)
-
 define _package-extract-third_party-field-from-path
 $(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(2)")
 endef # _package-extract-third_party-field-from-path
@@ -61,6 +57,11 @@ $(call _package-extract-third_party-field-from-path,$(1),$(_PackageThirdPartyPat
 endef # _package-extract-third_party-field
 
 PackageName                       ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Short Name),$(Null))
+
+PackageLicenseFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).license),)
+PackageURLFile                     = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).url),)
+PackageVersionFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).version),)
+
 PackageURL                        ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),))
 PackageVersion                    ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageVersionFile)),))
 
