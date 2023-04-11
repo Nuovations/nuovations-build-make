@@ -2,19 +2,34 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.9d (2023-04-11)
+
+    * Optimized the performance of build iteration, particularly under
+      Darwin / macOS.
+
+    * Addressed an issue in which a third-party package version was
+      not correctly evaluated when using a `<package>.version` file.
+
+    * Addressed issues with `IsYes` and `IsNo` in which a variable set
+      to `1` or `0` would not correctly evaluate to `Y` or `N`,
+      respectively.
+
+    * Changed `BuildMode` to `PackageBuildMode` and assigned it a
+      default value of `stage` to avoid undefined variable warnings.
+
 #### 0.9.8d (2023-04-11)
 
     * Resolved an issue when building against Apple clang/LLVM with
       linking shared libraries.
 
     * Replaced the deprecated `std::random_shuffle` with
-      `std::shuffle` in the 'monte' example.
+      `std::shuffle` in the _monte_ example.
 
     * Addressed an issue when making a distribution of Nuovations
       Build (Make) by defaulting to the POSIX 2001 `pax` tar format
       rather than the legacy `v7` format.
 
-    * Ensure that both '{Host,Target}Tool{Vendor,Product,Version}' are
+    * Ensure that both `{Host,Target}Tool{Vendor,Product,Version}` are
       defined in the examples project reflective of the new
       requirements established in 0.9.7d.
 
