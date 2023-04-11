@@ -247,11 +247,11 @@ LDLibraryNameFlag               = -l
 LDLibraryPathFlag               = -L
 LDOutputFlag                    = $(GccOutputFlag)
 
-ifeq ($(UseLdAsLinker),1)
-LDSharedFlag                    = $(call ToolAssertLinkerFlag,-shared)
-else
-LDSharedFlag                    = -shared
-endif
+LDSharedFlag_UseLdAsLinker_    := -shared
+LDSharedFlag_UseLdAsLinker_N   := $(LDSharedFlag_UseLdAsLinker_)
+LDSharedFlag_UseLdAsLinker_Y   := $(call ToolAssertLinkerFlag,-shared)
+
+LDSharedFlag                    = $(LDSharedFlag_UseLdAsLinker_$(UseLdAsLinker_Y))
 LDExportDynamicSymbols          = $(call ToolAssertLinkerFlag,-rdynamic)
 LDSharedNameFlag                = $(call ToolAssertLinkerFlag,-soname=)
 LDResolvePathFlag               = $(call ToolAssertLinkerFlag,-rpath-link)
