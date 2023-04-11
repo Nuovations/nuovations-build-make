@@ -62,7 +62,7 @@ endef # _package-extract-third_party-field
 
 PackageName                       ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Short Name),$(Null))
 PackageURL                        ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),))
-PackageVersion                    ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageURLFile)),))
+PackageVersion                    ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageVersionFile)),))
 
 PackagePatchDir                    = $(call _GeneratePackagePaths,$(PackageName).patches)
 PackagePatchPaths                  = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
