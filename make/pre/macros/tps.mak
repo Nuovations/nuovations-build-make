@@ -38,32 +38,32 @@ _PackageRootDefault                = $(CURDIR)
 
 PackageRoot                        = $(_PackageRootDefault)
 
-PackageThirdPartyName             := README.third_party
+PackageThirdPartyReadMeName       := README.third_party
 
 _GeneratePackagePaths              = $(addprefix $(call Slashify,$(PackageRoot)),$(1))
 
-_PackageThirdPartyPath             = $(call _GeneratePackagePaths,$(PackageThirdPartyName))
+_PackageThirdPartyReadMePath       = $(call _GeneratePackagePaths,$(PackageThirdPartyReadMeName))
 
-PackageThirdPartyPath              = $(wildcard $(_PackageThirdPartyPath))
+PackageThirdPartyReadMePath        = $(wildcard $(_PackageThirdPartyReadMePath))
 
-_PackageHasThirdPartyPath          = $(if $(PackageThirdPartyPath),Y,N)
+_PackageHasThirdPartyReadMePath    = $(if $(PackageThirdPartyReadMePath),Y,N)
 
 define _package-extract-third_party-field-from-path
 $(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(2)")
 endef # _package-extract-third_party-field-from-path
 
 define _package-extract-third_party-field
-$(call _package-extract-third_party-field-from-path,$(1),$(_PackageThirdPartyPath))
+$(call _package-extract-third_party-field-from-path,$(1),$(_PackageThirdPartyReadMePath))
 endef # _package-extract-third_party-field
 
-PackageName                       ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Short Name),$(Null))
+PackageName                       ?= $(if $(call IsYes,$(_PackageThirdPartyReadMePath)),$(call _package-extract-third_party-field,Short Name),$(Null))
 
 PackageLicenseFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).license),$(Null))
 PackageURLFile                     = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).url),$(Null))
 PackageVersionFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).version),$(Null))
 
-PackageURL                        ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),$(Null)))
-PackageVersion                    ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageVersionFile)),$(Null)))
+PackageURL                        ?= $(if $(call IsYes,$(_PackageThirdPartyReadMePath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),$(Null)))
+PackageVersion                    ?= $(if $(call IsYes,$(_PackageThirdPartyReadMePath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageVersionFile)),$(Null)))
 
 PackagePatchDir                    = $(call _GeneratePackagePaths,$(PackageName).patches)
 PackagePatchPaths                  = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
