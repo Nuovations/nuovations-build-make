@@ -68,8 +68,8 @@ PackageVersion                    ?= $(if $(call IsYes,$(_PackageThirdPartyReadM
 PackagePatchDir                    = $(call _GeneratePackagePaths,$(PackageName).patches)
 PackagePatchPaths                  = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
 
-PackageSnapshotFile               := $(PackageName)-snapshot.tar.bz2
-PackageSnapshotPath               := $(call Slashify,$(PackageSnapshotDir))$(PackageSnapshotFile)
+PackageSnapshotFile                = $(PackageName)-snapshot.tar.bz2
+PackageSnapshotPath                = $(call Slashify,$(PackageSnapshotDir))$(PackageSnapshotFile)
 PackageDefaultGoal                 = $(PackageBuildMode)
 
 # expand-and-patch-package
