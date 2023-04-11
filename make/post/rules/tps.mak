@@ -25,6 +25,13 @@
 .PHONY: license local-license
 license: recursive local-license
 
+# Improve overall make iteration performance by only evaluating these
+# rules if the package name is defined, which is indicative of a
+# "glue" makefile specifically tuned to building a third-party
+# package.
+
+ifneq ($(PackageName),)
+
 # Always include in the private 'local-license' target a command that'll
 # always succeed to avoid "make[n]: Nothing to be done for `license'." 
 # messages for make files that do not have an 'license' target with
@@ -36,6 +43,16 @@ local-license: $(PackageLicenseFile)
 #
 # Third-party software snapshot/replay targets.
 #
+
+# Improve overall make iteration performance by only evaluating these
+# rules if the package build mode is not the default mode.
+#
+# This particular header evaluates about 6x more slowly if the various
+# directory and path variables have to be expanded and evaluated
+# during iteration. Consequently, only expand and evaluate when
+# necessary.
+
+ifneq ($(PackageBuildMode),$(_PackageBuildModeDefault))
 
 # Create, if necessary, the snapshot archive directory.
 
@@ -65,4 +82,9 @@ replay: | $(ResultDirectory)
 	$(Echo) "Replaying snapshot from \"$(PackageSnapshotPath)\""
 	$(Echo) "Replaying snapshot to \"$(call GenerateBuildRootEllipsedPath,$(ResultDirectory))\""
 	$(Verbose)tar -C $(ResultDirectory) --bzip2 -xf $(PackageSnapshotPath)
-endif
+endif # ifeq ($(wildcard $(PackageSnapshotPath)),)
+endif # ifneq ($(PackageBuildMode),$(_PackageBuildModeDefault))
+else
+local-license:
+	$(Quiet)true
+endif # ifneq ($(PackageName),)
