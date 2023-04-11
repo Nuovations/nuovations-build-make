@@ -228,6 +228,10 @@ DEPENDFLAGS                     = -E -MT "$(call GenerateBuildPaths,$*.o) $@" -M
 
 # The linker
 
+LinkAgainstCPlusPlus_          := N
+LinkAgainstCPlusPlus_N          = $(call IsNo,$(LinkAgainstCPlusPlus))
+LinkAgainstCPlusPlus_Y          = $(call IsYes,$(LinkAgainstCPlusPlus))
+
 ifeq ($(UseLdAsLinker),1)
 LD                              = $(ToolBinDir)/$(CROSS_COMPILE)ld
 else
