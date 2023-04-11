@@ -58,12 +58,12 @@ endef # _package-extract-third_party-field
 
 PackageName                       ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Short Name),$(Null))
 
-PackageLicenseFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).license),)
-PackageURLFile                     = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).url),)
-PackageVersionFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).version),)
+PackageLicenseFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).license),$(Null))
+PackageURLFile                     = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).url),$(Null))
+PackageVersionFile                 = $(if $(PackageName),$(call _GeneratePackagePaths,$(PackageName).version),$(Null))
 
-PackageURL                        ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),))
-PackageVersion                    ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageVersionFile)),))
+PackageURL                        ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),$(Null)))
+PackageVersion                    ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Version),$(if $(wildcard $(PackageVersionFile)),$(shell cat $(PackageVersionFile)),$(Null)))
 
 PackagePatchDir                    = $(call _GeneratePackagePaths,$(PackageName).patches)
 PackagePatchPaths                  = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
