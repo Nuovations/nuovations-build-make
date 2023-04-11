@@ -2,6 +2,31 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.8d (2023-04-11)
+
+    * Resolved an issue when building against Apple clang/LLVM with
+      linking shared libraries.
+
+    * Replaced the deprecated `std::random_shuffle` with
+      `std::shuffle` in the 'monte' example.
+
+    * Addressed an issue when making a distribution of Nuovations
+      Build (Make) by defaulting to the POSIX 2001 `pax` tar format
+      rather than the legacy `v7` format.
+
+    * Ensure that both '{Host,Target}Tool{Vendor,Product,Version}' are
+      defined in the examples project reflective of the new
+      requirements established in 0.9.7d.
+
+    * Leverage `INSTALL` and `INSTALLFLAGS` for `host-install-result`.
+
+    * Exclusively leverage variables for `distcleanall` top-level
+      target and add verbose progress output.
+
+    * Fixed (added) the `distclean` action for a specific
+      configuration for all products. So, for example, `make
+      distclean-relese` now works correctly.
+
 #### 0.9.7d (2023-04-06)
 
     * Added parallel host- and target-qualified variables, macros, and
