@@ -54,11 +54,11 @@ PackageVersionFile                 = $(if $(PackageName),$(call _GeneratePackage
 
 define _package-extract-third_party-field-from-path
 $(shell sed -n -e 's/$(1):[[:space:]]*//gp' "$(2)")
-endef
+endef # _package-extract-third_party-field-from-path
 
 define _package-extract-third_party-field
 $(call _package-extract-third_party-field-from-path,$(1),$(_PackageThirdPartyPath))
-endef
+endef # _package-extract-third_party-field
 
 PackageName                       ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,Short Name),$(Null))
 PackageURL                        ?= $(if $(call IsYes,$(_PackageHasThirdPartyPath)),$(call _package-extract-third_party-field,URL),$(if $(wildcard $(PackageURLFile)),$(shell cat $(PackageURLFile)),))
@@ -77,4 +77,4 @@ define expand-and-patch-package
 $(call expand-archive,$(call _GeneratePackagePaths,$(PackageArchive)),.)
 $(call patch-directory,$(@),$(PackagePatchArgs),$(PackagePatchPaths))
 $(Verbose)touch $(@)
-endef
+endef # expand-and-patch-package
