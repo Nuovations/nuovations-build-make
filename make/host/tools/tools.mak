@@ -25,43 +25,44 @@
 # locations (e.g. /bin, /usr/bin, /sbin, and /usr/sbin).
 #
 
-INSTALL                 = /usr/bin/install
-INSTALLFLAGS            = -C
+INSTALL                      = /usr/bin/install
+INSTALLFLAGS                 = -C
 
-MKDIR                   = mkdir
-MKDIRFLAGS              = -p
+MKDIR                        = mkdir
+MKDIRFLAGS                   = -p
 
 #
 # Use "rmdir -p --ignore-fail-on-non-empty" to remove non-empty directories
 # and their ancestors
 #
 
-RMDIR                   = rmdir
-RMDIRFLAGS              = -p --ignore-fail-on-non-empty
-ifeq ($(call IsYes,$(BuildVerbose)),Y)
-RMDIRFLAGS              += -v
-endif
+RMDIR                        = rmdir
+RMDIRFLAGS_BuildVerbose_    := $(Null)
+RMDIRFLAGS_BuildVerbose_N   := $(RMDIRFLAGS_BuildVerbose_)
+RMDIRFLAGS_BuildVerbose_Y   := -v
+RMDIRFLAGS                   = -p --ignore-fail-on-non-empty $(RMDIRFLAGS_BuildVerbose_$(call IsYes,$(BuildVerbose)))
 
-PATCH                   = patch
-PATCHFLAGS              = -s
-ifeq ($(call IsYes,$(BuildVerbose)),Y)
-RMDIRFLAGS              += --verbose
-endif
+PATCH                        = patch
+PATCHFLAGS_BuildVerbose_    := $(Null)
+PATCHFLAGS_BuildVerbose_N   := $(PATCHFLAGS_BuildVerbose_)
+PATCHFLAGS_BuildVerbose_Y   := -v
+PATCHFLAGS                   = $(PATCHFLAGS_BuildVerbose_$(BuildVerbose_Y))
 
-RM                      = rm
-RMFLAGS                 = -f
-ifeq ($(call IsYes,$(BuildVerbose)),Y)
-RMFLAGS                 += -v
-endif
+RM                           = rm
+RMFLAGS_BuildVerbose_       := $(Null)
+RMFLAGS_BuildVerbose_N      := $(RMFLAGS_BuildVerbose_)
+RMFLAGS_BuildVerbose_Y      := -v
+RMFLAGS                      = -f $(RMFLAGS_BuildVerbose_$(BuildVerbose_Y))
 
-SED                     = sed
-SEDFLAGS                =
+SED                          = sed
+SEDFLAGS                     =
+
 #
 # Script used for creating and updating build generation numbers.
 #
 
-MKGENERATION           := $(BuildRoot)/third_party/nuovations-build-make/repo/scripts/mkgeneration
-MKGENERATIONFLAGS       =
+MKGENERATION                := $(BuildRoot)/third_party/nuovations-build-make/repo/scripts/mkgeneration
+MKGENERATIONFLAGS            =
 
 # Common macro used in target commands for creating a directory as
 # the target goal.
