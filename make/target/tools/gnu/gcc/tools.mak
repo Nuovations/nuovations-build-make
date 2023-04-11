@@ -47,11 +47,11 @@ UseLdAsLinker_                 := N
 UseLdAsLinker_N                 = $(call IsNo,$(UseLdAsLinker))
 UseLdAsLinker_Y                 = $(call IsYes,$(UseLdAsLinker))
 
-ifeq ($(UseLdAsLinker),1)
-GccLinkerFlag                   =
-else
-GccLinkerFlag                   = -Wl,
-endif
+GccLinkerFlag_UseLdAsLinker_   := -Wl,
+GccLinkerFlag_UseLdAsLinker_N  := $(GccLinkerFlag_UseLdAsLinker_)
+GccLinkerFlag_UseLdAsLinker_Y   = $(Null)
+
+GccLinkerFlag                   = $(GccLinkerFlag_UseLdAsLinker_$(UseLdAsLinker_Y))
 
 GccAssertLinkerFlag             = $(if $(2),$(1)$(2))
 
