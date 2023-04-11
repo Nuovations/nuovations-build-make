@@ -126,14 +126,14 @@ Length		= $(shell echo $(1) | awk '{ print(length($$1)) }')
 # If the specified string is 1, yes, YES, y or Y, returns 'Y';
 # otherwise, ''.
 
-IsYes		= $(subst N,,$(subst 0,N,$(call Left,$(call ToUpper,$(1)),1)))
+IsYes		= $(subst 1,Y,$(subst N,,$(subst 0,N,$(call Left,$(call ToUpper,$(1)),1))))
 
 # IsNo <string>
 #
 # If the specified string is 0, no, NO, n or N, returns 'N';
 # otherwise, ''.
 
-IsNo		= $(subst Y,,$(subst 1,Y,$(call Left,$(call ToUpper,$(1)),1)))
+IsNo		= $(subst 0,N,$(subst Y,,$(subst 1,Y,$(call Left,$(call ToUpper,$(1)),1))))
 
 # Unique <string>
 #
