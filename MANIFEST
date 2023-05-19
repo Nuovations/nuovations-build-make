@@ -25,6 +25,9 @@ examples/hello/lib/hi.c
 examples/hello/lib/Makefile
 examples/hello/main.c
 examples/hello/Makefile
+examples/monte/Barrier-darwin.cpp
+examples/monte/Barrier-linux.cpp
+examples/monte/Barrier.hpp
 examples/monte/Card.cpp
 examples/monte/Card.hpp
 examples/monte/Deck.cpp
