@@ -33,11 +33,13 @@ PROGRAMS                 = \
 
 monte_SOURCES            = \
     monte.cpp              \
+    Barrier-$(TargetOS)    \
     Card.cpp               \
     Deck.cpp               \
     $(Null)
 
 monte_PRIVATE_HEADERS    = \
+    Barrier.hpp            \
     Card.hpp               \
     Deck.hpp               \
     $(Null)
