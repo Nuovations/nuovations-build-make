@@ -37,6 +37,11 @@ monte_SOURCES            = \
     Deck.cpp               \
     $(Null)
 
+monte_PRIVATE_HEADERS    = \
+    Card.hpp               \
+    Deck.hpp               \
+    $(Null)
+
 monte_LDLIBS             = \
     pthread                \
     $(Null)
