@@ -42,6 +42,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "Barrier.hpp"
 #include "Card.hpp"
 #include "Deck.hpp"
 
@@ -54,12 +55,12 @@ using namespace std;
  * This is the shared state passed to all the threads.
  */
 typedef struct {
-	pthread_barrier_t	*mBarrier;	// Shared synchronization barrier.
-	pthread_mutex_t		*mLock;		// Shared serialization lock.
-	Deck				*mPile;		// Pile of cards for the game.
-	Card				*mMonte;	// Card the player is guessing.
-	pthread_t			mGuess;		// Thread the player thinks has the card.
-	bool				*mMatch;	// Status indicating a win.
+    Barrier *          mBarrier; // Shared synchronization barrier.
+    pthread_mutex_t *  mLock;    // Shared serialization lock.
+    Deck *             mPile;    // Pile of cards for the game.
+    Card *             mMonte;   // Card the player is guessing.
+    pthread_t          mGuess;   // Thread the player thinks has the card.
+    bool *             mMatch;   // Status indicating a win.
 } ThreadState;
 
 
@@ -133,8 +134,8 @@ ThreadPlay(void *inArg)
 	// With our card drawn, wait at the serialization barrier until
 	// all other threads have also drawn a card.
 
-	status = pthread_barrier_wait(tsp.mBarrier);
-	assert(status == 0 || status == PTHREAD_BARRIER_SERIAL_THREAD);
+	status = tsp.mBarrier->Wait();
+	assert(status == 0);
 
 	// Take the serialization lock and reveal our card to the player
 	// and record whether or not there's a winning match.
@@ -174,7 +175,7 @@ main(int argc, char * const argv[])
 	pthread_t tid;
 	vector<pthread_t> threads;
 	pthread_attr_t pattr;
-	pthread_barrier_t barrier;
+	Barrier barrier;
 	pthread_mutex_t lock;
 	ThreadState arg;
 	Deck deck, pile;
@@ -235,7 +236,7 @@ main(int argc, char * const argv[])
 	 * "cards" being played.
 	 */
 
-	status = pthread_barrier_init(&barrier, NULL, kCards);
+	status = barrier.Init(kCards);
 	assert(status == 0);
 
 	status = pthread_mutex_init(&lock, NULL);
@@ -326,7 +327,7 @@ main(int argc, char * const argv[])
 	status = pthread_attr_destroy(&pattr);
 	assert(status == 0);
 
-	status = pthread_barrier_destroy(&barrier);
+	status = barrier.Shutdown();
 	assert(status == 0);
 
 	status = pthread_mutex_destroy(&lock);
