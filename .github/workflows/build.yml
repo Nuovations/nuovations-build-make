@@ -50,3 +50,23 @@ jobs:
     - name: Distribution
       run: |
         make -j dist
+
+  macos:
+    runs-on: macos-10.15
+    name: "macOS ${{matrix.compiler['name']}}"
+    strategy:
+      matrix:
+        compiler:
+          - { name: clang/LLVM, c: clang, cxx: clang++ }
+    env:
+      CC: ${{matrix.compiler['c']}}
+      CXX: ${{matrix.compiler['cxx']}}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Test
+      run: |
+        make check
+    - name: Distribution
+      run: |
+        make -j dist
