@@ -68,7 +68,7 @@ snapshot: stage $(PackageSnapshotPath)
 
 $(PackageSnapshotPath): | $(PackageSnapshotDir) $(ResultDirectory)
 	$(Echo) "Saving snapshot to \"$(@)\""
-	@rm -f $@
+	$(Verbose)$(RM) $(RMFLAGS) "$(@)"
 	$(Verbose)tar -C $(ResultDirectory) --bzip2 -cf $@ .
 	$(Verbose)chmod a-w $@
 
