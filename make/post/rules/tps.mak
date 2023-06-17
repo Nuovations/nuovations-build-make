@@ -69,8 +69,8 @@ snapshot: $(PackageSnapshotPath)
 $(PackageSnapshotPath): stage | $(PackageSnapshotDir) $(ResultDirectory)
 	$(Echo) "Saving snapshot to \"$(@)\""
 	$(Verbose)$(RM) $(RMFLAGS) "$(@)"
-	$(Verbose)tar -C $(ResultDirectory) --bzip2 -cf $@ .
-	$(Verbose)chmod a-w $@
+	$(Verbose)tar -C $(ResultDirectory) --bzip2 -cf "$(@)" .
+	$(Verbose)chmod a-w "$(@)"
 
 # Replay a snapshot file to the temporary installation area.
 ifeq ($(wildcard $(PackageSnapshotPath)),)
