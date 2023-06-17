@@ -72,6 +72,8 @@ PackageVersion                    ?= $(if $(_PackageHasThirdPartyReadMePath_Y),$
 PackagePatchDir                    = $(call _GeneratePackagePaths,$(PackageName).patches)
 PackagePatchPaths                  = $(sort $(wildcard $(PackagePatchDir)/*.patch*))
 
+PackageSnapshotDir                 = $(call Deslashify,$(CURDIR)/snapshots/$(ConditionalBuildTuple))
+
 PackageSnapshotFile                = $(PackageName)-snapshot.tar.bz2
 PackageSnapshotPath                = $(call Slashify,$(PackageSnapshotDir))$(PackageSnapshotFile)
 PackageDefaultGoal                 = $(PackageBuildMode)
