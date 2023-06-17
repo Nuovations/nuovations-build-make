@@ -62,11 +62,11 @@ $(PackageSnapshotDir):
 # Snapshot a build from the temporary installation area.
 
 .PHONY: snapshot
-snapshot: stage $(PackageSnapshotPath)
+snapshot: $(PackageSnapshotPath)
 
 # Archive the temporary installation area to a snapshot file.
 
-$(PackageSnapshotPath): | $(PackageSnapshotDir) $(ResultDirectory)
+$(PackageSnapshotPath): stage | $(PackageSnapshotDir) $(ResultDirectory)
 	$(Echo) "Saving snapshot to \"$(@)\""
 	$(Verbose)$(RM) $(RMFLAGS) "$(@)"
 	$(Verbose)tar -C $(ResultDirectory) --bzip2 -cf $@ .
