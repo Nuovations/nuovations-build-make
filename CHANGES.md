@@ -2,6 +2,12 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.11d (2023-06-16)
+
+    * Addressed an issue in which the 'snapshot' third-party package
+      target did not work correctly when there was more than one build
+      job.
+
 #### 0.9.10d (2023-05-19)
 
     * Addressed a portability issue with the 'monte' examples program
