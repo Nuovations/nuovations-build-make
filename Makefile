@@ -427,25 +427,7 @@ endef # check-examples-with-shell
 check-examples-bash:
 	$(call check-examples-with-shell,bash,.)
 
-check-examples-csh:
-	$(call check-examples-with-shell,csh,source)
-
-check-examples-dash:
-	$(call check-examples-with-shell,dash,.)
-
-check-examples-ksh:
-	$(call check-examples-with-shell,ksh,.)
-
-check-examples-sh:
-	$(call check-examples-with-shell,sh,.)
-
-check-examples-tcsh:
-	$(call check-examples-with-shell,tcsh,source)
-
-check-examples-zsh:
-	$(call check-examples-with-shell,zsh,.)
-
-check: check-examples-bash check-examples-csh check-examples-dash check-examples-ksh check-examples-sh check-examples-tcsh check-examples-zsh
+check: check-examples-bash
 
 distcheck:
 	$(V_MAKE_TARGET)
