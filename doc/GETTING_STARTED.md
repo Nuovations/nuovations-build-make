@@ -15,15 +15,15 @@ project repository and serves as the seed for that project's build system.
 Assuming that you already have a project repository established in
 git, perform the following in your project repository:
 
-```
-1. % git remote add hnuovations-build-make https://<PATH_TO_REPOSITORY>/nuovations-build-make.git
+```sh
+1. % git remote add nuovations-build-make https://<PATH_TO_REPOSITORY>/nuovations-build-make.git
 2. % git fetch nuovations-build-make
 ```
 
 By convention, the nuovations-build-make package should be placed in
 "third_party/nuovations-build-make/repo":
 
-```
+```sh
 3. % mkdir third_party
 4. % git subtree add --prefix=third_party/nuovations-build-make/repo --squash --message="Add subtree mirror of repository 'https://<PATH_TO_REPOSITORY>/nuovations-build-make.git' branch 'main' at commit 'HEAD'." nuovations-build-make HEAD
 ```
@@ -34,7 +34,7 @@ examples as templates. To do this, a convenience script has been provided
 that will get you started. You can tune and customize the results, as needed,
 for your project. From the top level of your project tree:
 
-```
+```sh
 5. % third_party/nuovations-build-make/repo/scripts/mkskeleton -I third_party/nuovations-build-make/repo/scripts/mkskeleton --package "<name>" --product "<name>"
 ```
 
