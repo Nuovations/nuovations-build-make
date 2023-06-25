@@ -329,7 +329,7 @@ GenerateLibraryArguments        = $(foreach library,$(1),$(call GenerateLibraryA
 #
 # Let's say that target foo depends on libbar.so and that libbar.so
 # depends on liba.so and libb.so. Without specifying resolve paths,
-# foo would need to link against lbar, la and lb. The first makes
+# foo would need to link against bar, a and b. The first makes
 # sense; however, the latter two would be surprising because, to the user
 # of the 'bar' library, they are effectively hidden. Nonetheless, the
 # linker still needs to know they exist and can be, eventually, resolved.
@@ -352,9 +352,9 @@ GenerateLibraryArguments        = $(foreach library,$(1),$(call GenerateLibraryA
 # resolve paths, the names can be resolved without having those
 # "missing" libraries end up in the "NEEDED" section of the target.
 
-GenerateResolvePathArgument     = $(call ToolGenerateArgument,$(LDResolvePathFlag),$(1))
+GenerateResolvePathArgument     = $(LDResolvePathFlag) $(call ToolAssertLinkerFlag,$(1))
 
-GenerateResolveArgument         = $(call GenerateResolvePathArgument,$(dir $(1)))
+GenerateResolveArgument         = $(call GenerateResolvePathArgument,$(call Deslashify,$(dir $(1))))
 
 GenerateResolveArguments        = $(foreach library,$(1),$(call GenerateResolveArgument,$(library)))
 
