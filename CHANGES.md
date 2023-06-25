@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.12d (2023-06-24)
+
+    * Addressed an issue in which linker resolve path arguments did
+      not work correctl with GCC and GCC-based toolchains.
+
 #### 0.9.11d (2023-06-16)
 
     * Addressed an issue in which the 'snapshot' third-party package
