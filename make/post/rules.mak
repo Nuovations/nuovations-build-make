@@ -689,7 +689,7 @@ $(HeaderTargets):
 local-all: $(TARGETS) $(DEPENDS) $(HEADERS)
 	$(Quiet)true
 
-local-prepare: $(BuildDirectory) $(ResultDirectory) $(ResultIncDir) $(PrepareTargets) $(HEADERS)
+local-prepare: $(BuildDirectory) $(ResultDirectory) $(PrepareTargets) $(HEADERS)
 	$(Quiet)true
 
 $(foreach target,$(PrepareTargets),$(eval $(call DEPEND_template,$(target))))
