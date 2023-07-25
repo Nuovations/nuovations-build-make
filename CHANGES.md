@@ -2,6 +2,17 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.13d (2023-07-25)
+
+    * Added the `-t` batch flag to patch to avoid hanging builds with
+      interactive user input prompts.
+
+    * Added the `copy-and-enable-user-executable` and
+      `copy-and-enable-user-executable-result` macros. These copy a
+      regular file and enable user execute permissions on the
+      destination. These are most commonly used for scripts (for
+      example, bash, perl, python, etc.).
+
 #### 0.9.12d (2023-06-24)
 
     * Addressed an issue in which linker resolve path arguments did
