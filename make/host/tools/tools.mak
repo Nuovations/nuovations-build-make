@@ -131,6 +131,31 @@ $(Echo) "Moving \"$(call GenerateBuildRootEllipsedPath,$@)\""
 $(Verbose)mv -f "$(<)" "$(@)"
 endef
 
+# copy-and-enable-user-executable <source> <destination>
+#
+# Common macro to copy the specified regular file and enable user
+# execute permission on the destination. This is most commonly used
+# for scripts (for example, bash, perl, python, etc.).
+
+define copy-and-enable-user-executable
+$(Echo) "Copying and adding user execute permissions to \"$(call GenerateBuildRootEllipsedPath,$(2))\""
+$(Verbose)$(RM) $(RMFLAGS) "$(2)" "$(2)-t"
+$(Verbose)cp "$(1)" "$(2)-t"
+$(Verbose)chmod +x "$(2)-t"
+$(Verbose)mv "$(2)-t" "$(2)"
+endef # copy-and-enable-user-executable
+
+# copy-and-enable-user-executable-result
+#
+# Common macro to copy the specified regular file from a target
+# dependency and enable user execute permission on the destination as
+# the target goal. This is most commonly used for scripts (for
+# example, bash, perl, python, etc.).
+
+define copy-and-enable-user-executable-result
+$(call copy-and-enable-user-executable,$(<),$(@))
+endef # copy-and-enable-user-executable-result
+
 # Common macro used in target commands for installing a file as the
 # target goal from the target dependency. Any missing parent
 # directories in the target result are created, differing from
