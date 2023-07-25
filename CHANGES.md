@@ -5,7 +5,7 @@
 #### 0.9.12d (2023-06-24)
 
     * Addressed an issue in which linker resolve path arguments did
-      not work correctl with GCC and GCC-based toolchains.
+      not work correctly with GCC and GCC-based toolchains.
 
 #### 0.9.11d (2023-06-16)
 
