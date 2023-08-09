@@ -30,6 +30,12 @@ PACKAGE              := nuovations-build-make
 TARGET               := $(PACKAGE)
 
 #
+# Make Jobs
+#
+
+JOBS                 ?= $(shell getconf _NPROCESSORS_ONLN)
+
+#
 # Tools
 #
 CAT                  ?= cat
@@ -360,12 +366,73 @@ $(dist_txz_TARGETS): stage
 # Produce an architecture-independent distribution of the
 # nlbuild-autotools core.
 #
+
 dist: $(DIST_TARGETS) $(builddir)/.local-version
 	$(call remove-dir,$(distdir))
 
 dist-tgz: $(dist_tgz_TARGETS)
 
 dist-txz: $(dist_txz_TARGETS)
+
+check-clean-examples:
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-examples-debug
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-examples-development
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-examples-release
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-debug
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-development
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-release
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean-examples
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples clean
+
+check-distclean-examples: check-clean-examples
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-examples-debug
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-examples-development
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-examples-release
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-debug
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-development
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-release
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean-examples
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples distclean
+
+check-examples: check-clean-examples check-distclean-examples
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples examples-debug
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples examples-development
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples examples-release
+	+$(V_AT)$(MAKE) -j $(JOBS) -C examples examples
+	+$(V_AT)$(MAKE) check-clean-examples
+	+$(V_AT)$(MAKE) check-distclean-examples
+
+#
+# check-examples-with-shell <shell name> <shell source command>
+#
+# Check the package by running the examples against a particular shell.
+# to be updated.
+#
+# This performs the following steps:
+#
+#   1. Displays progress about the target being made, the shell being
+#      invoked, and the make being performed for 'examples'.
+#   2. Invokes the specified shell with the '-c' option, changing
+#      directory to 'examples', sourcing the appropriate shell-specific
+#      build environment setup script, and then re-invoking this makefile
+#      from that shell with the 'check-examples' target.
+#
+define check-examples-with-shell
+$(V_MAKE_TARGET)
+$(V_PROGRESS) "$(shell echo $(1) | tr '[[:lower:]]' '[[:upper:]]')" "$(shell which $(1))"
+$(V_PROGRESS) "MAKE" "examples"
+$(V_AT)$(1) -c 'cd examples && $(2) build/scripts/environment/setup.$(1) && $(MAKE) -C $(CURDIR) check-examples'
+endef # check-examples-with-shell
+
+check-examples-bash:
+	$(call check-examples-with-shell,bash,.)
+
+check: check-examples-bash
+
+distcheck:
+	$(V_MAKE_TARGET)
+	+$(V_AT)$(MAKE) check
+	+$(V_AT)$(MAKE) -j $(JOBS) dist
 
 clean-local:
 	$(V_PROGRESS) "CLEAN" "."
