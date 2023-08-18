@@ -988,9 +988,9 @@ ifndef NoCheckToolVersions
 
 define check-tool-version
 	$(Echo) -n "Checking $(ToolDescription) version..."
-	$(Verbose)version=`$(ToolPath) $(ToolVersionArgs) 2>&1 | $(SED) $(SEDFLAGS) -n -e $(ToolSedArgs)` ; \
+	$(Verbose)version=`$(ToolPath) $(ToolVersionArgs) 2>&1 | $(SED) $(SEDFLAGS) -n -r -e $(ToolSedArgs)` ; \
 	echo $$version; \
-	echo $$version | $(GREP) $(GREPFLAGS) -q $(ToolGrepArgs); \
+	echo $$version | $(GREP) $(GREPFLAGS) -q -E $(ToolGrepArgs); \
 	if [ $$? -ne 0 ]; then \
 		echo "Unexpected version for \"$(ToolPath)\"!"; \
 		false; \

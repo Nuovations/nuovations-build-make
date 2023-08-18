@@ -62,11 +62,13 @@ ToolSedArgs=$(ClangSedArgs)
 ToolGrepArgs=$(ClangGrepArgs)
 ToolVersionArgs="--version"
 
-# Apple's clang/LLVM ar does not support a version option, just emit
-# and match "<none>".
+# Apple's clang/LLVM 'ar' does not exist and, by extension does not
+# support a version option. Use sed to delete all lines but the last
+# one, and replace the last line with "<none>" to just emit and match
+# "<none>".
 
 do-check-ar: ToolPath=$(AR)
-do-check-ar: ToolSedArgs='$$a<none>'
+do-check-ar: ToolSedArgs='1,1!d;s,^.+$$,<none>,gp'
 do-check-ar: ToolGrepArgs='<none>'
 do-check-ar: ToolDescription="clang/LLVM archiver"
 
@@ -88,27 +90,33 @@ do-check-ld: ToolDescription="clang/LLVM linker"
 do-check-nm: ToolPath=$(NM)
 do-check-nm: ToolDescription="clang/LLVM symbol lister"
 
-# Apple's clang/LLVM objcopy does not exist and, by extension does not
-# support a version option, just emit and match "<none>".
+# Apple's clang/LLVM 'objcopy' does not exist and, by extension does not
+# support a version option. Use sed to delete all lines but the last
+# one, and replace the last line with "<none>" to just emit and match
+# "<none>".
 
 do-check-objcopy: ToolPath="echo <none>"
-do-check-objcopy: ToolSedArgs='$$a<none>'
+do-check-objcopy: ToolSedArgs='1,1!d;s,^.+$$,<none>,gp'
 do-check-objcopy: ToolGrepArgs='<none>'
 do-check-objcopy: ToolDescription="clang/LLVM file translator"
 
-# Apple's clang/LLVM ranlib does not support a version option, just emit
-# and match "<none>".
+# Apple's clang/LLVM 'ranlib' does not exist and, by extension does not
+# support a version option. Use sed to delete all lines but the last
+# one, and replace the last line with "<none>" to just emit and match
+# "<none>".
 
 do-check-ranlib: ToolPath=$(RANLIB)
-do-check-ranlib: ToolSedArgs='$$a<none>'
+do-check-ranlib: ToolSedArgs='1,1!d;s,^.+$$,<none>,gp'
 do-check-ranlib: ToolGrepArgs='<none>'
 do-check-ranlib: ToolDescription="clang/LLVM library indexer"
 
-# Apple's clang/LLVM strip does not support a version option, just emit
-# and match "<none>".
+# Apple's clang/LLVM 'strip' does not exist and, by extension does not
+# support a version option. Use sed to delete all lines but the last
+# one, and replace the last line with "<none>" to just emit and match
+# "<none>".
 
 do-check-strip: ToolPath=$(STRIP)
-do-check-strip: ToolSedArgs='$$a<none>'
+do-check-strip: ToolSedArgs='1,1!d;s,^.+$$,<none>,gp'
 do-check-strip: ToolGrepArgs='<none>'
 do-check-strip: ToolDescription="clang/LLVM symbol stripper"
 

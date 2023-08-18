@@ -69,11 +69,11 @@ include target/tools/$(ToolTuple)/tools.mak
 # or later.
 #
 
-MAKESedVers           = [[:digit:]]\{1,\}\.[[:digit:]]\{1,\}
-MAKESedRegExp         = ^.*\(GNU Make $(MAKESedVers)\).*$
+MAKESedVers           = [[:digit:]]{1,}\.[[:digit:]]{1,}
+MAKESedRegExp         = ^.*(GNU Make $(MAKESedVers)).*$
 MAKESedCommand        = "s/$(MAKESedRegExp)/\1/gp"
 MAKESedArgs           = $(MAKESedCommand)
 
-MAKEGrepRegExp        = ^.*\(GNU Make \(3\.8[12]\|4.[[:digit:]]*\)\).*$
+MAKEGrepRegExp        = ^.*(GNU Make (3\.8[12]|4.[[:digit:]]*)).*$
 MAKEGrepPattern       = "$(MAKEGrepRegExp)"
 MAKEGrepArgs          = $(MAKEGrepPattern)

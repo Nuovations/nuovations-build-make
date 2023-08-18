@@ -352,24 +352,24 @@ ClangSedVendor          = Apple
 # The name of the clang/LLVM-based tool, which can be one or more of any
 # character, other than space (' ').
 
-ClangSedTool            = [^ ]\+
+ClangSedTool            = [^ ]+
 
 # The version of the clang/LLVM-based tool, which must be precisely a
 # two- or three-digit tuple where each tuple is one or more digits, separated
 # by a period (.).
 
-ClangSedVers            = \([[:digit:]]\{1,\}\.*\)\{2,3\}
+ClangSedVers            = ([[:digit:]]{1,}.*){2,3}
 
 # The build of the clang/LLVM-based tool, which can be any non-empty set of characters.
 
-ClangSedBuild           = .\+
+ClangSedBuild           = .+
 
 # The form of the version string for clang/LLVM-based tools is "{<tool
 # vendor><space>}<tool name><space>version<space><version><not digit
 # or period>(<distribution-specific build>)" where braced ('{...}')
 # sequences are optional.
 
-ClangSedRegExp          = ^\($(ClangSedVendor)\)*[[:space:]]*\($(ClangSedTool)\)[[:space:]]version[[:space:]]\($(ClangSedVers)\)[[:space:]](\($(ClangSedBuild)\))$$
+ClangSedRegExp          = ^($(ClangSedVendor))*[[:space:]]*($(ClangSedTool))[[:space:]]version[[:space:]]($(ClangSedVers))[[:space:]]\(($(ClangSedBuild))\)$$
 
 # The sed 's' command that will match, extract, and process the
 # version and build.
@@ -380,7 +380,7 @@ ClangSedArgs            = $(ClangSedCommand)
 # The grep regular expression, pattern, and arguments used to match
 # the expected version.
 
-ClangGrepRegExp         = ^\($(ClangVersRegExp)[[:space:]](Apple*[[:space:]]*$(ClangBuildRegExp)\))$$
+ClangGrepRegExp         = ^($(ClangVersRegExp)[[:space:]]\(Apple*[[:space:]]*$(ClangBuildRegExp))\)$$
 ClangGrepPattern        = "$(ClangGrepRegExp)"
 ClangGrepArgs           = $(ClangGrepPattern)
 
@@ -545,7 +545,7 @@ endef
 # objects and the dependency file itself on the dependencies.
 
 define tool-process-depend
-$(Verbose)$(SED) $(SEDFLAGS) 's#\(.\{1,\}/$*\)\.\([[:graph:]]\{1,\}\)[[:space:]]*:#\1.\2 $<:#g' < $(call CanonicalizePath,$(<)) > $@
+$(Verbose)$(SED) $(SEDFLAGS) -r -e 's#(.{1,}/$*)\.([[:graph:]]{1,})[[:space:]]*:#\1.\2 $<:#g' < $(call CanonicalizePath,$(<)) > $@
 endef
 
 # Transform a set of objects into an archive library file.

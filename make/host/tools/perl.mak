@@ -20,7 +20,7 @@
 #
 
 ifndef PerlVersion
-export PerlVersion := $(shell perl -V:version | $(SED) $(SEDFLAGS) -n -e "s/^version='\(.\{1,\}\)';$$/\1/gp")
+export PerlVersion := $(shell perl -V:version | $(SED) $(SEDFLAGS) -n -r -e "s/^version='(.{1,})';$$/\1/gp")
 endif
 
 ifndef PerlSiteDir

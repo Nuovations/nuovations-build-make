@@ -53,14 +53,14 @@ IsPath				= $(if $(findstring $(Slash),$(1)),$(1),)
 # If the path is relative (i.e. does not contain a leading directory
 # delimiter), the path is returned.
 
-IsRelativePath			= $(shell echo $(1) | $(SED) $(SEDFLAGS) -ne '/^[^/]/p')
+IsRelativePath			= $(shell echo $(1) | $(SED) $(SEDFLAGS) -nre '/^[^/]/p')
 
 # IsAbsolutePath <path>
 #
 # If the path is absolute (i.e. contains a leading directory
 # delimiter), the path is returned.
 
-IsAbsolutePath			= $(shell echo $(1) | $(SED) $(SEDFLAGS) -ne '/^[/]/p')
+IsAbsolutePath			= $(shell echo $(1) | $(SED) $(SEDFLAGS) -nre '/^[/]/p')
 
 # FilterRelativePaths <paths>
 #
@@ -79,7 +79,7 @@ FilterAbsolutePaths		= $(foreach path,$(1),$(call IsAbsolutePath,$(path)))
 # Generates the relative path of the specified directory to the base
 # directory.
 
-GenerateRelativeBasePath	= $(shell echo $(1) | $(SED) $(SEDFLAGS) -e s,$(call Slashify,$(2)),,g -e 's/[^\/]\{1,\}\(\/*\)/..\1/g')
+GenerateRelativeBasePath	= $(shell echo $(1) | $(SED) $(SEDFLAGS) -re s,$(call Slashify,$(2)),,g -re 's/[^\/]{1,}(\/*)/..\1/g')
 
 # RemovePath <path> <base>
 #
