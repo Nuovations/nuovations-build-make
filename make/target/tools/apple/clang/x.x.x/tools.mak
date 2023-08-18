@@ -20,21 +20,21 @@
 #      clang/LLVM, any version.
 #
 
-ToolRoot		= /
+ToolRoot            = /
 
 # We'll accept any x.x or x.x.x version of clang/LLVM with any build cruft
 # trailing behind the version number.
 
-ClangVersRegExp		= ([[:digit:]]{1,}\.*){2,3}
-ClangBuildRegExp	= .+
+ClangVersRegExp     = ([[:digit:]]{1,}\.*){2,3}
+ClangBuildRegExp    = .+
 
-XcodeBinDir		= $(ToolRoot)usr/bin
-XcodeIncDir		= $(ToolRoot)usr/include
-XcodeLibDir		= $(ToolRoot)usr/lib
+XcodeBinDir         = $(ToolRoot)usr/bin
+XcodeIncDir         = $(ToolRoot)usr/include
+XcodeLibDir         = $(ToolRoot)usr/lib
 
-ToolBinDir		= $(XcodeBinDir)
-ToolIncDir		= $(XcodeIncDir)
-ToolLibDir		= $(XcodeLibDir)
+ToolBinDir          = $(XcodeBinDir)
+ToolIncDir          = $(XcodeIncDir)
+ToolLibDir          = $(XcodeLibDir)
 
 # Include the Apple clang/LLVM common definitions
 

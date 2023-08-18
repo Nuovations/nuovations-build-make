@@ -20,28 +20,28 @@
 #      Compiler Collection (GCC), any version.
 #
 
-ToolRoot		= /usr
-ToolPrefix              = $(CROSS_COMPILE)
+ToolRoot            = /usr
+ToolPrefix          = $(CROSS_COMPILE)
 
 # We'll accept any x.x or x.x.x version of GCC with any build cruft
 # trailing behind the version number.
 
-GccVersRegExp		= ([[:digit:]]{1,}\.*){2,3}
-GccBuildRegExp		= .+
+GccVersRegExp       = ([[:digit:]]{1,}\.*){2,3}
+GccBuildRegExp      = .+
 
 # We'll accept any version of binutils with any build cruft trailing
 # behind the version number.
 
-BinutilsVersRegExp	= [[:digit:]]{1,}\.([[:digit:]]{1,}[-.]*){1,}
-BinutilsBuildRegExp	= .*
+BinutilsVersRegExp  = [[:digit:]]{1,}\.([[:digit:]]{1,}[-.]*){1,}
+BinutilsBuildRegExp = .*
 
-GccBinDir		= $(ToolRoot)/bin
-GccIncDir		= $(ToolRoot)/include
-GccLibDir		= $(ToolRoot)/lib
+GccBinDir           = $(ToolRoot)/bin
+GccIncDir           = $(ToolRoot)/include
+GccLibDir           = $(ToolRoot)/lib
 
-ToolBinDir		= $(GccBinDir)
-ToolIncDir		= $(GccIncDir)
-ToolLibDir		= $(GccLibDir)
+ToolBinDir          = $(GccBinDir)
+ToolIncDir          = $(GccIncDir)
+ToolLibDir          = $(GccLibDir)
 
 # Include the GCC common definitions.
 
