@@ -88,7 +88,7 @@ do-check-ld: ToolDescription="clang/LLVM linker"
 do-check-nm: ToolPath=$(NM)
 do-check-nm: ToolDescription="clang/LLVM symbol lister"
 
-# Apple's clang/LLVM ojbcopy does not exist and, by extension does not
+# Apple's clang/LLVM objcopy does not exist and, by extension does not
 # support a version option, just emit and match "<none>".
 
 do-check-objcopy: ToolPath="echo <none>"
