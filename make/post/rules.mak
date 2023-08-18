@@ -988,7 +988,7 @@ ifndef NoCheckToolVersions
 
 define check-tool-version
 	$(Echo) -n "Checking $(ToolDescription) version..."
-	$(Verbose)version=`$(ToolPath) $(ToolVersionArgs) 2>&1 | $(SED) -n -e $(ToolSedArgs)` ; \
+	$(Verbose)version=`$(ToolPath) $(ToolVersionArgs) 2>&1 | $(SED) $(SEDFLAGS) -n -e $(ToolSedArgs)` ; \
 	echo $$version; \
 	echo $$version | grep -q $(ToolGrepArgs); \
 	if [ $$? -ne 0 ]; then \
