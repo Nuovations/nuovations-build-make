@@ -25,6 +25,9 @@
 # locations (e.g. /bin, /usr/bin, /sbin, and /usr/sbin).
 #
 
+GREP                         = grep
+GREPFLAGS                    =
+
 INSTALL                      = /usr/bin/install
 INSTALLFLAGS                 = -C
 
