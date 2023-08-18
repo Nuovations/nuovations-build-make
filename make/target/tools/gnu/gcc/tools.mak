@@ -377,16 +377,16 @@ GccSedTool              = [^ ]\+
 # two- or three-digit tuple where each tuple is one or more digits, separated
 # by a period (.).
 
-GccSedVers              = \([[:digit:]]\{1,\}\.*\)\{2,3\}
+GccSedVers              = ([[:digit:]]{1,}\.*){2,3}
 
 # The build of the GCC-based tool, which can be any non-empty set of characters.
 
-GccSedBuild             = \(.\+\)
+GccSedBuild             = (.+)
 
 # The form of the version string for GCC-based tools is "<tool name><space>
 # (<distribution-specific build>)<space><version><not digit or period>.
 
-GccSedRegExp            = ^\($(GccSedTool)\)[[:space:]]($(GccSedBuild))[[:space:]]\($(GccSedVers)\)[^[:digit:].]*$$
+GccSedRegExp            = ^($(GccSedTool))[[:space:]]\($(GccSedBuild)\)[[:space:]]($(GccSedVers))[^[:digit:].]*$$
 
 # The sed 's' command that will match, extract, and process the
 # version and build.
@@ -397,7 +397,7 @@ GccSedArgs              = $(GccSedCommand)
 # The grep regular expression, pattern, and arguments used to match
 # the expected version.
 
-GccGrepRegExp           = ^\($(GccVersRegExp)[[:space:]]*($(GccBuildRegExp))\)$$
+GccGrepRegExp           = ^($(GccVersRegExp)[[:space:]]*($(GccBuildRegExp)))$$
 GccGrepPattern          = "$(GccGrepRegExp)"
 GccGrepArgs             = $(GccGrepPattern)
 
@@ -405,17 +405,17 @@ GccGrepArgs             = $(GccGrepPattern)
 # Macros for checking binutils tool versions
 #
 
-BinutilsSedTool         = [^ ]\{1,\}
-BinutilsSedCruft        = \(version \|(.\{1,\}) \)*
-BinutilsSedVers         = \([[:digit:]]\{1,\}[-.]*\)\{1,\}
-BinutilsSedBuild        = .\{1,\}
+BinutilsSedTool         = [^ ]{1,}
+BinutilsSedCruft        = (version |\(.{1,}\) )*
+BinutilsSedVers         = ([[:digit:]]{1,}[-.]*){1,}
+BinutilsSedBuild        = .{1,}
 
-BinutilsSedRegExp       = ^GNU \(${BinutilsSedTool}\) ${BinutilsSedCruft}\(${BinutilsSedVers}\)\( *${BinutilsSedBuild}\)*$$
+BinutilsSedRegExp       = ^GNU (${BinutilsSedTool}) ${BinutilsSedCruft}(${BinutilsSedVers})( *${BinutilsSedBuild})*$$
 
 BinutilsSedCommand      = "s/$(BinutilsSedRegExp)/\3\5/gp"
 BinutilsSedArgs         = $(BinutilsSedCommand)
 
-BinutilsGrepRegExp      = ^\($(BinutilsVersRegExp) *$(BinutilsBuildRegExp)\)$$
+BinutilsGrepRegExp      = ^($(BinutilsVersRegExp) *$(BinutilsBuildRegExp))$$
 BinutilsGrepPattern     = "$(BinutilsGrepRegExp)"
 BinutilsGrepArgs        = $(BinutilsGrepPattern)
 
@@ -580,7 +580,7 @@ endef
 # objects and the dependency file itself on the dependencies.
 
 define tool-process-depend
-$(Verbose)$(SED) $(SEDFLAGS) 's#\(.\{1,\}/$*\)\.\([[:graph:]]\{1,\}\)[[:space:]]*:#\1.\2 $<:#g' < $(call CanonicalizePath,$(<)) > $@
+$(Verbose)$(SED) $(SEDFLAGS) -r -e 's#(.{1,}/$*)\.([[:graph:]]{1,})[[:space:]]*:#\1.\2 $<:#g' < $(call CanonicalizePath,$(<)) > $@
 endef
 
 # Transform a set of objects into an archive library file.

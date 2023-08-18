@@ -53,7 +53,7 @@ _PackageHasThirdPartyReadMePath_N := $(_PackageHasThirdPartyReadMePath_)
 _PackageHasThirdPartyReadMePath_Y  = $(_PackageHasThirdPartyReadMePath)
 
 define _package-extract-third_party-field-from-path
-$(shell $(SED) $(SEDFLAGS) -n -e 's/$(1):[[:space:]]*//gp' "$(2)")
+$(shell $(SED) $(SEDFLAGS) -n -r -e 's/$(1):[[:space:]]*//gp' "$(2)")
 endef # _package-extract-third_party-field-from-path
 
 define _package-extract-third_party-field
