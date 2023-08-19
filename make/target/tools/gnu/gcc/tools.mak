@@ -371,7 +371,7 @@ GenerateResolveArguments        = $(foreach library,$(1),$(call GenerateResolveA
 # The name of the GCC-based tool, which can be one or more of any
 # character, other than space (' ').
 
-GccSedTool              = [^ ]\+
+GccSedTool              = [^ ]+
 
 # The version of the GCC-based tool, which must be precisely a
 # two- or three-digit tuple where each tuple is one or more digits, separated
