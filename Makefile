@@ -427,10 +427,13 @@ endef # check-examples-with-shell
 check-examples-bash:
 	$(call check-examples-with-shell,bash,.)
 
+check-examples-dash:
+	$(call check-examples-with-shell,dash,.)
+
 check-examples-zsh:
 	$(call check-examples-with-shell,zsh,.)
 
-check: check-examples-bash check-examples-zsh
+check: check-examples-bash check-examples-dash check-examples-zsh
 
 distcheck:
 	$(V_MAKE_TARGET)
