@@ -433,13 +433,16 @@ check-examples-csh:
 check-examples-dash:
 	$(call check-examples-with-shell,dash,.)
 
+check-examples-sh:
+	$(call check-examples-with-shell,sh,.)
+
 check-examples-tcsh:
 	$(call check-examples-with-shell,tcsh,source)
 
 check-examples-zsh:
 	$(call check-examples-with-shell,zsh,.)
 
-check: check-examples-bash check-examples-csh check-examples-dash check-examples-tcsh check-examples-zsh
+check: check-examples-bash check-examples-csh check-examples-dash check-examples-sh check-examples-tcsh check-examples-zsh
 
 distcheck:
 	$(V_MAKE_TARGET)
