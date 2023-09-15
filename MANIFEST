@@ -53,6 +53,7 @@ make/post/rules/pretty.mak
 make/post/rules/print.mak
 make/post/rules/tps.mak
 make/pre/host.mak
+make/pre/jobs.mak
 make/pre/macros/constants.mak
 make/pre/macros/darwin/environment.mak
 make/pre/macros/darwin/suffixes.mak
