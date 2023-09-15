@@ -54,6 +54,8 @@ $(call ErrorIfUndefined,TargetOS)
 
 include pre/tools.mak
 
+include pre/jobs.mak
+
 # HostOS must be defined.
 
 $(call ErrorIfUndefined,HostOS)
