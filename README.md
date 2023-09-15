@@ -1,6 +1,7 @@
 [![Build Status][nuovations-build-make-github-action-svg]][nuovations-build-make-github-action]
+
 [nuovations-build-make-github]: https://github.com/nuovations/nuovations-build-make
-[nuovations-build-make-github-action]: https://github.com/nuovations/nuovations-build-make/actions?query=workflow%3Abuild+branch%3Amain+event%3Apush
+[nuovations-build-make-github-action]: https://github.com/nuovations/nuovations-build-make/actions?query=branch%3Amain+event%3Apush+workflow%3ABuild
 [nuovations-build-make-github-action-svg]: https://github.com/nuovations/nuovations-build-make/actions/workflows/build.yml/badge.svg?branch=main&event=push
 
 Nuovations Build (Make)
