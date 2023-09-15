@@ -2,6 +2,24 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.14d (2023-09-14)
+
+    * Added three new pre-defined build/make jobs-related variables:
+      `BuildJobsDefault`, the default recommended number of make build
+      jobs, based on the number of processors currently available or
+      online; `BuildJobs`, the number of build jobs specified at the
+      time of `make` invocation on the command line, parsed from
+      `MAKEFLAGS`; and `MAKEJOBSFLAG`, the make jobs flag argument to
+      add or pass to `make` (for example, `-j4`), based on
+      `BuildJobs`.
+
+    * Addressed issues with and improved portability across Linux and
+      macOS through portable use of 'grep' and 'sed'.
+
+    * Added continuous integration support and testing for the
+      following shells from the project top-level `make check` make
+      file target: bash, csh, dash, sh, tcsh, and zsh.
+
 #### 0.9.13d (2023-07-25)
 
     * Added the `-t` batch flag to patch to avoid hanging builds with
