@@ -40,7 +40,11 @@ CPPOPTFLAGS             += $(MACHFLAGS)
 CCLANGSTDFLAGS          += $(call ToolAssertLanguageStandardFlag,$(LangStandardC2011))
 CXXLANGSTDFLAGS         += $(call ToolAssertLanguageStandardFlag,$(LangStandardCxx2014))
 
+CCOPTIMIZER              = $(OPTIMIZER)
+
 CCOPTFLAGS              += $(CCLANGSTDFLAGS) $(CCLANGFLAGS) $(LANGFLAGS)
+
+CXXOPTIMIZER             = $(OPTIMIZER)
 
 CXXOPTFLAGS             += $(CXXLANGSTDFLAGS) $(CXXLANGFLAGS) $(LANGFLAGS)
 
