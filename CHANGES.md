@@ -2,6 +2,23 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.15d (2023-10-31)
+
+    * Split the `create-directory` and `install-result` macros into
+      two: `create-directory` and `create-directory-result` and
+      `install` and `install-result`. This expands on and follows the
+      existing pattern of <*> and <*>-result macros in which the
+      former operates on an explicit argument(s) and the latter
+      operates on the built-in make target result (`$(@)`) and target
+      dependency (`$(<)`) variables.
+
+    * Added the `OptimizeDebug` optimizer level flag (corresponding to
+      '-Og') to both GCC and clang/LLVM.
+
+    * Added the tool-specific '{AS,CC,CXX}OPTIMIZER' flag variables
+      for the assembler, C compiler, and C++ compiler, respectively,
+      to GCC and clang/LLVM.
+
 #### 0.9.14d (2023-09-14)
 
     * Added three new pre-defined build/make jobs-related variables:
