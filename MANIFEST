@@ -124,9 +124,16 @@ make/target/tools/mentor/sourcery-codebench/rules.mak
 make/target/tools/mentor/sourcery-codebench/tools.mak
 MANIFEST
 README.md
+scripts/environment/setup.bash
 scripts/environment/setup.csh
+scripts/environment/setup.dash
+scripts/environment/setup.ksh
 scripts/environment/setup.sh
+scripts/environment/setup.tcsh
+scripts/environment/setup.zsh
+scripts/mkgeneration
 scripts/mkskeleton
+scripts/mkversion
 scripts/printenv
 templates/product.mak
 templates/Project.mak
