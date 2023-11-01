@@ -23,11 +23,13 @@
 LNDIR		= cp -rs
 SIZE		= /usr/bin/stat -c "%s"
 
-# Host-dependent implementation of the macro used in target commands
-# for installing a file as the target goal from the target
-# dependency. Any missing parent directories in the target result are
-# created.
+# host-install <source path> <destination path>
+#
+# Host-dependent implementation of the macro for installing a
+# destination file from a source file.
+#
+# Any missing parent directories in the destination path are created.
 
-define host-install-result
-$(Verbose)$(INSTALL) $(INSTALLFLAGS) -D "$(<)" "$(@)"
+define host-install
+$(Verbose)$(INSTALL) $(INSTALLFLAGS) -D "$(1)" "$(2)"
 endef
