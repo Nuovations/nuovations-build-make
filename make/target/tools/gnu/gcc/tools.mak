@@ -74,6 +74,7 @@ ProfileFlag                     = -pg
 
 # Optimizer variables
 
+OptimizeDebug                   = -Og
 OptimizeNone                    = -O0
 OptimizeLeast                   = -O1
 OptimizeLess                    = -O1
