@@ -57,7 +57,7 @@ ifneq ($(PackageBuildMode),$(_PackageBuildModeDefault))
 # Create, if necessary, the snapshot archive directory.
 
 $(PackageSnapshotDir):
-	$(create-directory)
+	$(create-directory-result)
 
 # Snapshot a build from the temporary installation area.
 

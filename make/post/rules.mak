@@ -1033,7 +1033,7 @@ do-check-make:
 # might all effectively be the same directory.
 
 $(DependDirectory) $(BuildDirectory) $(ResultDirectory):
-	$(create-directory)
+	$(create-directory-result)
 
 # Since the timestamp on directories change every time a file is
 # added, specify the parent directory of these paths as an order-only
