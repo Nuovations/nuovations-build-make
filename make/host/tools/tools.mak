@@ -67,12 +67,23 @@ SEDFLAGS                     =
 MKGENERATION                := $(BuildRoot)/third_party/nuovations-build-make/repo/scripts/mkgeneration
 MKGENERATIONFLAGS            =
 
-# Common macro used in target commands for creating a directory as
-# the target goal.
+# create-directory <path name>
+#
+# Common macro used for creating a directory from the specified path
+# name.
 
 define create-directory
-$(Echo) "Creating \"$(call GenerateBuildRootEllipsedPath,$@)\""
-$(Verbose)$(MKDIR) $(MKDIRFLAGS) $@
+$(Echo) "Creating \"$(call GenerateBuildRootEllipsedPath,$(1))\""
+$(Verbose)$(MKDIR) $(MKDIRFLAGS) "$(1)"
+endef
+
+# create-directory-result
+#
+# Common macro used in target commands for creating a directory as
+# the target built-in make variable.
+
+define create-directory-result
+$(call create-directory,$(@))
 endef
 
 # Common macro used in target distclean commands for removing all
