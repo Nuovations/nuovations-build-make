@@ -65,6 +65,7 @@ ProfileFlag                        = -pg
 
 # Optimizer variables
 
+OptimizeDebug                      = -Og
 OptimizeNone                       = -O0
 OptimizeLeast                      = -O1
 OptimizeLess                       = -O1
@@ -155,7 +156,7 @@ ASName                             = $(call MakeToolName,$(AS))
 ASInputFlag                        = $(ClangInputFlag)
 ASOutputFlag                       = $(ClangOutputFlag)
 
-ASFLAGS                           += $(ASOPTFLAGS) $(ASWARNINGS) $(ClangNoLinkFlag)
+ASFLAGS                           += $(ASOPTIMIZER) $(ASOPTFLAGS) $(ASWARNINGS) $(ClangNoLinkFlag)
 
 # The C preprocessor
 
@@ -185,7 +186,7 @@ CCOutputFlag                       = $(ClangOutputFlag)
 CCPICFlag                          = $(ClangPICFlag)
 CCCoverageFlag                     = $(ClangCoverageFlag)
 
-CCFLAGS                            = $(CCOPTFLAGS) $(CCWARNINGS)
+CCFLAGS                            = $(CCOPTIMIZER) $(CCOPTFLAGS) $(CCWARNINGS)
 
 # The C++ compiler
 
@@ -198,7 +199,7 @@ CXXOutputFlag                      = $(ClangOutputFlag)
 CXXPICFlag                         = $(ClangPICFlag)
 CXXCoverageFlag                    = $(ClangCoverageFlag)
 
-CXXFLAGS                           = $(CXXOPTFLAGS) $(CXXWARNINGS)
+CXXFLAGS                           = $(CXXOPTIMIZER) $(CXXOPTFLAGS) $(CXXWARNINGS)
 
 # The Objective C compiler flag
 
