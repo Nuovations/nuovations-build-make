@@ -170,17 +170,34 @@ define copy-and-enable-user-executable-result
 $(call copy-and-enable-user-executable,$(<),$(@))
 endef # copy-and-enable-user-executable-result
 
+# install <source path> <destination path>
+#
+# Common macro for installing a destination file from a source file.
+#
+# Any missing parent directories in the destination path are created.
+#
+# This is conducted in a host-dependent fashion.
+
+define install
+$(Echo) "Installing \"$(call GenerateBuildRootEllipsedPath,$(2))\""
+$(call host-install,$(1),$(2))
+endef # install
+
+# install-result
+#
 # Common macro used in target commands for installing a file as the
-# target goal from the target dependency. Any missing parent
-# directories in the target result are created, differing from
-# copy-result above in which parent directories MUST exist.
+# target goal from the target dependency, using the corresponding
+# built-in make variables, $(@) and $(<), respectively.
+#
+# Any missing parent directories in the target result are created,
+# differing from copy-result above in which parent directories MUST
+# exist.
 #
 # This is conducted in a host-dependent fashion.
 
 define install-result
-$(Echo) "Installing \"$(call GenerateBuildRootEllipsedPath,$@)\""
-$(host-install-result)
-endef
+$(call install,$(<),$(@))
+endef # install-result
 
 # expand-archive <source archive> <destination directory>
 #

@@ -23,12 +23,14 @@
 LNDIR		= lndir -silent
 SIZE		= /usr/bin/stat -f "%z"
 
-# Host-dependent implementation of the macro used in target commands
-# for installing a file as the target goal from the target
-# dependency. Any missing parent directories in the target result are
-# created.
+# host-install <source path> <destination path>
+#
+# Host-dependent implementation of the macro for installing a
+# destination file from a source file.
+#
+# Any missing parent directories in the destination path are created.
 
-define host-install-result
-$(Verbose)$(MKDIR) $(MKDIRFLAGS) "$(@D)"
-$(Verbose)$(INSTALL) $(INSTALLFLAGS) "$(<)" "$(@)"
+define host-install
+$(Verbose)$(MKDIR) $(MKDIRFLAGS) "$(dir $(1))"
+$(Verbose)$(INSTALL) $(INSTALLFLAGS) "$(1)" "$(2)"
 endef
