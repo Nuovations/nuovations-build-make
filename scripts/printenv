@@ -39,7 +39,11 @@ FilterOut()
     path="$(eval echo \${${1}})"
     variable="\${${1}}"
 
-    sed -r -e 's,'"${path}"','"${variable}"',g'
+    if [ -n "${path}" ]; then
+        sed -r -e 's,'"${path}"','"${variable}"',g'
+    else
+        cat
+    fi
 }
 
 # SetIfPresent <path>
