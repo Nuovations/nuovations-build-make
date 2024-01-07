@@ -2,6 +2,14 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.16d (2024-01-06)
+
+    * Address two issues with `printenv` in _scripts/printenv_. The
+      first issue was that it failed to correctly handle an empty
+      `BuildRoot` or `HOME` environment variable. The second issue
+      was that it failed to properly substitute these same variables
+      on output.
+
 #### 0.9.15d (2023-10-31)
 
     * Split the `create-directory` and `install-result` macros into
