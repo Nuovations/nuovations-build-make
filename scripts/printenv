@@ -36,7 +36,10 @@
 
 FilterOut()
 {
-    sed -e "s,${1},\${${1}},g"
+    path="$(eval echo \${${1}})"
+    variable="\${${1}}"
+
+    sed -r -e 's,'"${path}"','"${variable}"',g'
 }
 
 # SetIfPresent <path>
