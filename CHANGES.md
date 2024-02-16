@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.17d (2024-02-16)
+
+    * Addressed an issue in which header targets were not being
+      removed against the 'clean' and 'distclean' target goals.
+
 #### 0.9.16d (2024-01-06)
 
     * Address two issues with `printenv` in _scripts/printenv_. The
