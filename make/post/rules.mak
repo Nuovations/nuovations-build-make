@@ -961,7 +961,7 @@ DependPaths             = $(BaseDependPaths) $(PatchedDependPaths)
 BuildPaths              += $(OBJECTS)
 BuildPaths		+= $(GENERATIONS)
 
-ResultPaths             += $(ArchiveTargets) $(LibraryTargets) $(ProgramTargets) $(ImageTargets)
+ResultPaths             += $(HeaderTargets) $(ArchiveTargets) $(LibraryTargets) $(ProgramTargets) $(ImageTargets)
 
 # These are what post.mak will rely upon to include in all makefiles
 # that include post.mak.
