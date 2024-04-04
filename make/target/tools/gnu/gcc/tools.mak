@@ -208,7 +208,7 @@ CXXOutputFlag                   = $(GccOutputFlag)
 CXXPICFlag                      = $(GccPICFlag)
 CXXCoverageFlag                 = $(GccCoverageFlag)
 
-CXXFLAGS                        = $(CXXOPTIMZER) $(CXXOPTFLAGS) $(CXXWARNINGS)
+CXXFLAGS                        = $(CXXOPTIMIZER) $(CXXOPTFLAGS) $(CXXWARNINGS)
 
 # The Objective C compiler flag
 
