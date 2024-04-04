@@ -2,6 +2,10 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.18d (2024-04-03)
+
+    * Addressed a typo of `CXXOPTIMIZER` for GCC-based tool chains.
+
 #### 0.9.17d (2024-02-16)
 
     * Addressed an issue in which header targets were not being
