@@ -792,12 +792,16 @@ $(1)_ARCHIVE := $(1)
 $(1)_STARGET := $$(call GenerateArchiveLibraryPaths,$(1))
 
 $(1): $$($(1)_STARGET)
+$$($(1)_SOBJECTS): | $$($(1)_DEPDIRS)
+$$($(1)_STARGET):  | $$($(1)_DEPDIRS)
 $$($(1)_STARGET): $$($(1)_SOBJECTS)
 
 $(1)_GENERATION := $$(call GenerateGenerationPaths,$(1))
 GENERATIONS += $$($(1)_GENERATION)
 $$($(1)_GENERATION): $$($(1)_SOBJECTS)
 $$($(1)_STARGET): $$($(1)_GENERATION)
+
+ForeignSubdirDependencies += $$($(1)_DEPDIRS)
 
 # These conditional assignments are per object.
 $$(call ASSIGNMENT_template,$(1),_DEPENDS,CPPFLAGS,+=)
@@ -809,6 +813,9 @@ $$(call ASSIGNMENT_template,$(1),_SOBJECTS,INCLUDES,+=)
 $$(call ASSIGNMENT_template,$(1),_SOBJECTS,DEFINES,+=)
 $$(call ASSIGNMENT_template,$(1),_SOBJECTS,UNDEFINES,+=)
 $$(call ASSIGNMENT_template,$(1),_SOBJECTS,WARNINGS,+=)
+
+# These conditional assignments are per target.
+$$(call ASSIGNMENT_template,$(1),_STARGET,DEPDIRS,+=)
 endef # ARCHIVE_template
 
 $(foreach archive,$(ARCHIVES),$(eval $(call ARCHIVE_template,$(archive))))
@@ -840,6 +847,8 @@ $(1)_LIBRARY := $(1)
 $(1)_DTARGET := $$(call GenerateSharedLibraryPaths,$(1))
 
 $(1): $$($(1)_DTARGET)
+$$($(1)_DOBJECTS): | $$($(1)_DEPDIRS)
+$$($(1)_DTARGET):  | $$($(1)_DEPDIRS)
 $$($(1)_DTARGET): $$($(1)_DOBJECTS)
 $$($(1)_DTARGET): $$($(1)_DEPLIBS)
 
@@ -847,6 +856,8 @@ $(1)_GENERATION := $$(call GenerateGenerationPaths,$(1))
 GENERATIONS += $$($(1)_GENERATION)
 $$($(1)_GENERATION): $$($(1)_DOBJECTS)
 $$($(1)_DTARGET): $$($(1)_GENERATION)
+
+ForeignSubdirDependencies += $$($(1)_DEPDIRS)
 
 # These conditional assignments are per object.
 $$(call ASSIGNMENT_template,$(1),_DEPENDS,CPPFLAGS,+=)
@@ -860,6 +871,7 @@ $$(call ASSIGNMENT_template,$(1),_DOBJECTS,UNDEFINES,+=)
 $$(call ASSIGNMENT_template,$(1),_DOBJECTS,WARNINGS,+=)
 
 # These conditional assignments are per target.
+$$(call ASSIGNMENT_template,$(1),_DTARGET,DEPDIRS,+=)
 $$(call ASSIGNMENT_template,$(1),_DTARGET,DEPLIBS,+=)
 $$(call ASSIGNMENT_template,$(1),_DTARGET,LDLIBS,+=)
 $$(call ASSIGNMENT_template,$(1),_DTARGET,RESLIBS,+=)
@@ -897,6 +909,8 @@ $(1)_PROGRAM := $(1)
 $(1)_PTARGET := $$(call GenerateProgramPaths,$(1))
 
 $(1): $$($(1)_PTARGET)
+$$($(1)_POBJECTS): | $$($(1)_DEPDIRS)
+$$($(1)_PTARGET):  | $$($(1)_DEPDIRS)
 $$($(1)_PTARGET): $$($(1)_POBJECTS)
 $$($(1)_PTARGET): $$($(1)_DEPLIBS)
 
@@ -909,6 +923,8 @@ ifeq ($(TargetTuple),$(HostTuple))
 $(1)_ETARGET := $(addprefix execute-,$(1))
 $$($(1)_ETARGET): $$($(1)_PTARGET)
 endif
+
+ForeignSubdirDependencies += $$($(1)_DEPDIRS)
 
 # These conditional assignments are per object.
 $$(call ASSIGNMENT_template,$(1),_DEPENDS,CPPFLAGS,+=)
@@ -923,6 +939,7 @@ $$(call ASSIGNMENT_template,$(1),_POBJECTS,WARNINGS,+=)
 
 # These conditional assignments are per target.
 $$(call ASSIGNMENT_template,$(1),_PTARGET,LDFLAGS,+=)
+$$(call ASSIGNMENT_template,$(1),_PTARGET,DEPDIRS,+=)
 $$(call ASSIGNMENT_template,$(1),_PTARGET,DEPLIBS,+=)
 $$(call ASSIGNMENT_template,$(1),_PTARGET,LDLIBS,+=)
 $$(call ASSIGNMENT_template,$(1),_PTARGET,RESLIBS,+=)
@@ -1088,6 +1105,7 @@ local-distclean: clean
 	$(call remove-empty-directory-and-ancestors, $(DependDirectory))
 	$(call remove-empty-directory-and-ancestors, $(ResultDirectory))
 
+include post/rules/foreigndeps.mak
 include post/rules/help.mak
 include post/rules/print.mak
 include post/rules/pretty.mak
