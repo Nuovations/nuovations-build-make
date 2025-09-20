@@ -2,6 +2,12 @@
 
 ## Nuovations Build (Make)
 
+#### 0.9.19d (2025-09-20)
+
+    * Addressed an issue in which CMake-built projects failed due to
+      leading white space on ccache-driven toolchain variable values,
+      including CPP, CC, and CXX.
+
 #### 0.9.18d (2024-04-03)
 
     * Addressed a typo of `CXXOPTIMIZER` for GCC-based tool chains.
