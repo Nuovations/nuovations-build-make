@@ -160,7 +160,7 @@ ASFLAGS                           += $(ASOPTIMIZER) $(ASOPTFLAGS) $(ASWARNINGS) 
 
 # The C preprocessor
 
-CPP                               := $(CCACHE) $(ToolBinDir)/cpp
+CPP                               := $(strip $(CCACHE) $(ToolBinDir)/cpp)
 CPPName                            = $(call MakeToolName,$(CPP))
 CPPDefineFlag                      = -D
 CPPUndefineFlag                    = -U
@@ -177,7 +177,7 @@ CPPFLAGS                           = $(CPPOPTFLAGS) \
 
 # The C compiler
 
-CC                                := $(CCACHE) $(ToolBinDir)/clang
+CC                                := $(strip $(CCACHE) $(ToolBinDir)/clang)
 CCName                             = $(call MakeToolName,$(CC))
 CCNoAssembleFlag                   = $(ClangNoAssembleFlag)
 CCNoLinkFlag                       = $(ClangNoLinkFlag)
@@ -190,7 +190,7 @@ CCFLAGS                            = $(CCOPTIMIZER) $(CCOPTFLAGS) $(CCWARNINGS)
 
 # The C++ compiler
 
-CXX                               := $(CCACHE) $(ToolBinDir)/clang++
+CXX                               := $(strip $(CCACHE) $(ToolBinDir)/clang++)
 CXXName                            = $(call MakeToolName,$(CXX))
 CXXNoAssembleFlag                  = $(ClangNoAssembleFlag)
 CXXNoLinkFlag                      = $(ClangNoLinkFlag)

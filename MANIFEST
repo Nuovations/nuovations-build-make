@@ -4,6 +4,7 @@ doc/GETTING_STARTED.md
 doc/REQUIREMENTS.md
 examples/build/make/products/examples.mak
 examples/Examples.mak
+examples/Makefile
 examples/.gitignore
 examples/hello/include/alphabet.h
 examples/hello/include/bye.h
