@@ -473,6 +473,44 @@ $(call GenerateBuildPaths,%$(StaticObjectSuffix)): %.s79 | $(DependDirectory) $(
 # Shared and Static Object Implicit Pattern Rules
 #
 
+# OBJECT_RULE_template <source-suffix> <recipe-name>
+#
+# Instantiates separate single-target pattern rules for the shared
+# and static object outputs, both driven by the same recipe. The
+# recipe produces whichever output $@ names; the per-suffix CCFLAGS
+# / CXXFLAGS overrides (PIC vs non-PIC) select correctly because
+# they're already keyed on SharedObjectSuffix vs StaticObjectSuffix.
+#
+# make-4.3 introduced grouped multi-target pattern rules; make-4.4
+# introduced warnings the the deprecation of non-grouped multi-target
+# pattern rules; and some version of make in the future will deprecate
+# them entirely. This is the post-make-4.4 form. Multi-target pattern
+# rules (%$(SharedObjectSuffix) %$(StaticObjectSuffix) on a single
+# rule) now imply grouped-target semantics, requiring the recipe to
+# produce all peers; these recipes produce only one output per
+# invocation.
+
+define OBJECT_RULE_template
+$$(call GenerateBuildPaths,%$$(SharedObjectSuffix)): $(1) | $$(DependDirectory) $$(BuildDirectory)
+	$$($(2))
+
+$$(call GenerateBuildPaths,%$$(StaticObjectSuffix)): $(1) | $$(DependDirectory) $$(BuildDirectory)
+	$$($(2))
+endef # OBJECT_RULE_template
+
+# AUTOGEN_OBJECT_RULE_template <source-suffix> <recipe-name>
+#
+# As OBJECT_RULE_template, but for auto-generated sources whose
+# inputs already live in the build directory.
+
+define AUTOGEN_OBJECT_RULE_template
+$$(call GenerateBuildPaths,%$$(SharedObjectSuffix)): $$(call GenerateBuildPaths,$(1)) | $$(DependDirectory) $$(BuildDirectory)
+	$$($(2))
+
+$$(call GenerateBuildPaths,%$$(StaticObjectSuffix)): $$(call GenerateBuildPaths,$(1)) | $$(DependDirectory) $$(BuildDirectory)
+	$$($(2))
+endef # AUTOGEN_OBJECT_RULE_template
+
 # Unconditionally add the shared object flag for shared objects.
 
 $(call GenerateBuildPaths,%$(SharedObjectSuffix)): CCFLAGS  += $(CCPICFlag)
@@ -495,127 +533,49 @@ $(call GenerateBuildPaths,%$(StaticObjectSuffix)): CXXFLAGS += $(CXXFLAGS_Enable
 
 # Handle input source files in the makefile directory with output in the build directory.
 
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.c.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c-or-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.m.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-objective-c-or-objective-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cc.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cp.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cxx.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cpp.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.CPP.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.c++.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.C.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.mm.i | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-objective-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.c | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c-or-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.m | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-objective-c-or-objective-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cc | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cp | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cxx | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.cpp | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.CPP | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.c++ | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.C | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): %.mm | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-objective-c++)
+$(eval $(call OBJECT_RULE_template,%.c.i,compile-and-assemble-c-or-c++))
+$(eval $(call OBJECT_RULE_template,%.m.i,compile-and-assemble-objective-c-or-objective-c++))
+$(eval $(call OBJECT_RULE_template,%.cc.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.cp.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.cxx.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.cpp.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.CPP.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.c++.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.C.i,compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.mm.i,compile-and-assemble-objective-c++))
+$(eval $(call OBJECT_RULE_template,%.c,preprocess-compile-and-assemble-c-or-c++))
+$(eval $(call OBJECT_RULE_template,%.m,preprocess-compile-and-assemble-objective-c-or-objective-c++))
+$(eval $(call OBJECT_RULE_template,%.cc,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.cp,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.cxx,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.cpp,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.CPP,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.c++,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.C,preprocess-compile-and-assemble-c++))
+$(eval $(call OBJECT_RULE_template,%.mm,preprocess-compile-and-assemble-objective-c++))
 
 # Handle auto-generated input source files with output in the same build directory.
 
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c-or-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.m.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-objective-c-or-objective-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cc.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cp.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cxx.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cpp.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.CPP.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c++.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.C.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.mm.i) | $(DependDirectory) $(BuildDirectory)
-	$(compile-and-assemble-objective-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c-or-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.m) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-objective-c-or-objective-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cc) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cp) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cxx) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.cpp) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.CPP) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.c++) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.C) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-c++)
-
-$(call GenerateBuildPaths,%$(SharedObjectSuffix) %$(StaticObjectSuffix)): $(call GenerateBuildPaths,%.mm) | $(DependDirectory) $(BuildDirectory)
-	$(preprocess-compile-and-assemble-objective-c++)
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.c.i,compile-and-assemble-c-or-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.m.i,compile-and-assemble-objective-c-or-objective-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cc.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cp.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cxx.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cpp.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.CPP.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.c++.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.C.i,compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.mm.i,compile-and-assemble-objective-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.c,preprocess-compile-and-assemble-c-or-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.m,preprocess-compile-and-assemble-objective-c-or-objective-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cc,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cp,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cxx,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.cpp,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.CPP,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.c++,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.C,preprocess-compile-and-assemble-c++))
+$(eval $(call AUTOGEN_OBJECT_RULE_template,%.mm,preprocess-compile-and-assemble-objective-c++))
 
 #
 # Explicit targets
