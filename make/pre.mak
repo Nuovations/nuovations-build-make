@@ -26,6 +26,17 @@ include pre/host.mak
 
 include pre/macros.mak
 
+_BuildHostSpecializedDefault    := No
+BuildHostSpecialized            ?= $(_BuildHostSpecializedDefault)
+
+# If BuildHostSpecialized is explicitly satisfying 'IsYes', then
+# specialize the build for the host and source the project-specific
+# specialization header. Otherwise, specialize the build for target
+# products.
+
+ifeq ($(call IsYes,$(BuildHostSpecialized)),Y)
+include host-specialization.mak
+else
 $(call ErrorIfUndefined,BuildProduct)
 
 # Determine all potential project-sourced product makefiles.
@@ -43,6 +54,7 @@ include $(BuildProductMakefile)
 $(call ErrorIfUndefined,BuildConfig)
 
 include configs/$(BuildConfig).mak
+endif # BuildHostSpecialized=Y
 
 # A TargetOS must be defined.
 

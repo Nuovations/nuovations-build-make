@@ -41,13 +41,15 @@ MakeToolTuple         = $(1)/$(2)/$(3)
 HostToolTuple         = $(call MakeToolTuple,$(HostToolVendor),$(HostToolProduct),$(HostToolVersion))
 TargetToolTuple       = $(call MakeToolTuple,$(TargetToolVendor),$(TargetToolProduct),$(TargetToolVersion))
 
-# Everything from here forward defaults to using Tool*, if it is a
-# variable or function not qualified with "Host" or "Target". Default
-# to the target definitions for the tool tuple values.
-
+ifeq ($(call IsYes,$(BuildHostSpecialized)),Y)
+ToolVendor            = $(HostToolVendor)
+ToolProduct           = $(HostToolProduct)
+ToolVersion           = $(HostToolVersion)
+else
 ToolVendor            = $(TargetToolVendor)
 ToolProduct           = $(TargetToolProduct)
 ToolVersion           = $(TargetToolVersion)
+endif # BuildHostSpecialized=Y
 
 ToolTuple             = $(call MakeToolTuple,$(ToolVendor),$(ToolProduct),$(ToolVersion))
 
