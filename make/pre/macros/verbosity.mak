@@ -41,7 +41,7 @@ BuildVerbose_Y        = $(call IsYes,$(BuildVerbose))
 
 Quiet                := @
 
-ifneq ($(findstring s,$(MAKEFLAGS)),)
+ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
 Echo                  = $(Quiet)true
 Verbose               = $(Quiet)
 else
