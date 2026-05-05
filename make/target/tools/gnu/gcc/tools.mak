@@ -587,8 +587,15 @@ endef
 # Transform a set of objects into an archive library file.
 
 define tool-create-archive-library
-$(Verbose)$(AR) $(ARFLAGS) $(AROutputFlag) $@ $(ARInputFlag) $(filter-out $($(patsubst $(LibraryPrefix)%,%,$(notdir $(basename $@)))_GENERATION),$(?))
-$(Verbose)$(RANLIB) $(RANLIBFLAGS) $@
+$(Verbose)set -e; \
+    tmp="$@.$$$$"; \
+    trap 'rm -f "$$tmp"' EXIT INT TERM HUP; \
+    rm -f "$$tmp"; \
+    if [ -f "$@" ]; then cp -f "$@" "$$tmp"; else :; fi; \
+    $(AR) $(ARFLAGS) $(AROutputFlag) "$$tmp" $(ARInputFlag) \
+        $(filter-out $($(patsubst $(LibraryPrefix)%,%,$(notdir $(basename $@)))_GENERATION),$(?)); \
+    $(RANLIB) $(RANLIBFLAGS) "$$tmp"; \
+    mv -f "$$tmp" "$@"
 endef
 
 # Transform a set of objects into a shared library file.
@@ -608,6 +615,7 @@ endef
 define tool-link-image
 $(Verbose)$(LD) $(LDFLAGS) $(LDOutputFlag) $@ $(filter-out $(SCATTER) $(DEPLIBS) $($(notdir $(basename $@))_GENERATION),$^) $(LDStartGroupFlag) $(call GenerateLibraryArguments,$(LDLIBS)) $(LDEndGroupFlag) $(LDScriptFlag)$(SCATTER) $(LDMapFlag)$(MAPFILE) $(call GenerateResolveArguments,$(RESLIBS))
 endef
+
 #
 # Code Coverage
 #
