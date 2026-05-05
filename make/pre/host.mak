@@ -1,5 +1,5 @@
 #
-#    Copyright (c) 2008-2023 Nuovation System Design, LLC. All Rights Reserved.
+#    Copyright (c) 2008-2026 Nuovation System Design, LLC. All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
 #    you may not use this file except in compliance with the License.
@@ -22,6 +22,16 @@
 #
 
 # We have to bootstrap ourselves into the notion of a correct host
+# processor architecture. We do this by using uname.
+#
+# Note that conditionalizing and exporting this and HostTuple speed up
+# recursive iteration by 24%.
+
+ifndef HostProcArch
+export HostProcArch     := $(shell uname -m)
+endif # HostProcArch
+
+# We have to bootstrap ourselves into the notion of a correct host
 # operating system. We do this by using uname.
 #
 # Note that conditionalizing and exporting this and HostTuple speed up
@@ -41,6 +51,12 @@ endif # HostOS
 ifndef HostTuple
 export HostTuple        := $(shell $(BuildRoot)/third_party/nuovations-build-make/repo/third_party/automake/repo/lib/config.guess)
 endif # HostTuple
+
+# Ensure that the value of HostProcArch is consistent with HostTuple.
+
+ifeq ($(findstring $(HostProcArch),$(HostTuple)),)
+$(error cannot find HostProcArch \"$(HostProcArch)\" in HostTuple \"$(HostTuple)\")
+endif
 
 # Ensure that the value of HostOS is consistent with HostTuple.
 
