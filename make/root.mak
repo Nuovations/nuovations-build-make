@@ -573,7 +573,7 @@ $(LintProductConfigs):
 define BuildPrintHelp
 $(Quiet)echo "This projects supports the following build products:"
 $(Quiet)echo
-$(Quiet)echo "    $(sort $(BuildProducts))"
+$(Quiet)printf "    %s\n" $(sort $(BuildProducts))
 $(Quiet)echo
 $(Quiet)echo "Generate all build configurations for a specific build product"
 $(Quiet)echo "product by specifying the product as the make target. For"
@@ -583,7 +583,7 @@ $(Quiet)echo "    % make $(firstword $(BuildProducts))"
 $(Quiet)echo
 $(Quiet)echo "Specific build configurations supported are:"
 $(Quiet)echo
-$(Quiet)echo "    $(sort $(BuildConfigs))"
+$(Quiet)printf "    %s\n" $(sort $(BuildConfigs))
 $(Quiet)echo
 $(Quiet)echo "These will generate that build configuration for all"
 $(Quiet)echo "supported build products. For example:"
@@ -594,7 +594,7 @@ $(Quiet)echo "Generate a specific build configuration for a specific"
 $(Quiet)echo "build product by specifying one of the following as the"
 $(Quiet)echo "make target:"
 $(Quiet)echo
-$(Quiet)echo "    $(sort $(ProductConfigs))"
+$(Quiet)printf "    %s\n" $(sort $(ProductConfigs))
 $(Quiet)echo
 $(Quiet)echo "For example:"
 $(Quiet)echo
@@ -602,7 +602,7 @@ $(Quiet)echo "    % make $(firstword $(ProductConfigs))"
 $(Quiet)echo
 $(Quiet)echo "The following build actions are supported:"
 $(Quiet)echo
-$(Quiet)echo "    $(sort $(BuildActions))"
+$(Quiet)printf "    %s\n" $(sort $(BuildActions))
 $(Quiet)echo
 $(Quiet)echo "Where the '$(AllBuildAction)' is an implicit build action in all of the"
 $(Quiet)echo "above examples. For example, to run the '$(CleanBuildAction)' build action"
