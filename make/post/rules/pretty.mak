@@ -16,32 +16,32 @@
 
 ##
 #    @file
-#      This file defines make rules and targets for performing coding 
+#      This file defines make rules and targets for performing coding
 #      style formatting and checking.
 #
-#      The recursive target 'pretty', invoked against '$(PrettyMakefiles)', 
-#      is intended to reformat a collection of source files, defined by 
-#      '$(PrettyPaths)' using the program '$(PRETTY)' with the arguments 
+#      The recursive target 'pretty', invoked against '$(PrettyMakefiles)',
+#      is intended to reformat a collection of source files, defined by
+#      '$(PrettyPaths)' using the program '$(PRETTY)' with the arguments
 #      '$(PRETTY_ARGS)'.
 #
-#      The recursive target 'pretty-check' (and its alias 'lint'), invoked  
-#      against '$(PrettyMakefiles)', is intended to only check but NOT  
-#      reformat a collection of source files, defined by '$(PrettyPaths)'  
-#      using the program '$(PRETTY_CHECK)' with the arguments 
+#      The recursive target 'pretty-check' (and its alias 'lint'), invoked
+#      against '$(PrettyMakefiles)', is intended to only check but NOT
+#      reformat a collection of source files, defined by '$(PrettyPaths)'
+#      using the program '$(PRETTY_CHECK)' with the arguments
 #      '$(PRETTY_CHECK_ARGS)'.
 #
 #      This represents the minimum integration with GNU autotools
 #      (automake inparticular) such that 'make pretty' and 'make
-#      pretty-check' may be invoked at the top of the tree and all 
-#      the prerequisites occur such that it executes successfully 
-#      with no intervening make target invocations. '$(BUILT_SOURCES)' 
+#      pretty-check' may be invoked at the top of the tree and all
+#      the prerequisites occur such that it executes successfully
+#      with no intervening make target invocations. '$(BUILT_SOURCES)'
 #      are the key automake-specific dependencies to ensure that happens.
 #
 
 # make-pretty <OUTPUT COMMAND> <COMMAND> <COMMAND ARGUMENTS> <PATHS>
 #
 # This function iterates over PATHS, invoking COMMAND with
-# COMMAND ARGUEMENTS on each file. OUTPUT COMMAND is emitted to standard 
+# COMMAND ARGUEMENTS on each file. OUTPUT COMMAND is emitted to standard
 # output.
 
 define make-pretty
