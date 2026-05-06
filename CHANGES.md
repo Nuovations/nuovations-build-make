@@ -2,6 +2,39 @@
 
 ## Nuovations Build (Make)
 
+#### 1.0.0 (2026-05-05)
+
+    * Added stamp-based idempotency infrastructure for third-party
+      package builds. Incremental builds skip stages whose outputs
+      are already current, dramatically reducing no-op build times
+      for large package trees. Includes:
+
+        - Five-stage pipeline (source, patch, configure, build, stage)
+          with file-to-file stamp dependencies and '-local' hooks for
+          glue makefile customization.
+
+        - 'touch' and 'rebuild' convenience targets for selectively
+          invalidating stages forward without a full clean.
+
+        - Correct operation under SubMakefiles (Host.mak / Target.mak)
+          via $(FirstMakefile) anchoring.
+
+        - Snapshot target integration with stamp-based prerequisites
+          for idempotent snapshot creation.
+
+    * Introduce `BuildHostSpecialized` Boolean setting for host-only makefiles.
+
+    * Addressed an issue with false silent-mode detection on GNU Make 4.4+.
+
+    * Split shared/static object mulit-target pattern rules to avoid warnings
+      and future deprecation with GNU Make 4.4+.
+
+    * Make archive library creation failure-atomic and parallel-safe.
+
+    * Add `HostProcArch` variable bootstrapped from `uname -m`.
+
+    * Made top-level `help` target more human-readable.
+
 #### 0.9.19d (2025-09-20)
 
     * Addressed an issue in which CMake-built projects failed due to
