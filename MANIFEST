@@ -3,6 +3,7 @@ CHANGES.md
 doc/GETTING_STARTED.md
 doc/REQUIREMENTS.md
 examples/build/make/products/examples.mak
+examples/build/scripts/environment
 examples/Examples.mak
 examples/Makefile
 examples/.gitignore
@@ -79,6 +80,7 @@ make/target/tools/apple/clang/rules.mak
 make/target/tools/apple/clang/tools.mak
 make/target/tools/apple/clang/x.x.x/rules.mak
 make/target/tools/apple/clang/x.x.x/tools.mak
+make/target/tools/codesourcery/sourcery-codebench
 make/target/tools/codesourcery/sourcery-gxx/2009q1-203/rules.mak
 make/target/tools/codesourcery/sourcery-gxx/2009q1-203/tools.mak
 make/target/tools/codesourcery/sourcery-gxx/2010.09-50/rules.mak

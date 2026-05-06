@@ -56,7 +56,7 @@ XZ                   ?= xz
 
 INSTALL_SCRIPT       ?= $(INSTALL) -m 755
 
-dist_tar_ARCHIVE      = $(TAR) $(TARFLAGS) -chf -
+dist_tar_ARCHIVE      = $(TAR) $(TARFLAGS) -cf -
 
 dist_tgz_ARCHIVE      = $(dist_tar_ARCHIVE)
 dist_tgz_COMPRESS     = $(GZIP) --best -c

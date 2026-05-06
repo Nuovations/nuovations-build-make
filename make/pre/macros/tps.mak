@@ -78,6 +78,20 @@ PackageSnapshotFile                = $(PackageName)-snapshot.tar.bz2
 PackageSnapshotPath                = $(call Slashify,$(PackageSnapshotDir))$(PackageSnapshotFile)
 PackageDefaultGoal                 = $(PackageBuildMode)
 
+StampDirectory                    ?= $(BuildDirectory)
+
+PackageSourceStamp                 = $(StampDirectory)/.source-stamp
+PackagePatchStamp                  = $(StampDirectory)/.patch-stamp
+PackageConfigureStamp              = $(StampDirectory)/.configure-stamp
+PackageBuildStamp                  = $(StampDirectory)/.build-stamp
+PackageStageStamp                  = $(StampDirectory)/.stage-stamp
+
+CleanPaths                        += $(PackageSourceStamp)
+CleanPaths                        += $(PackagePatchStamp)
+CleanPaths                        += $(PackageConfigureStamp)
+CleanPaths                        += $(PackageBuildStamp)
+CleanPaths                        += $(PackageStageStamp)
+
 # expand-and-patch-package
 #
 define expand-and-patch-package
