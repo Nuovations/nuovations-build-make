@@ -48,7 +48,7 @@ RMDIRFLAGS                   = -p --ignore-fail-on-non-empty $(RMDIRFLAGS_BuildV
 PATCH                        = patch
 PATCHFLAGS_BuildVerbose_    := $(Null)
 PATCHFLAGS_BuildVerbose_N   := $(PATCHFLAGS_BuildVerbose_)
-PATCHFLAGS_BuildVerbose_Y   := -v
+PATCHFLAGS_BuildVerbose_Y   := --verbose
 PATCHFLAGS                   = -t $(PATCHFLAGS_BuildVerbose_$(BuildVerbose_Y))
 
 RM                           = rm
