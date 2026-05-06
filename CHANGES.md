@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 1.0.1 (2026-05-06)
+
+    * Addressed an issue when running `patch` for third-party packages
+      when `BuildVerbose` is asserted.
+
 #### 1.0.0 (2026-05-05)
 
     * Added stamp-based idempotency infrastructure for third-party
