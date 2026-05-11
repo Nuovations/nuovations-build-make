@@ -392,6 +392,52 @@ endef # execute-prerequisite-with-loader-search-paths
 
 ##
 #  @brief
+#    Execute a host-built program identified by name, with the
+#    dynamic loader search path extended to cover its associated
+#    runtime libraries.
+#
+#  Convenience form for the common case of executing a host-built
+#  program whose target path and library set are declared via the
+#  conventional <name>_PTARGET, <name>_LDLIBS, and <name>_RESLIBS
+#  variables. The libraries and program path are both looked up
+#  from these variables by the supplied name.
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @param[in]  1: name
+#    The program name. Used to look up $(<name>_PTARGET) as the
+#    program path, and $(<name>_LDLIBS) and $(<name>_RESLIBS) as
+#    the associated library file paths.
+#
+#  @sa execute-with-loader-search-paths-only
+#  @sa execute-program
+#
+define execute-program-only
+$(call execute-with-loader-search-paths-only,$($(1)_LDLIBS) $($(1)_RESLIBS),$($(1)_PTARGET))
+endef # execute-program-only
+
+##
+#  @brief
+#    Execute a host-built program identified by name, with the
+#    dynamic loader search path extended, with a preceding
+#    announcement.
+#
+#  As execute-program-only, but additionally emits an
+#  $(ExecuteVerb)-prefixed announcement naming the program being
+#  executed.
+#
+#  @param[in]  1: name
+#    The program name (see execute-program-only).
+#
+#  @sa execute-with-loader-search-paths
+#  @sa execute-program-only
+#
+define execute-program
+$(call execute-with-loader-search-paths,$($(1)_LDLIBS) $($(1)_RESLIBS),$($(1)_PTARGET))
+endef # execute-program
+
+##
+#  @brief
 #    Execute the first prerequisite as a command with the recipe's
 #    library sets on the loader search path and the framework
 #    <basename>_ARGUMENTS appended, with a preceding announcement.
