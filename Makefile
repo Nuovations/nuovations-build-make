@@ -346,7 +346,7 @@ stage: $(DISTFILES) $(builddir)/.local-version
 	$(call remove-dir,$(distdir))
 	$(call create-dir,$(distdir))
 	$(V_MAKE_DIST_HOOK)$(MAKE) -s distdir="$(distdir)" dist-hook
-	$(V_COPY_DISTFILES)(cd $(abs_top_srcdir); $(dist_tar_ARCHIVE) $(DISTFILES) | (cd $(abs_builddir)/$(distdir); $(TAR) $(TARFLAGS) -xBpf -))
+	$(V_COPY_DISTFILES)(cd $(abs_top_srcdir); $(dist_tar_ARCHIVE) $(DISTFILES) | (cd $(abs_builddir)/$(distdir); $(TAR) -xBpf -))
 
 #
 # Produce an architecture-independent distribution using a tar archive

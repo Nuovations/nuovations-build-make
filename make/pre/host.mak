@@ -28,7 +28,15 @@
 # recursive iteration by 24%.
 
 ifndef HostProcArch
-export HostProcArch     := $(shell uname -m)
+HostProcArch            := $(shell uname -m)
+
+# Map uname -m output onto the canonical architecture names used by
+# automake's config.guess (and thus HostTuple). Apple/BSD report
+# "arm64" for "aarch64"; FreeBSD reports "amd64" for "x86_64".
+
+HostProcArch            := $(patsubst arm64,aarch64,$(HostProcArch))
+HostProcArch            := $(patsubst amd64,x86_64,$(HostProcArch))
+export HostProcArch
 endif # HostProcArch
 
 # We have to bootstrap ourselves into the notion of a correct host

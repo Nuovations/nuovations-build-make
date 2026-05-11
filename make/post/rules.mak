@@ -524,6 +524,7 @@ endef # execute-prerequisite-with-arguments
 #
 
 ifdef TransformCAsCPlusPlus
+$(warning "'TransformCAsCPlusPlus' is deprecated and will be removed in a future release of Nuovations Build (make)")
 depend-c-or-c++                                                 = $(depend-c++)
 preprocess-c-or-c++                                             = $(preprocess-c++)
 preprocess-objective-c-or-objective-c++                         = $(preprocess-objective-c++)

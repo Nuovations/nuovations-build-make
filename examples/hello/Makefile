@@ -24,71 +24,70 @@
 
 include pre.mak
 
-SubMakefiles		      = \
-    lib/Makefile                \
+SubMakefiles                   = \
+    lib/Makefile                 \
     $(Null)
 
-TransformCAsCPlusPlus	     := Yes
-LinkAgainstCPlusPlus	     := Yes
+LinkAgainstCPlusPlus          := Yes
 
-PROGRAMS		     := hello
+PROGRAMS                      := hello
 
-HelloLibBuildDir	     := lib
-HelloLibResultsDir	     := hello/lib
-HelloLibIncludeDir	     := include
+HelloLibBuildDir              := lib
+HelloLibResultsDir            := hello/lib
+HelloLibIncludeDir            := include
 
-AlphabetBuildDir 	      =
-AlphabetName		      = alphabet
-AlphabetBuildPath	      = $(HelloLibBuildDir)
-AlphabetResultsDir	      = $(HelloLibResultsDir)
-AlphabetIncludePath	      = $(HelloLibIncludeDir)
-AlphabetLibraryPath	      = $(AlphabetBuildPath)/$(AlphabetName)
-AlphabetDependPath	      = $(call GenerateStaticLibraryResultPaths,$(AlphabetResultsDir)/$(AlphabetBuildDir),$(AlphabetName))
+AlphabetBuildDir               =
+AlphabetName                   = alphabet
+AlphabetBuildPath              = $(HelloLibBuildDir)
+AlphabetResultsDir             = $(HelloLibResultsDir)
+AlphabetIncludePath            = $(HelloLibIncludeDir)
+AlphabetLibraryPath            = $(AlphabetBuildPath)/$(AlphabetName)
+AlphabetDependPath             = $(call GenerateStaticLibraryResultPaths,$(AlphabetResultsDir)/$(AlphabetBuildDir),$(AlphabetName))
 
-HelloBuildDir 		      =
-HelloName		      = hello
-HelloBuildPath		      = $(HelloLibBuildDir)
-HelloResultsDir		      = $(HelloLibResultsDir)
-HelloIncludePath	      = $(HelloLibIncludeDir)
-HelloLibraryPath	      = $(HelloBuildPath)/$(HelloName)
-HelloDependPath		      = $(call GenerateSharedLibraryResultPaths,$(HelloResultsDir)/$(HelloBuildDir),$(HelloName))
+HelloBuildDir                  =
+HelloName                      = hello
+HelloBuildPath                 = $(HelloLibBuildDir)
+HelloResultsDir                = $(HelloLibResultsDir)
+HelloIncludePath               = $(HelloLibIncludeDir)
+HelloLibraryPath               = $(HelloBuildPath)/$(HelloName)
+HelloDependPath                = $(call GenerateSharedLibraryResultPaths,$(HelloResultsDir)/$(HelloBuildDir),$(HelloName))
 
-GoodbyeBuildDir 	      =
-GoodbyeName		      = goodbye
-GoodbyeBuildPath	      = $(HelloLibBuildDir)
-GoodbyeResultsDir	      = $(HelloLibResultsDir)
-GoodbyeIncludePath	      = $(HelloLibIncludeDir)
-GoodbyeLibraryPath	      = $(GoodbyeBuildPath)/$(GoodbyeName)
-GoodbyeDependPath	      = $(call GenerateSharedLibraryResultPaths,$(GoodbyeResultsDir)/$(GoodbyeBuildDir),$(GoodbyeName))
+GoodbyeBuildDir                =
+GoodbyeName                    = goodbye
+GoodbyeBuildPath               = $(HelloLibBuildDir)
+GoodbyeResultsDir              = $(HelloLibResultsDir)
+GoodbyeIncludePath             = $(HelloLibIncludeDir)
+GoodbyeLibraryPath             = $(GoodbyeBuildPath)/$(GoodbyeName)
+GoodbyeDependPath              = $(call GenerateSharedLibraryResultPaths,$(GoodbyeResultsDir)/$(GoodbyeBuildDir),$(GoodbyeName))
 
-SalutationsBuildDir 	      =
-SalutationsName		      = salutations
-SalutationsBuildPath	      = $(HelloLibBuildDir)
-SalutationsResultsDir	      = $(HelloLibResultsDir)
-SalutationsIncludePath	      = $(HelloLibIncludeDir)
-SalutationsLibraryPath	      = $(SalutationsBuildPath)/$(SalutationsName)
-SalutationsDependPath	      = $(call GenerateSharedLibraryResultPaths,$(SalutationsResultsDir)/$(SalutationsBuildDir),$(SalutationsName))
+SalutationsBuildDir            =
+SalutationsName                = salutations
+SalutationsBuildPath           = $(HelloLibBuildDir)
+SalutationsResultsDir          = $(HelloLibResultsDir)
+SalutationsIncludePath         = $(HelloLibIncludeDir)
+SalutationsLibraryPath         = $(SalutationsBuildPath)/$(SalutationsName)
+SalutationsDependPath          = $(call GenerateSharedLibraryResultPaths,$(SalutationsResultsDir)/$(SalutationsBuildDir),$(SalutationsName))
 
-hello_SOURCES		      = \
-    main.c                      \
+hello_SOURCES                  = \
+    main.c                       \
     $(Null)
 
-hello_INCLUDES		      = \
-    include                     \
+hello_INCLUDES                 = \
+    include                      \
     $(Null)
 
-hello_LDLIBS		      = \
-    $(HelloLibraryPath)         \
-    $(GoodbyeLibraryPath)       \
-    $(AlphabetLibraryPath)      \
-    $(SalutationsLibraryPath)   \
+hello_LDLIBS                   = \
+    $(HelloLibraryPath)          \
+    $(GoodbyeLibraryPath)        \
+    $(AlphabetLibraryPath)       \
+    $(SalutationsLibraryPath)    \
     $(Null)
 
-hello_DEPLIBS		      = \
-    $(HelloDependPath)          \
-    $(GoodbyeDependPath)        \
-    $(AlphabetDependPath)       \
-    $(SalutationsDependPath)    \
+hello_DEPLIBS                  = \
+    $(HelloDependPath)           \
+    $(GoodbyeDependPath)         \
+    $(AlphabetDependPath)        \
+    $(SalutationsDependPath)     \
     $(Null)
 
 # Let make know that the DEPLIBS have a prerequisite in lib/Makefile.
