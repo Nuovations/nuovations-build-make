@@ -244,11 +244,19 @@ CXXCoverageFlag                               = $(GccCoverageFlag)
 
 CXXFLAGS                                      = $(CXXOPTIMIZER) $(CXXOPTFLAGS) $(CXXWARNINGS)
 
-# The Objective C compiler flag
+# The C language compiler flag
+
+CLanguage                                    := -x c
+
+# The C++ language compiler flag
+
+CXXLanguage                                  := -x c++
+
+# The Objective C lanuage compiler flag
 
 OBJCCLanguage                                := -x objective-c
 
-# The Objective C++ compiler flag
+# The Objective C++ language compiler flag
 
 OBJCXXLanguage                               := -x objective-c++
 
