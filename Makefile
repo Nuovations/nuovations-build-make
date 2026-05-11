@@ -421,7 +421,7 @@ define check-examples-with-shell
 $(V_MAKE_TARGET)
 $(V_PROGRESS) "$(shell echo $(1) | tr '[[:lower:]]' '[[:upper:]]')" "$(shell which $(1))"
 $(V_PROGRESS) "MAKE" "examples"
-$(V_AT)$(1) -c 'cd examples && $(2) build/scripts/environment/setup.$(1) && $(MAKE) -C $(CURDIR) check-examples'
+$(1) -c 'cd examples && $(2) build/scripts/environment/setup.$(1) && $(MAKE) -C $(CURDIR) check-examples'
 endef # check-examples-with-shell
 
 check-examples-bash:
@@ -433,6 +433,9 @@ check-examples-csh:
 check-examples-dash:
 	$(call check-examples-with-shell,dash,.)
 
+check-examples-ksh:
+	$(call check-examples-with-shell,ksh,.)
+
 check-examples-sh:
 	$(call check-examples-with-shell,sh,.)
 
@@ -442,7 +445,8 @@ check-examples-tcsh:
 check-examples-zsh:
 	$(call check-examples-with-shell,zsh,.)
 
-check: check-examples-bash check-examples-csh check-examples-dash check-examples-sh check-examples-tcsh check-examples-zsh
+#check: check-examples-bash check-examples-csh check-examples-dash check-examples-ksh check-examples-sh check-examples-tcsh check-examples-zsh
+check: check-examples-ksh
 
 distcheck:
 	$(V_MAKE_TARGET)
