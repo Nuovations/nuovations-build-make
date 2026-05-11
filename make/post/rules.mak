@@ -292,10 +292,25 @@ endef
 
 # Execute program, providing all required loader search paths.
 
+##
+#  @brief
+#    Execute the first prerequisite as a command with the recipe's
+#    library sets on the loader search path and the framework
+#    <basename>_ARGUMENTS appended, with a preceding announcement.
+#
+#  As execute-prerequisite-with-arguments-only, but additionally
+#  emits an $(ExecuteVerb)-prefixed announcement naming the
+#  prerequisite being executed. Note that the announcement names
+#  only the executable, not the appended arguments; the arguments
+#  appear in the executed command line but not in the announcement.
+#
+#  @sa execute-prerequisite
+#  @sa execute-prerequisite-with-arguments-only
+#
 define execute-prerequisite-with-arguments
 $(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$<)\""
 $(Verbose)export $(LoaderSearchPath)=$(subst $(Space),:,$(dir $(LDLIBS) $(RESLIBS)))$(addprefix :,$($(LoaderSearchPath))) && $(<) $($(<F)_ARGUMENTS)
-endef
+endef # execute-prerequisite-with-arguments
 
 #
 # For the purposes of using it as a strongly-typed C compiler, the
