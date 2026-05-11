@@ -348,6 +348,50 @@ endef # execute-with-loader-search-paths
 
 ##
 #  @brief
+#    Execute the first prerequisite as a command with the dynamic
+#    loader search path extended to include the directories of one
+#    or more library file paths.
+#
+#  Specialization of execute-with-loader-search-paths-only that uses
+#  the first prerequisite ($(<)) as the command to execute. The
+#  library paths are supplied explicitly by the caller. Use in
+#  recipe contexts where the executable to run is the first
+#  prerequisite of the rule but the library set is not the recipe's
+#  conventional $(LDLIBS)/$(RESLIBS).
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths.
+#
+#  @sa execute-with-loader-search-paths-only
+#  @sa execute-prerequisite-with-loader-search-paths
+#
+define execute-prerequisite-with-loader-search-paths-only
+$(call execute-with-loader-search-paths-only,$(1),$(<))
+endef # execute-prerequisite-with-loader-search-paths-only
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the dynamic
+#    loader search path extended, with a preceding announcement.
+#
+#  As execute-prerequisite-with-loader-search-paths-only, but
+#  additionally emits an $(ExecuteVerb)-prefixed announcement naming
+#  the prerequisite being executed.
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths.
+#
+#  @sa execute-with-loader-search-paths
+#  @sa execute-prerequisite-with-loader-search-paths-only
+#
+define execute-prerequisite-with-loader-search-paths
+$(call execute-with-loader-search-paths,$(1),$(<))
+endef # execute-prerequisite-with-loader-search-paths
+
+##
+#  @brief
 #    Execute the first prerequisite as a command with the recipe's
 #    library sets on the loader search path and the framework
 #    <basename>_ARGUMENTS appended, with a preceding announcement.
