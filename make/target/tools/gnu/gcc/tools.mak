@@ -84,8 +84,10 @@ OptimizeSize                                  = -Os
 
 # Language variables
 
+LangCompilationDir                            = $(Null)
 LangForwardPropagation                        = forward-propagate
 LangExceptionHandling                         = exceptions
+LangPrefixMap                                 = prefix-map
 LangRuntimeTypeInformation                    = rtti
 LangFunctionSections                          = function-sections
 LangDataSections                              = data-sections
@@ -116,6 +118,37 @@ LangStandardCxx2014                          := c++14
 LangStandardCxx2017                          := c++17
 LangStandardCxxNext                          := c++2a
 
+# Compilation Directory
+
+ToolAssertLanguageCompilationDirFlag          = $(Null)
+
+LangCompilationDirCoverage                   := $(Null)
+LangCompilationDirDebug                      := $(Null)
+LangCompilationDirFile                       := $(Null)
+
+ToolAssertLanguageCoverageCompilationDirFlag  = $(Null)
+ToolAssertLanguageDebugCompilationDirFlag     = $(Null)
+ToolAssertLanguageFileCompilationDirFlag      = $(Null)
+
+# Prefix Mapping
+
+ToolAssertLanguagePrefixMapFlag               = $(call ToolAssertLanguageFlag,$(1)-$(LangPrefixMap)=$(2)=$(3))
+
+LangPrefixMapCanon                           := canon
+LangPrefixMapCoverage                        := $(Null)
+LangPrefixMapDebug                           := debug
+LangPrefixMapFile                            := file
+LangPrefixMapMacro                           := macro
+LangPrefixMapProfile                         := profile
+
+ToolAssertLanguageCanonPrefixMapFlag          = $(call ToolAssertLanguagePrefixMapFlag,$(LangPrefixMapCanon),$(1),$(2))
+ToolAssertLanguageCoveragePrefixMapFlag       = $(Null)
+ToolAssertLanguageDebugPrefixMapFlag          = $(call ToolAssertLanguagePrefixMapFlag,$(LangPrefixMapDebug),$(1),$(2))
+ToolAssertLanguageFilePrefixMapFlag           = $(call ToolAssertLanguagePrefixMapFlag,$(LangPrefixMapFile),$(1),$(2))
+ToolAssertLanguageMacroPrefixMapFlag          = $(call ToolAssertLanguagePrefixMapFlag,$(LangPrefixMapMacro),$(1),$(2))
+ToolAssertLanguageProfilePrefixMapFlag        = $(call ToolAssertLanguagePrefixMapFlag,$(LangPrefixMapProfile),$(1),$(2))
+
+ToolDeassertCanonicalPrefixesFlag            := $(call GccDeassertFlag,-,canonical-prefixes)
 
 # Warning variables
 
