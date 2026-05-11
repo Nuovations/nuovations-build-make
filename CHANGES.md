@@ -2,6 +2,27 @@
 
 ## Nuovations Build (Make)
 
+#### 1.1.0 (2026-05-11)
+
+    * Added support for clang/LLVM and GCC `*-compilation-dir` and
+      `*-prefix-map` options, useful "de-personalizing" and making source
+      location-indendent builds.
+
+    * Generalized and formalized the infrastructure for executing programs and
+      program targets utilizing loader search paths from in-project libraries.
+
+    * Marked `TransformCAsCPlusPlus` for future deprecation since clang/LLVM has
+      also marked this for deprecation in its C++ compiler.
+
+      - Removed using the feature from the `hello` example.
+
+    * Addressed an issue on Darwin/macOS and FreeBSD, mapping HostProcArch from
+      'arm64' to 'aarch64' and 'amd64' to 'x86_64', respectively.
+
+    * Added macOS to the CI/CD platforms.
+
+    * Addressed an issue in which the package `make dist` would fail on macOS.
+
 #### 1.0.1 (2026-05-06)
 
     * Addressed an issue when running `patch` for third-party packages
