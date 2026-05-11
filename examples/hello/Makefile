@@ -28,7 +28,6 @@ SubMakefiles                   = \
     lib/Makefile                 \
     $(Null)
 
-TransformCAsCPlusPlus         := Yes
 LinkAgainstCPlusPlus          := Yes
 
 PROGRAMS                      := hello
