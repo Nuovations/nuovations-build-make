@@ -292,7 +292,7 @@ endef
 
 # Execute program, providing all required loader search paths.
 
-define execute-program
+define execute-prerequisite-with-arguments
 $(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$<)\""
 $(Verbose)export $(LoaderSearchPath)=$(subst $(Space),:,$(dir $(LDLIBS) $(RESLIBS)))$(addprefix :,$($(LoaderSearchPath))) && $(<) $($(<F)_ARGUMENTS)
 endef
@@ -907,7 +907,7 @@ ifeq ($(TargetTuple),$(HostTuple))
 local-execute: $(ExecuteTargets)
 
 $(ExecuteTargets):
-	$(execute-program)
+	$(execute-prerequisite-with-arguments)
 
 endif
 
