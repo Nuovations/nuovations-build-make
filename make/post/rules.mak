@@ -478,6 +478,28 @@ endef # execute-prerequisite
 ##
 #  @brief
 #    Execute the first prerequisite as a command with the recipe's
+#    library sets on the loader search path, appending arguments
+#    looked up via the framework's <basename>_ARGUMENTS convention.
+#
+#  As execute-prerequisite-only, but additionally appends the
+#  contents of $($(<F)_ARGUMENTS) to the command line. This honors
+#  the framework convention by which arbitrary arguments for an
+#  executable target can be declared in the Makefile as
+#  <basename>_ARGUMENTS = ... and are picked up automatically when
+#  the executable is run via 'make execute' or equivalent.
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @sa execute-prerequisite-only
+#  @sa execute-prerequisite-with-arguments
+#
+define execute-prerequisite-with-arguments-only
+$(call execute-with-loader-search-paths-only,$(LDLIBS) $(RESLIBS),$(<)) $($(<F)_ARGUMENTS)
+endef # execute-prerequisite-with-arguments-only
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the recipe's
 #    library sets on the loader search path and the framework
 #    <basename>_ARGUMENTS appended, with a preceding announcement.
 #
