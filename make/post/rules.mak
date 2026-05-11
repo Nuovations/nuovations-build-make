@@ -919,7 +919,7 @@ BaseDependPaths         = $(call GenerateBaseDependNames,$(PatchedDependPaths))
 DependPaths             = $(BaseDependPaths) $(PatchedDependPaths)
 
 BuildPaths              += $(OBJECTS)
-BuildPaths		+= $(GENERATIONS)
+BuildPaths              += $(GENERATIONS)
 
 ResultPaths             += $(HeaderTargets) $(ArchiveTargets) $(LibraryTargets) $(ProgramTargets) $(ImageTargets)
 
