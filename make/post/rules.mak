@@ -438,6 +438,45 @@ endef # execute-program
 
 ##
 #  @brief
+#    Execute the first prerequisite as a command, with the dynamic
+#    loader search path extended to cover the recipe's conventional
+#    $(LDLIBS) and $(RESLIBS) library sets.
+#
+#  Convenience form for the common recipe-context case where the
+#  command to execute is the first prerequisite ($(<)) and the
+#  libraries that need to appear on the loader search path are the
+#  recipe's $(LDLIBS) and $(RESLIBS) automatic-or-pattern variables.
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @sa execute-with-loader-search-paths-only
+#  @sa execute-prerequisite
+#  @sa execute-prerequisite-with-arguments-only
+#
+define execute-prerequisite-only
+$(call execute-with-loader-search-paths-only,$(LDLIBS) $(RESLIBS),$(<))
+endef # execute-prerequisite-only
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the recipe's
+#    library sets on the loader search path, with a preceding
+#    announcement.
+#
+#  As execute-prerequisite-only, but additionally emits an
+#  $(ExecuteVerb)-prefixed announcement naming the prerequisite
+#  being executed.
+#
+#  @sa execute-with-loader-search-paths
+#  @sa execute-prerequisite-only
+#  @sa execute-prerequisite-with-arguments
+#
+define execute-prerequisite
+$(call execute-with-loader-search-paths,$(LDLIBS) $(RESLIBS),$(<))
+endef # execute-prerequisite
+
+##
+#  @brief
 #    Execute the first prerequisite as a command with the recipe's
 #    library sets on the loader search path and the framework
 #    <basename>_ARGUMENTS appended, with a preceding announcement.
