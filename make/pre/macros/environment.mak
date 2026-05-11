@@ -20,5 +20,28 @@
 #      all host build environments.
 #
 
-BinarySearchPath	= PATH
-LoaderSearchPath	= LD_LIBRARY_PATH
+BinarySearchPath       = PATH
+LoaderSearchPath       = LD_LIBRARY_PATH
+
+##
+#  @brief
+#    Generate a colon-separated loader search path string from a list
+#    of library file paths, with the directories of these files
+#    prepended to the existing value of the dynamic loader search
+#    path environment variable named by $(LoaderSearchPath).
+#
+#  Caller-specified order is preserved: directories appear in the
+#  input order before the existing path elements. Duplicates are NOT
+#  removed, since lexical sorting would destroy the precedence
+#  semantics of loader search paths (where earlier entries override
+#  later ones). Callers who genuinely want duplicate removal can
+#  uniqify their input list before calling.
+#
+#  Empty inputs are handled gracefully: no leading colons, no
+#  spurious empty entries.
+#
+#  @param[in]  1: Whitespace-separated list of library file paths.
+#                 (The directories of these files are prepended; the
+#                 file basenames are ignored.)
+#
+LoaderSearchPathString = $(subst $(Space),:,$(strip $(dir $(1)) $($(LoaderSearchPath))))

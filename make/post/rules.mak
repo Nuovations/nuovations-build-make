@@ -292,10 +292,229 @@ endef
 
 # Execute program, providing all required loader search paths.
 
+##
+#  @brief
+#    Execute a command with the dynamic loader search path
+#    environment variable extended to include the directories of one
+#    or more library file paths.
+#
+#  Base/general form. The caller supplies both the library file
+#  paths and the command to execute. The command is run only after
+#  the loader search path environment variable named by
+#  $(LoaderSearchPath) has been updated to include the directories
+#  of the supplied libraries, prepended to any pre-existing value of
+#  the variable.
+#
+#  This is the "-only" variant: the command is run silently
+#  (modulo $(Verbose)), with no announcement line. Use when chaining
+#  multiple invocations under a single $(ExecuteVerb) announcement,
+#  or when embedding inside $(shell ...).
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths. Directories are
+#    extracted via LoaderSearchPathString.
+#
+#  @param[in]  2: command
+#    The command to execute after the loader search path has been
+#    updated.
+#
+define execute-with-loader-search-paths-only
+export $(LoaderSearchPath)=$(call LoaderSearchPathString,$(1)) && $(2)
+endef # execute-with-loader-search-paths-only
+
+##
+#  @brief
+#    Execute a command with the dynamic loader search path extended,
+#    with a preceding announcement line.
+#
+#  As execute-with-loader-search-paths-only, but additionally emits
+#  an $(ExecuteVerb)-prefixed announcement naming the command being
+#  executed (via $(call ResultsPath,...) for display formatting).
+#  Use in the common case where the build user should see what is
+#  being executed.
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths.
+#
+#  @param[in]  2: command
+#    The command to execute and to announce.
+#
+#  @sa execute-with-loader-search-paths-only
+#
+define execute-with-loader-search-paths
+$(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$(2))\""
+$(call execute-with-loader-search-paths-only,$(1),$(2))
+endef # execute-with-loader-search-paths
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the dynamic
+#    loader search path extended to include the directories of one
+#    or more library file paths.
+#
+#  Specialization of execute-with-loader-search-paths-only that uses
+#  the first prerequisite ($(<)) as the command to execute. The
+#  library paths are supplied explicitly by the caller. Use in
+#  recipe contexts where the executable to run is the first
+#  prerequisite of the rule but the library set is not the recipe's
+#  conventional $(LDLIBS)/$(RESLIBS).
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths.
+#
+#  @sa execute-with-loader-search-paths-only
+#  @sa execute-prerequisite-with-loader-search-paths
+#
+define execute-prerequisite-with-loader-search-paths-only
+$(call execute-with-loader-search-paths-only,$(1),$(<))
+endef # execute-prerequisite-with-loader-search-paths-only
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the dynamic
+#    loader search path extended, with a preceding announcement.
+#
+#  As execute-prerequisite-with-loader-search-paths-only, but
+#  additionally emits an $(ExecuteVerb)-prefixed announcement naming
+#  the prerequisite being executed.
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths.
+#
+#  @sa execute-with-loader-search-paths
+#  @sa execute-prerequisite-with-loader-search-paths-only
+#
+define execute-prerequisite-with-loader-search-paths
+$(call execute-with-loader-search-paths,$(1),$(<))
+endef # execute-prerequisite-with-loader-search-paths
+
+##
+#  @brief
+#    Execute a host-built program identified by name, with the
+#    dynamic loader search path extended to cover its associated
+#    runtime libraries.
+#
+#  Convenience form for the common case of executing a host-built
+#  program whose target path and library set are declared via the
+#  conventional <name>_PTARGET, <name>_LDLIBS, and <name>_RESLIBS
+#  variables. The libraries and program path are both looked up
+#  from these variables by the supplied name.
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @param[in]  1: name
+#    The program name. Used to look up $(<name>_PTARGET) as the
+#    program path, and $(<name>_LDLIBS) and $(<name>_RESLIBS) as
+#    the associated library file paths.
+#
+#  @sa execute-with-loader-search-paths-only
+#  @sa execute-program
+#
+define execute-program-only
+$(call execute-with-loader-search-paths-only,$($(1)_LDLIBS) $($(1)_RESLIBS),$($(1)_PTARGET))
+endef # execute-program-only
+
+##
+#  @brief
+#    Execute a host-built program identified by name, with the
+#    dynamic loader search path extended, with a preceding
+#    announcement.
+#
+#  As execute-program-only, but additionally emits an
+#  $(ExecuteVerb)-prefixed announcement naming the program being
+#  executed.
+#
+#  @param[in]  1: name
+#    The program name (see execute-program-only).
+#
+#  @sa execute-with-loader-search-paths
+#  @sa execute-program-only
+#
 define execute-program
-$(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$<)\""
-$(Verbose)export $(LoaderSearchPath)=$(subst $(Space),:,$(dir $(LDLIBS) $(RESLIBS)))$(addprefix :,$($(LoaderSearchPath))) && $(<) $($(<F)_ARGUMENTS)
-endef
+$(call execute-with-loader-search-paths,$($(1)_LDLIBS) $($(1)_RESLIBS),$($(1)_PTARGET))
+endef # execute-program
+
+##
+#  @brief
+#    Execute the first prerequisite as a command, with the dynamic
+#    loader search path extended to cover the recipe's conventional
+#    $(LDLIBS) and $(RESLIBS) library sets.
+#
+#  Convenience form for the common recipe-context case where the
+#  command to execute is the first prerequisite ($(<)) and the
+#  libraries that need to appear on the loader search path are the
+#  recipe's $(LDLIBS) and $(RESLIBS) automatic-or-pattern variables.
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @sa execute-with-loader-search-paths-only
+#  @sa execute-prerequisite
+#  @sa execute-prerequisite-with-arguments-only
+#
+define execute-prerequisite-only
+$(call execute-with-loader-search-paths-only,$(LDLIBS) $(RESLIBS),$(<))
+endef # execute-prerequisite-only
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the recipe's
+#    library sets on the loader search path, with a preceding
+#    announcement.
+#
+#  As execute-prerequisite-only, but additionally emits an
+#  $(ExecuteVerb)-prefixed announcement naming the prerequisite
+#  being executed.
+#
+#  @sa execute-with-loader-search-paths
+#  @sa execute-prerequisite-only
+#  @sa execute-prerequisite-with-arguments
+#
+define execute-prerequisite
+$(call execute-with-loader-search-paths,$(LDLIBS) $(RESLIBS),$(<))
+endef # execute-prerequisite
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the recipe's
+#    library sets on the loader search path, appending arguments
+#    looked up via the framework's <basename>_ARGUMENTS convention.
+#
+#  As execute-prerequisite-only, but additionally appends the
+#  contents of $($(<F)_ARGUMENTS) to the command line. This honors
+#  the framework convention by which arbitrary arguments for an
+#  executable target can be declared in the Makefile as
+#  <basename>_ARGUMENTS = ... and are picked up automatically when
+#  the executable is run via 'make execute' or equivalent.
+#
+#  This is the "-only" variant; no announcement is emitted.
+#
+#  @sa execute-prerequisite-only
+#  @sa execute-prerequisite-with-arguments
+#
+define execute-prerequisite-with-arguments-only
+$(call execute-with-loader-search-paths-only,$(LDLIBS) $(RESLIBS),$(<)) $($(<F)_ARGUMENTS)
+endef # execute-prerequisite-with-arguments-only
+
+##
+#  @brief
+#    Execute the first prerequisite as a command with the recipe's
+#    library sets on the loader search path and the framework
+#    <basename>_ARGUMENTS appended, with a preceding announcement.
+#
+#  As execute-prerequisite-with-arguments-only, but additionally
+#  emits an $(ExecuteVerb)-prefixed announcement naming the
+#  prerequisite being executed. Note that the announcement names
+#  only the executable, not the appended arguments; the arguments
+#  appear in the executed command line but not in the announcement.
+#
+#  @sa execute-prerequisite
+#  @sa execute-prerequisite-with-arguments-only
+#
+define execute-prerequisite-with-arguments
+$(call execute-with-loader-search-paths,$(LDLIBS) $(RESLIBS),$(<)) $($(<F)_ARGUMENTS)
+endef # execute-prerequisite-with-arguments
 
 #
 # For the purposes of using it as a strongly-typed C compiler, the
@@ -907,7 +1126,7 @@ ifeq ($(TargetTuple),$(HostTuple))
 local-execute: $(ExecuteTargets)
 
 $(ExecuteTargets):
-	$(execute-program)
+	$(execute-prerequisite-with-arguments)
 
 endif
 
@@ -919,7 +1138,7 @@ BaseDependPaths         = $(call GenerateBaseDependNames,$(PatchedDependPaths))
 DependPaths             = $(BaseDependPaths) $(PatchedDependPaths)
 
 BuildPaths              += $(OBJECTS)
-BuildPaths		+= $(GENERATIONS)
+BuildPaths              += $(GENERATIONS)
 
 ResultPaths             += $(HeaderTargets) $(ArchiveTargets) $(LibraryTargets) $(ProgramTargets) $(ImageTargets)
 
