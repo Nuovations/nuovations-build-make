@@ -294,6 +294,60 @@ endef
 
 ##
 #  @brief
+#    Execute a command with the dynamic loader search path
+#    environment variable extended to include the directories of one
+#    or more library file paths.
+#
+#  Base/general form. The caller supplies both the library file
+#  paths and the command to execute. The command is run only after
+#  the loader search path environment variable named by
+#  $(LoaderSearchPath) has been updated to include the directories
+#  of the supplied libraries, prepended to any pre-existing value of
+#  the variable.
+#
+#  This is the "-only" variant: the command is run silently
+#  (modulo $(Verbose)), with no announcement line. Use when chaining
+#  multiple invocations under a single $(ExecuteVerb) announcement,
+#  or when embedding inside $(shell ...).
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths. Directories are
+#    extracted via LoaderSearchPathString.
+#
+#  @param[in]  2: command
+#    The command to execute after the loader search path has been
+#    updated.
+#
+define execute-with-loader-search-paths-only
+export $(LoaderSearchPath)=$(call LoaderSearchPathString,$(1)) && $(2)
+endef # execute-with-loader-search-paths-only
+
+##
+#  @brief
+#    Execute a command with the dynamic loader search path extended,
+#    with a preceding announcement line.
+#
+#  As execute-with-loader-search-paths-only, but additionally emits
+#  an $(ExecuteVerb)-prefixed announcement naming the command being
+#  executed (via $(call ResultsPath,...) for display formatting).
+#  Use in the common case where the build user should see what is
+#  being executed.
+#
+#  @param[in]  1: libraries
+#    Whitespace-separated list of library file paths.
+#
+#  @param[in]  2: command
+#    The command to execute and to announce.
+#
+#  @sa execute-with-loader-search-paths-only
+#
+define execute-with-loader-search-paths
+$(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$(2))\""
+$(call execute-with-loader-search-paths-only,$(1),$(2))
+endef # execute-with-loader-search-paths
+
+##
+#  @brief
 #    Execute the first prerequisite as a command with the recipe's
 #    library sets on the loader search path and the framework
 #    <basename>_ARGUMENTS appended, with a preceding announcement.
@@ -308,8 +362,7 @@ endef
 #  @sa execute-prerequisite-with-arguments-only
 #
 define execute-prerequisite-with-arguments
-$(Echo) "$(ExecuteVerb) \"$(call ResultsPath,$<)\""
-$(Verbose)export $(LoaderSearchPath)=$(subst $(Space),:,$(dir $(LDLIBS) $(RESLIBS)))$(addprefix :,$($(LoaderSearchPath))) && $(<) $($(<F)_ARGUMENTS)
+$(call execute-with-loader-search-paths,$(LDLIBS) $(RESLIBS),$(<)) $($(<F)_ARGUMENTS)
 endef # execute-prerequisite-with-arguments
 
 #
