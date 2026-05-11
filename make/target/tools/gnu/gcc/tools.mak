@@ -101,7 +101,7 @@ LangOptimizeSiblingCalls                      = optimize-sibling-calls
 LangSanitizeAddress                          := address
 LangSanitizeLeak                             := leak
 LangSanitizeThread                           := thread
-LangSanitizeUndefined                        := undefined 
+LangSanitizeUndefined                        := undefined
 
 # Language standards
 
@@ -495,25 +495,25 @@ endef
 # accurately called "compiling"; however, that means something else to
 # most. Perhaps "precompiling" would be a suitable alternative.
 
-# Transform a C file into a raw assembler file. 
+# Transform a C file into a raw assembler file.
 
 define tool-preprocess-and-compile-c
 $(Verbose)$(CC) $(CPPFLAGS) $(CCFLAGS) $(CCNoAssembleFlag) $(CCOutputFlag) $@ $(CCInputFlag) $(call CanonicalizePath,$(<))
 endef
 
-# Transform a C++ file into a raw assembler file. 
+# Transform a C++ file into a raw assembler file.
 
 define tool-preprocess-and-compile-c++
 $(Verbose)$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(CXXNoAssembleFlag) $(CXXOutputFlag) $@ $(CXXInputFlag) $(call CanonicalizePath,$(<))
 endef
 
-# Transform an Objective C file into a raw assembler file. 
+# Transform an Objective C file into a raw assembler file.
 
 define tool-preprocess-and-compile-objective-c
 $(Verbose)$(OJBCC) $(CPPFLAGS) $(CCFLAGS) $(CCNoAssembleFlag) $(CCOutputFlag) $@ $(CCInputFlag) $(call CanonicalizePath,$(<))
 endef
 
-# Transform an Objective C++ file into a raw assembler file. 
+# Transform an Objective C++ file into a raw assembler file.
 
 define tool-preprocess-and-compile-objective-c++
 $(Verbose)$(CXX) $(OBJCXXLanguage) $(CPPFLAGS) $(CXXFLAGS) $(CXXNoAssembleFlag) $(CXXOutputFlag) $@ $(CXXInputFlag) $(call CanonicalizePath,$(<))
