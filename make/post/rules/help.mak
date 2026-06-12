@@ -21,7 +21,12 @@
 #
 
 .PHONY: help-hook
-help-hook: help-local
+help-hook: local-help help-local
 
 .PHONY: help
-help: help-local help-hook
+help: local-help help-local help-hook
+
+.PHONY: local-help help-local
+
+local-help:
+	$(call BuildPrintHelpTps)

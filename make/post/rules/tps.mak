@@ -134,6 +134,96 @@ rebuild:
 local-license: $(PackageLicenseFile)
 	$(Quiet)true
 
+define BuildPrintHelpTpsSnapshot
+$(Quiet)echo "    snapshot"
+$(Quiet)echo "        Archive and compress the final build products from their staging"
+$(Quiet)echo "        location in the results directory to a file within the software"
+$(Quiet)echo "        package directory."
+$(Quiet)echo
+$(Quiet)echo "        The purpose of this is to support the 'replay' target goal which"
+$(Quiet)echo "        can be later used to reanimate the final build products in the"
+$(Quiet)echo "        staging location in the results directory without having to rebuild"
+$(Quiet)echo "        the source from scratch. This is primarily designed to be an"
+$(Quiet)echo "        efficiency boost to development engineers and should not be used for"
+$(Quiet)echo "        customer- or quality assurance-bound builds."
+$(Quiet)echo
+endef
+
+define BuildPrintHelpTpsReplay
+$(Quiet)echo "    replay"
+$(Quiet)echo "        Reanimate the final build products in the staging location in the"
+$(Quiet)echo "        results directory without having to rebuild the source from scratch."
+$(Quiet)echo
+$(Quiet)echo "        The core build infrastructure automatically provides the necessary"
+$(Quiet)echo "        macros, rules and commands to support the 'replay' target."
+$(Quiet)echo
+endef # BuildPrintHelpTpsSnapshot
+
+define BuildPrintHelpTps
+$(Quiet)echo "This makefile supports the following additional build targets:"
+$(Quiet)echo
+$(Quiet)echo "    license"
+$(Quiet)echo "        Summarize the package license content to \"$(PackageName).license\"."
+$(Quiet)echo
+$(Quiet)echo "    source"
+$(Quiet)echo "        Unarchive, if necessary, the package sources."
+$(Quiet)echo
+$(Quiet)echo "    patch"
+$(Quiet)echo "        Patch, if necessary, the package sources."
+$(Quiet)echo
+$(Quiet)echo "    configure"
+$(Quiet)echo "        Configure, if necessary, the package for building."
+$(Quiet)echo
+$(Quiet)echo "    build"
+$(Quiet)echo "        Build the package artifacts to the build directory."
+$(Quiet)echo
+$(Quiet)echo "    stage"
+$(Quiet)echo "        Stage the package artifacts to the results directory."
+$(Quiet)echo
+$(Quiet)echo "    source-touch"
+$(Quiet)echo "        Invalidate the 'source' stamp sentinel file; making a rebuild of that"
+$(Quiet)echo "        target goal and later possible."
+$(Quiet)echo
+$(Quiet)echo "    patch-touch"
+$(Quiet)echo "        Invalidate the 'patch' stamp sentinel file; making a rebuild of that"
+$(Quiet)echo "        target goal and later possible."
+$(Quiet)echo
+$(Quiet)echo "    configure-touch"
+$(Quiet)echo "        Invalidate the 'configure' stamp sentinel file; making a rebuild of"
+$(Quiet)echo "        that target goal and later possible."
+$(Quiet)echo
+$(Quiet)echo "    build-touch"
+$(Quiet)echo "        Invalidate the 'build' stamp sentinel file; making a rebuild of that"
+$(Quiet)echo "        target goal and later possible."
+$(Quiet)echo
+$(Quiet)echo "    stage-touch"
+$(Quiet)echo "        Invalidate the 'stage' stamp sentinel file; making a rebuild of that"
+$(Quiet)echo "        target goal possible."
+$(Quiet)echo
+$(Quiet)echo "    touch"
+$(Quiet)echo "        A convenience alias for 'build-touch'."
+$(Quiet)echo
+$(Quiet)echo "    rebuild"
+$(Quiet)echo "        A convenience alias for 'build-touch' and '$(PackageBuildMode)'."
+$(Quiet)echo
+$(Quiet)echo "This makefile additionally supports a behavior-altering 'BuildMode' variable."
+$(Quiet)echo "When 'BuildMode' is set to 'snapshot', the results of the build that were"
+$(Quiet)echo "staged to the results directory are placed into a compressed \"snapshot\""
+$(Quiet)echo "archive."
+$(Quiet)echo
+$(Quiet)echo "This build mode is typically used by the person responsible for updating and"
+$(Quiet)echo "maintaining a given third-party software package for which snapshot/replay"
+$(Quiet)echo "builds are desired."
+$(Quiet)echo
+$(Quiet)echo "When 'BuildMode' is set to 'replay', the results of a previously-snapshot"
+$(Quiet)echo "build are \"reanimated\" to the results directory."
+$(Quiet)echo
+$(Quiet)echo "The following makefile targets support these build modes:"
+$(Quiet)echo
+$(call BuildPrintHelpTpsSnapshot)
+$(call BuildPrintHelpTpsReplay)
+endef # BuildPrintHelpTps
+
 #
 # Third-party software snapshot/replay targets.
 #
@@ -179,6 +269,7 @@ replay: | $(ResultDirectory)
 endif # ifeq ($(wildcard $(PackageSnapshotPath)),)
 endif # ifneq ($(PackageBuildMode),$(_PackageBuildModeDefault))
 else
+BuildPrintHelpTps := $(Null)
 local-license:
 	$(Quiet)true
 endif # ifneq ($(PackageName),)
