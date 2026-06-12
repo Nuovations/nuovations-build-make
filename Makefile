@@ -433,6 +433,9 @@ check-examples-csh:
 check-examples-dash:
 	$(call check-examples-with-shell,dash,.)
 
+check-examples-fish:
+	$(call check-examples-with-shell,fish,source)
+
 check-examples-ksh:
 	$(call check-examples-with-shell,ksh,.)
 
@@ -445,8 +448,8 @@ check-examples-tcsh:
 check-examples-zsh:
 	$(call check-examples-with-shell,zsh,.)
 
-#check: check-examples-bash check-examples-csh check-examples-dash check-examples-ksh check-examples-sh check-examples-tcsh check-examples-zsh
-check: check-examples-ksh
+#check: check-examples-bash check-examples-csh check-examples-dash check-examples-fish check-examples-ksh check-examples-sh check-examples-tcsh check-examples-zsh
+check: check-examples-fish check-examples-ksh
 
 distcheck:
 	$(V_MAKE_TARGET)
