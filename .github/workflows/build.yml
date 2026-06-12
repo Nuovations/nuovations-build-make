@@ -64,6 +64,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: |
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install fish
     - name: Test
       run: |
         make check
