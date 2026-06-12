@@ -43,7 +43,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y bash csh dash ksh tcsh zsh
+        sudo apt-get install -y bash csh dash fish ksh tcsh zsh
     - name: Test
       run: |
         make check
@@ -64,6 +64,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Install Dependencies
+      run: |
+        HOMEBREW_NO_AUTO_UPDATE=1 brew install fish
     - name: Test
       run: |
         make check
