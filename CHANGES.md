@@ -2,6 +2,13 @@
 
 ## Nuovations Build (Make)
 
+#### 1.2.0 (2026-06-12)
+
+    * Added support for the fish shell.
+
+    * Added support for the `make help` target in third-party package
+      integrations where `PackageName` is defined.
+
 #### 1.1.0 (2026-05-11)
 
     * Added support for clang/LLVM and GCC `*-compilation-dir` and
