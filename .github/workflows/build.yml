@@ -43,7 +43,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y bash csh dash ksh tcsh zsh
+        sudo apt-get install -y bash csh dash fish ksh tcsh zsh
     - name: Test
       run: |
         make check
