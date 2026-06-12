@@ -1,4 +1,5 @@
 .default-version
+AUTHORS
 CHANGES.md
 doc/GETTING_STARTED.md
 doc/REQUIREMENTS.md
@@ -130,6 +131,7 @@ README.md
 scripts/environment/setup.bash
 scripts/environment/setup.csh
 scripts/environment/setup.dash
+scripts/environment/setup.fish
 scripts/environment/setup.ksh
 scripts/environment/setup.sh
 scripts/environment/setup.tcsh
