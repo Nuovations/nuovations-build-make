@@ -2,6 +2,11 @@
 
 ## Nuovations Build (Make)
 
+#### 1.3.0 (2026-08-21)
+
+   * Added support for archive, library, and program per-target
+     `CFLAGS` and `CXXFLAGS`.
+
 #### 1.2.0 (2026-06-12)
 
     * Added support for the fish shell.
