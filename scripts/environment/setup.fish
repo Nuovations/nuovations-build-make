@@ -23,11 +23,15 @@
 
 ##
 #  @brief
-#    Attempt to echo to standard output the directory of the path by
-#    which this script was sourced.
+#    Determine the directory of the path by which this script was
+#    sourced.
 #
-#  This Fish shell-compatible function attempts to determine the
-#  path by which this script was sourced. 
+#  Where the Bourne shell-compatible implementation has to work
+#  through a series of fallbacks to answer this question, the Fish
+#  shell answers it directly: 'status dirname' reports the directory
+#  of the file currently being sourced or executed. We fall back to
+#  ${PWD} only in the unusual case in which it reports nothing, such
+#  as a script fed to the shell on its standard input.
 #
 
 # Check if this file is being executed or sourced.
@@ -50,7 +54,13 @@ end
 
 set -e BuildRoot
 
-set -g first (cd $PWD && pwd)
+set -l our_path_dir (status dirname)
+
+if test -z "$our_path_dir"
+    set our_path_dir "$PWD"
+end
+
+set -g first (cd "$our_path_dir" && pwd)
 set -g current "$first"
 set -g last ""
 
