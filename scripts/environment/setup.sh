@@ -91,12 +91,13 @@ until [ "${current}" = "${last}" ]; do
     current=`dirname "${last}"`
 done
 
-unset first
 unset current
 unset last
 
 if [ -z "${BuildRoot}" ]; then
     echo "Could not establish a root directory for this project above '${first}'! This script must be sourced from WITHIN the project tree."
+
+    unset first
 
     # If we're sourced, simply return so we don't close the user's session.
 
@@ -106,6 +107,8 @@ if [ -z "${BuildRoot}" ]; then
         exit 1
     fi
 fi
+
+unset first
 
 # Set-up the make flags. We use the following:
 #
