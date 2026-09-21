@@ -70,8 +70,13 @@ while test $current != $last
     set current (dirname "$last")
 end
 
+set -e current
+set -e last
+
 if test -z "$BuildRoot"
     echo "Could not establish a root directory for this project above '$first'! This script must be sourced from WITHIN the project tree."
+
+    set -e first
 
     # If we're sourced, simply return so we don't close the user's session.
 
@@ -82,9 +87,7 @@ if test -z "$BuildRoot"
     end
 end
 
-set -e  first
-set -e  current
-set -e  last
+set -e first
 
 # Set-up the make flags. We use the following:
 #
@@ -139,6 +142,8 @@ end
 
 set -e BuildGlobalEnvironment
 set -e BuildLocalEnvironment
+set -e last
+set -e current
 
 # Display to the user how we configured the build environment.
 
