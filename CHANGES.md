@@ -2,6 +2,15 @@
 
 ## Nuovations Build (Make)
 
+#### 1.3.1 (2026-09-20)
+
+   * Addressed issues in which the environment setup scripts did not
+     correctly handle root discovery, failure reporting and cleanup
+     consistently or thoroughly.
+
+   * Fixed an error in tool name output when running the library
+     archive indexer, ranlib, under Apple clang/LLVM and GNU GCC.
+
 #### 1.3.0 (2026-08-21)
 
    * Added support for archive, library, and program per-target
