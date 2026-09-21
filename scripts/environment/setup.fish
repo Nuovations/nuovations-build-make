@@ -40,7 +40,15 @@ end
 
 # Assuming that the user has complied with the requirement to source
 # this script from a working directory within the tree, attempt to
-# find a directory of the form '.../build/scripts/environment/'.
+# find a directory containing both a 'build/scripts/environment/'
+# directory and a 'Makefile'.
+#
+# Discard any root inherited from the caller's environment first. It
+# describes whichever tree was last configured, not necessarily this
+# one, and left in place it satisfies the '-z' test below when the
+# search fails, silently configuring the wrong tree.
+
+set -e BuildRoot
 
 set -g first (cd $PWD && pwd)
 set -g current "$first"
@@ -62,7 +70,7 @@ while test $current != $last
     set current (dirname "$last")
 end
 
-if test -z $BuildRoot
+if test -z "$BuildRoot"
     echo "Could not establish a root directory for this project above '$first'! This script must be sourced from WITHIN the project tree."
 
     # If we're sourced, simply return so we don't close the user's session.
