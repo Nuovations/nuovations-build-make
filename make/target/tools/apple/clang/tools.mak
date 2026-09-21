@@ -302,7 +302,7 @@ OBJCOPYName                                   = $(call MakeToolName,$(OBJCOPY))
 # The library indexer
 
 RANLIB                                       := $(ToolBinDir)/ranlib
-RANLIBName                                    = $(call MakeToolName,$(OBJCOPY))
+RANLIBName                                    = $(call MakeToolName,$(RANLIB))
 
 # The symbol stripper
 
