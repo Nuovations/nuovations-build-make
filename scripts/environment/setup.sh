@@ -65,7 +65,15 @@ fi
 
 # Assuming that the user has complied with the requirement to source
 # this script from a working directory within the tree, attempt to
-# find a directory of the form '.../build/scripts/environment/'.
+# find a directory containing both a 'build/scripts/environment/'
+# directory and a 'Makefile'.
+#
+# Discard any root inherited from the caller's environment first. It
+# describes whichever tree was last configured, not necessarily this
+# one, and left in place it satisfies the '-z' test below when the
+# search fails, silently configuring the wrong tree.
+
+unset BuildRoot
 
 first="$(cd $(our_path_dir) && pwd)"
 current="${first}"
