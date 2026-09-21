@@ -81,6 +81,8 @@ if test -z "$BuildRoot"
     # If we're sourced, simply return so we don't close the user's session.
 
     if test $sourced -eq 1
+        set -e sourced
+
         return 1
     else
         exit 1
@@ -88,6 +90,7 @@ if test -z "$BuildRoot"
 end
 
 set -e first
+set -e sourced
 
 # Set-up the make flags. We use the following:
 #

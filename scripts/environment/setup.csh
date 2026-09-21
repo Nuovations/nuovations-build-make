@@ -65,8 +65,12 @@ unset last
 
 if ( ! $?BuildRoot ) then
     echo "Could not establish a root directory for this project above '${first}'! This script must be sourced from WITHIN the project tree."
+    unset first
+
     exit 1
 endif
+
+unset first
 
 # Set-up the make flags. We use the following:
 #
@@ -121,7 +125,6 @@ unset BuildGlobalEnvironment
 unset BuildLocalEnvironment
 unset last
 unset current
-unset first
 
 # Display to the user how we configured the build environment.
 

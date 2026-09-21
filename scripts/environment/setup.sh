@@ -76,6 +76,8 @@ fi
 unset BuildRoot
 
 first="$(cd $(our_path_dir) && pwd)"
+
+unset -f our_path_dir
 current="${first}"
 last=""
 
@@ -110,6 +112,8 @@ if [ -z "${BuildRoot}" ]; then
     # If we're sourced, simply return so we don't close the user's session.
 
     if [ ${sourced} -eq 1 ]; then
+        unset sourced
+
         return 1
     else
         exit 1
@@ -117,6 +121,7 @@ if [ -z "${BuildRoot}" ]; then
 fi
 
 unset first
+unset sourced
 
 # Set-up the make flags. We use the following:
 #
@@ -169,6 +174,8 @@ fi
 
 unset BuildGlobalEnvironment
 unset BuildLocalEnvironment
+unset last
+unset current
 
 # Display to the user how we configured the build environment.
 
