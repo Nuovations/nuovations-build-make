@@ -23,11 +23,15 @@
 
 ##
 #  @brief
-#    Attempt to echo to standard output the directory of the path by
-#    which this script was sourced.
+#    Determine the directory of the path by which this script was
+#    sourced.
 #
-#  This Fish shell-compatible function attempts to determine the
-#  path by which this script was sourced. 
+#  Where the Bourne shell-compatible implementation has to work
+#  through a series of fallbacks to answer this question, the Fish
+#  shell answers it directly: 'status dirname' reports the directory
+#  of the file currently being sourced or executed. We fall back to
+#  ${PWD} only in the unusual case in which it reports nothing, such
+#  as a script fed to the shell on its standard input.
 #
 
 # Check if this file is being executed or sourced.
@@ -40,9 +44,23 @@ end
 
 # Assuming that the user has complied with the requirement to source
 # this script from a working directory within the tree, attempt to
-# find a directory of the form '.../build/scripts/environment/'.
+# find a directory containing both a 'build/scripts/environment/'
+# directory and a 'Makefile'.
+#
+# Discard any root inherited from the caller's environment first. It
+# describes whichever tree was last configured, not necessarily this
+# one, and left in place it satisfies the '-z' test below when the
+# search fails, silently configuring the wrong tree.
 
-set -g first (cd $PWD && pwd)
+set -e BuildRoot
+
+set -l our_path_dir (status dirname)
+
+if test -z "$our_path_dir"
+    set our_path_dir "$PWD"
+end
+
+set -g first (cd "$our_path_dir" && pwd)
 set -g current "$first"
 set -g last ""
 
@@ -62,21 +80,27 @@ while test $current != $last
     set current (dirname "$last")
 end
 
-if test -z $BuildRoot
+set -e current
+set -e last
+
+if test -z "$BuildRoot"
     echo "Could not establish a root directory for this project above '$first'! This script must be sourced from WITHIN the project tree."
+
+    set -e first
 
     # If we're sourced, simply return so we don't close the user's session.
 
     if test $sourced -eq 1
+        set -e sourced
+
         return 1
     else
         exit 1
     end
 end
 
-set -e  first
-set -e  current
-set -e  last
+set -e first
+set -e sourced
 
 # Set-up the make flags. We use the following:
 #
@@ -131,6 +155,8 @@ end
 
 set -e BuildGlobalEnvironment
 set -e BuildLocalEnvironment
+set -e last
+set -e current
 
 # Display to the user how we configured the build environment.
 

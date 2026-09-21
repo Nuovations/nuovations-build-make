@@ -65,9 +65,19 @@ fi
 
 # Assuming that the user has complied with the requirement to source
 # this script from a working directory within the tree, attempt to
-# find a directory of the form '.../build/scripts/environment/'.
+# find a directory containing both a 'build/scripts/environment/'
+# directory and a 'Makefile'.
+#
+# Discard any root inherited from the caller's environment first. It
+# describes whichever tree was last configured, not necessarily this
+# one, and left in place it satisfies the '-z' test below when the
+# search fails, silently configuring the wrong tree.
+
+unset BuildRoot
 
 first="$(cd $(our_path_dir) && pwd)"
+
+unset -f our_path_dir
 current="${first}"
 last=""
 
@@ -91,21 +101,27 @@ until [ "${current}" = "${last}" ]; do
     current=`dirname "${last}"`
 done
 
-unset first
 unset current
 unset last
 
 if [ -z "${BuildRoot}" ]; then
     echo "Could not establish a root directory for this project above '${first}'! This script must be sourced from WITHIN the project tree."
 
+    unset first
+
     # If we're sourced, simply return so we don't close the user's session.
 
     if [ ${sourced} -eq 1 ]; then
+        unset sourced
+
         return 1
     else
         exit 1
     fi
 fi
+
+unset first
+unset sourced
 
 # Set-up the make flags. We use the following:
 #
@@ -158,6 +174,8 @@ fi
 
 unset BuildGlobalEnvironment
 unset BuildLocalEnvironment
+unset last
+unset current
 
 # Display to the user how we configured the build environment.
 
